@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Assessment Platform</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Preconnect to CDN -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>Health Assessment Platform</h1>
+      <p class="tagline">Multiple health assessments in your pocket</p>
+      <div class="status-bar">
+        <div class="status-item">
+          <span>Camera:</span> <span id="camera-status">Initializing...</span>
+        </div>
+        <div class="status-item">
+          <span>Models:</span> <span id="model-status">Loading...</span>
+        </div>
+      </div>
+    </header>
+    
+    <nav class="module-nav">
+      <ul id="module-tabs">
+        <li data-module="skin" class="active">Skin Analysis</li>
+        <li data-module="wound">Wound Assessment</li>
+        <li data-module="vision">Vision Tests</li>
+        <li data-module="hearing">Hearing Tests</li>
+        <li data-module="vitals">Vital Signs</li>
+        <li data-module="motion">Range of Motion</li>
+      </ul>
+    </nav>
+    
+    <main id="module-container">
+      <!-- Module content will be loaded here -->
+      <div id="module-skin" class="module-content active">
+        <h2>Skin Condition Analysis</h2>
+        <p class="module-description">Analyze skin lesions, rashes, and other conditions. Capture a clear image of the affected area.</p>
+        
+        <div class="camera-container">
+          <video id="video-skin" autoplay playsinline></video>
+          <div id="focus-indicator" class="focus-indicator"></div>
+          <div id="guidance-container" class="guidance-container">
+            <div id="guidance-message" class="guidance-message">Aligning camera...</div>
+            <div class="guidance-progress">
+              <div id="guidance-progress-bar" class="guidance-progress-bar" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="button-container">
+          <button id="capture-skin" class="primary-button">Capture Image</button>
+          <button id="switch-camera" class="secondary-button">Switch Camera</button>
+        </div>
+        
+        <div id="results-skin" class="results-container">
+          <h3>Analysis Results</h3>
+          <p class="no-results">No analyses yet. Capture an image to begin.</p>
+        </div>
+      </div>
+      
+      <!-- Wound Assessment Module -->
+      <div id="module-wound" class="module-content">
+        <h2>Wound Assessment</h2>
+        <p class="module-description">Analyze cuts and wounds for signs of infection or if stitches might be needed.</p>
+        
+        <div class="camera-container">
+          <video id="video-wound" autoplay playsinline></video>
+          <div class="reference-overlay">
+            <div class="measurement-guide"></div>
+          </div>
+        </div>
+        
+        <div class="button-container">
+          <button id="capture-wound" class="primary-button">Capture Wound Image</button>
+          <div class="wound-input-group">
+            <label for="wound-age">When did the injury occur?</label>
+            <select id="wound-age">
+              <option value="0">Less than 6 hours ago</option>
+              <option value="1">6-24 hours ago</option>
+              <option value="2">1-3 days ago</option>
+              <option value="3">More than 3 days ago</option>
+            </select>
+          </div>
+        </div>
+        
+        <div id="results-wound" class="results-container">
+          <h3>Wound Assessment</h3>
+          <p class="no-results">No assessments yet. Capture an image to begin.</p>
+        </div>
+      </div>
+      
+      <!-- Vision Test Module -->
+      <div id="module-vision" class="module-content">
+        <h2>Vision Screening Tests</h2>
+        <p class="module-description">Basic vision screening tests. These are not a substitute for a comprehensive eye exam.</p>
+        
+        <div class="vision-test-selection">
+          <button class="test-option" data-test="acuity">Visual Acuity</button>
+          <button class="test-option" data-test="color">Color Vision</button>
+          <button class="test-option" data-test="astigmatism">Astigmatism Test</button>
+        </div>
+        
+        <div id="vision-test-container" class="vision-test-area">
+          <div class="test-instructions">
+            <p>Select a test to begin. Hold your device at arm's length for accurate results.</p>
+          </div>
+        </div>
+        
+        <div class="button-container">
+          <button id="next-vision-step" class="primary-button" disabled>Start Test</button>
+        </div>
+        
+        <div id="results-vision" class="results-container">
+          <h3>Vision Test Results</h3>
+          <p class="no-results">No tests completed yet.</p>
+        </div>
+      </div>
+      
+      <!-- Hearing Test Module -->
+      <div id="module-hearing" class="module-content">
+        <h2>Hearing Screening</h2>
+        <p class="module-description">Basic hearing tests. Use headphones in a quiet environment for best results.</p>
+        
+        <div class="hearing-test-setup">
+          <div class="setup-step active">
+            <h4>Before You Begin</h4>
+            <ul>
+              <li>Put on headphones if available</li>
+              <li>Find a quiet environment</li>
+              <li>Set volume to a comfortable level</li>
+            </ul>
+            <button id="test-sound" class="secondary-button">Test Your Sound</button>
+          </div>
+        </div>
+        
+        <div class="hearing-test-area">
+          <div id="frequency-test" class="hearing-test">
+            <h4>Frequency Hearing Test</h4>
+            <p>Press the button when you hear a tone. We'll test different frequencies.</p>
+            <button id="start-hearing-test" class="primary-button">Start Hearing Test</button>
+          </div>
+        </div>
+        
+        <div id="results-hearing" class="results-container">
+          <h3>Hearing Test Results</h3>
+          <p class="no-results">No tests completed yet.</p>
+        </div>
+      </div>
+      
+      <!-- Vital Signs Module -->
+      <div id="module-vitals" class="module-content">
+        <h2>Vital Signs Measurement</h2>
+        <p class="module-description">Estimate heart rate using your device's camera.</p>
+        
+        <div class="camera-container">
+          <video id="video-vitals" autoplay playsinline></video>
+          <div class="pulse-indicator">
+            <div class="pulse-circle"></div>
+            <p id="pulse-instructions">Place your fingertip over the camera lens</p>
+          </div>
+        </div>
+        
+        <div class="button-container">
+          <button id="start-vitals" class="primary-button">Start Heart Rate Measurement</button>
+          <div id="measurement-time" class="measurement-timer">00:00</div>
+        </div>
+        
+        <div id="results-vitals" class="results-container">
+          <h3>Vital Signs Results</h3>
+          <p class="no-results">No measurements yet.</p>
+        </div>
+      </div>
+      
+      <!-- Range of Motion Module -->
+      <div id="module-motion" class="module-content">
+        <h2>Range of Motion Assessment</h2>
+        <p class="module-description">Analyze joint flexibility and movement range.</p>
+        
+        <div class="motion-selection">
+          <button class="motion-option" data-motion="shoulder">Shoulder</button>
+          <button class="motion-option" data-motion="elbow">Elbow</button>
+          <button class="motion-option" data-motion="wrist">Wrist</button>
+          <button class="motion-option" data-motion="knee">Knee</button>
+          <button class="motion-option" data-motion="ankle">Ankle</button>
+        </div>
+        
+        <div class="camera-container">
+          <video id="video-motion" autoplay playsinline></video>
+          <div class="motion-guide">
+            <div id="motion-instructions">Select a joint to begin assessment</div>
+          </div>
+        </div>
+        
+        <div class="button-container">
+          <button id="start-motion" class="primary-button" disabled>Start Recording Motion</button>
+          <button id="stop-motion" class="secondary-button" disabled>Stop Recording</button>
+        </div>
+        
+        <div id="results-motion" class="results-container">
+          <h3>Motion Assessment Results</h3>
+          <p class="no-results">No assessments yet.</p>
+        </div>
+      </div>
+    </main>
+    
+    <!-- Canvases for image processing - hidden -->
+    <div class="hidden-elements">
+      <canvas id="canvas-processor" width="224" height="224"></canvas>
+      <canvas id="canvas-display"></canvas>
+    </div>
+    
+    <footer>
+      <div class="disclaimer">
+        <h3>Important Disclaimer</h3>
+        <p>This health assessment platform is for educational and informational purposes only. It is not intended to diagnose, treat, cure, or prevent any disease or health condition.</p>
+        <p>The tools provided here are not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.</p>
+        <p>Results from these assessments should be discussed with healthcare professionals for proper interpretation and guidance.</p>
+      </div>
+      <div class="attribution">
+        <p>Powered by TensorFlow.js | Using models trained on public health datasets</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Load TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  
+  <!-- Load main script -->
+  <script src="app.js"></script>
+</body>
+</html>
