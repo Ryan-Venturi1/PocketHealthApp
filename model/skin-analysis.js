@@ -1,7 +1,7 @@
 // Skin Analysis Module - TensorFlow.js Implementation
 
 // Model configuration
-const SKIN_MODEL_URL = 'https://cdn.yourdomain.com/models/skin-analysis-model/';
+const SKIN_MODEL_URL = './models/skin-analysis-model/';
 const IMAGE_SIZE = 224;
 const SKIN_CONDITIONS = {
   "0": { name: "actinic_keratosis", display: "Actinic Keratosis", risk: "moderate" },

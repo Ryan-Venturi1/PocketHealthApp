@@ -1,7 +1,7 @@
 // Wound Assessment Module - TensorFlow.js Implementation
 
 // Model configuration
-const WOUND_MODEL_URL = 'https://cdn.yourdomain.com/models/wound-analysis-model/';
+const WOUND_MODEL_URL = './models/wound-analysis-model/';
 const IMAGE_SIZE = 224;
 const WOUND_CLASSES = {
   "0": { name: "clean", display: "Clean Wound", severity: "low" },
