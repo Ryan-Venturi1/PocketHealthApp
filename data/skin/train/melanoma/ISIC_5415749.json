@@ -1,0 +1,22 @@
+{
+  "acquisition": {
+    "pixels_x": 3264,
+    "pixels_y": 2448,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "male",
+    "anatom_site_general": "upper extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma Invasive",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "14.10",
+    "melanocytic": true,
+    "mel_class": "invasive melanoma",
+    "age_approx": 85,
+    "diagnosis": "melanoma"
+  }
+}

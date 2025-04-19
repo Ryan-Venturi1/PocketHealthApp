@@ -1,0 +1,26 @@
+{
+  "acquisition": {
+    "pixels_x": 205,
+    "pixels_y": 205,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "male",
+    "anatom_site_general": "posterior torso",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma Invasive",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "13.30",
+    "mel_class": "invasive melanoma",
+    "mel_mitotic_index": ">4/mm^2",
+    "mel_thick_mm": "1.80",
+    "acquisition_day": 19167,
+    "tbp_tile_type": "3D: XP",
+    "age_approx": 40,
+    "lesion_id": "IL_9198009",
+    "patient_id": "IP_0889220",
+    "diagnosis": "melanoma"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "acquisition": {
+    "pixels_x": 137,
+    "pixels_y": 137,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "female",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign melanocytic proliferations",
+    "diagnosis_3": "Nevus",
+    "diagnosis_4": "Nevus, NOS, Junctional",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "2.56",
+    "acquisition_day": 43010,
+    "tbp_tile_type": "3D: XP",
+    "age_approx": 30,
+    "lesion_id": "IL_9871236",
+    "patient_id": "IP_5320918",
+    "diagnosis": "nevus"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "acquisition": {
+    "pixels_x": 1920,
+    "pixels_y": 1080,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "male",
+    "anatom_site_general": "head/neck",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign melanocytic proliferations",
+    "diagnosis_3": "Nevus",
+    "diagnosis_confirm_type": "histopathology",
+    "lesion_id": "IL_0339787",
+    "patient_id": "IP_1599385",
+    "diagnosis": "nevus"
+  }
+}

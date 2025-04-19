@@ -1,0 +1,24 @@
+{
+  "acquisition": {
+    "pixels_x": 1383,
+    "pixels_y": 1843,
+    "image_type": "clinical: overview"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "II",
+    "sex": "male",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign epidermal proliferations",
+    "diagnosis_3": "Seborrheic keratosis",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": false,
+    "family_hx_mm": false,
+    "age_approx": 85,
+    "lesion_id": "IL_2920159",
+    "patient_id": "IP_3702153",
+    "diagnosis": "seborrheic keratosis"
+  }
+}

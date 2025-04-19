@@ -1,0 +1,27 @@
+{
+  "acquisition": {
+    "pixels_x": 3264,
+    "pixels_y": 2448,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "II",
+    "sex": "female",
+    "anatom_site_general": "upper extremity",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Indeterminate",
+    "diagnosis_2": "Indeterminate epidermal proliferations",
+    "diagnosis_3": "Solar or actinic keratosis",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": true,
+    "family_hx_mm": false,
+    "clin_size_long_diam_mm": "6.40",
+    "melanocytic": false,
+    "acquisition_day": 1,
+    "age_approx": 65,
+    "lesion_id": "IL_0053538",
+    "patient_id": "IP_7817060",
+    "diagnosis": "actinic keratosis"
+  }
+}

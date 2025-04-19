@@ -1,0 +1,27 @@
+{
+  "acquisition": {
+    "pixels_x": 3264,
+    "pixels_y": 2448,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "II",
+    "sex": "female",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Collision - Only benign proliferations",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": true,
+    "family_hx_mm": false,
+    "clin_size_long_diam_mm": "10.10",
+    "melanocytic": true,
+    "acquisition_day": 242,
+    "age_approx": 75,
+    "lesion_id": "IL_1833437",
+    "patient_id": "IP_7717848",
+    "diagnosis": "seborrheic keratosis"
+  }
+}

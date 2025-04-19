@@ -1,0 +1,23 @@
+{
+  "acquisition": {
+    "pixels_x": 115,
+    "pixels_y": 115,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "male",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant adnexal epithelial proliferations - Follicular",
+    "diagnosis_3": "Basal cell carcinoma",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "5.02",
+    "acquisition_day": 17733,
+    "tbp_tile_type": "3D: white",
+    "age_approx": 70,
+    "lesion_id": "IL_0226718",
+    "patient_id": "IP_0669361",
+    "diagnosis": "basal cell carcinoma"
+  }
+}

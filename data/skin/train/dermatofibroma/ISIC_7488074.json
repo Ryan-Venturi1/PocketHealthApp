@@ -1,0 +1,22 @@
+{
+  "acquisition": {
+    "pixels_x": 117,
+    "pixels_y": 117,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "male",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign soft tissue proliferations - Fibro-histiocytic",
+    "diagnosis_3": "Dermatofibroma",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "14.44",
+    "tbp_tile_type": "3D: white",
+    "age_approx": 30,
+    "lesion_id": "IL_2330217",
+    "patient_id": "IP_7655469",
+    "diagnosis": "dermatofibroma"
+  }
+}

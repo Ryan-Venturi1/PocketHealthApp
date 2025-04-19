@@ -1,0 +1,22 @@
+{
+  "acquisition": {
+    "pixels_x": 1920,
+    "pixels_y": 1080,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "II",
+    "sex": "male",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign melanocytic proliferations",
+    "diagnosis_3": "Nevus",
+    "diagnosis_confirm_type": "histopathology",
+    "age_approx": 25,
+    "lesion_id": "IL_8223491",
+    "patient_id": "IP_3195622",
+    "diagnosis": "nevus"
+  }
+}

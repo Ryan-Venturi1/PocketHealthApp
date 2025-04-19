@@ -1,0 +1,25 @@
+{
+  "acquisition": {
+    "pixels_x": 6000,
+    "pixels_y": 4000,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact non-polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "female",
+    "anatom_site_general": "head/neck",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign epidermal proliferations",
+    "diagnosis_3": "Seborrheic keratosis",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": true,
+    "family_hx_mm": true,
+    "acquisition_day": 183,
+    "age_approx": 40,
+    "lesion_id": "IL_1048989",
+    "patient_id": "IP_2139548",
+    "diagnosis": "seborrheic keratosis"
+  }
+}

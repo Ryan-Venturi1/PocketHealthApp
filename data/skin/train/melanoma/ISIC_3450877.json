@@ -1,0 +1,28 @@
+{
+  "acquisition": {
+    "pixels_x": 145,
+    "pixels_y": 145,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "female",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma Invasive",
+    "diagnosis_4": "Melanoma Invasive, Superficial spreading",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "5.83",
+    "mel_class": "invasive melanoma",
+    "mel_mitotic_index": "0/mm^2",
+    "mel_thick_mm": "0.60",
+    "mel_type": "superficial spreading melanoma",
+    "acquisition_day": 28596,
+    "tbp_tile_type": "3D: XP",
+    "age_approx": 65,
+    "lesion_id": "IL_8936785",
+    "patient_id": "IP_2935407",
+    "diagnosis": "melanoma"
+  }
+}

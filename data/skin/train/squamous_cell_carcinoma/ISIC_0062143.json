@@ -1,0 +1,19 @@
+{
+  "acquisition": {
+    "pixels_x": 1024,
+    "pixels_y": 1024,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": false,
+    "sex": "male",
+    "anatom_site_general": "lower extremity",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant epidermal proliferations",
+    "diagnosis_3": "Squamous cell carcinoma, NOS",
+    "melanocytic": false,
+    "age_approx": 70,
+    "lesion_id": "IL_1454709",
+    "diagnosis": "squamous cell carcinoma"
+  }
+}

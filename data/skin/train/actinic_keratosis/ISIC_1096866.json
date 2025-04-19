@@ -1,0 +1,22 @@
+{
+  "acquisition": {
+    "pixels_x": 640,
+    "pixels_y": 480,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": false,
+    "fitzpatrick_skin_type": "II",
+    "sex": "male",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Indeterminate",
+    "diagnosis_2": "Indeterminate epidermal proliferations",
+    "diagnosis_3": "Solar or actinic keratosis",
+    "age_approx": 70,
+    "lesion_id": "IL_8333361",
+    "patient_id": "IP_2538639",
+    "diagnosis": "actinic keratosis"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "acquisition": {
+    "pixels_x": 5184,
+    "pixels_y": 3456,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": false,
+    "fitzpatrick_skin_type": "I",
+    "sex": "male",
+    "anatom_site_general": "upper extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma, NOS",
+    "diagnosis_confirm_type": "histopathology",
+    "melanocytic": true,
+    "mel_type": "superficial spreading melanoma",
+    "acquisition_day": 935,
+    "age_approx": 85,
+    "lesion_id": "IL_8698040",
+    "patient_id": "IP_3541322",
+    "diagnosis": "melanoma"
+  }
+}

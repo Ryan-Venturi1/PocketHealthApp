@@ -1,0 +1,25 @@
+{
+  "acquisition": {
+    "pixels_x": 640,
+    "pixels_y": 480,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "II",
+    "sex": "female",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant epidermal proliferations",
+    "diagnosis_3": "Squamous cell carcinoma, NOS",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": true,
+    "family_hx_mm": false,
+    "age_approx": 75,
+    "lesion_id": "IL_2055980",
+    "patient_id": "IP_4817230",
+    "diagnosis": "squamous cell carcinoma"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "acquisition": {
+    "pixels_x": 3024,
+    "pixels_y": 4032,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "male",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant adnexal epithelial proliferations - Follicular",
+    "diagnosis_3": "Basal cell carcinoma",
+    "diagnosis_confirm_type": "histopathology",
+    "age_approx": 75,
+    "lesion_id": "IL_4489985",
+    "patient_id": "IP_0290734",
+    "diagnosis": "basal cell carcinoma"
+  }
+}

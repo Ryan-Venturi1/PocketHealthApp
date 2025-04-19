@@ -1,0 +1,24 @@
+{
+  "acquisition": {
+    "pixels_x": 4032,
+    "pixels_y": 3024,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": false,
+    "fitzpatrick_skin_type": "II",
+    "sex": "female",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign melanocytic proliferations",
+    "diagnosis_3": "Nevus",
+    "personal_hx_mm": false,
+    "family_hx_mm": false,
+    "age_approx": 20,
+    "lesion_id": "IL_3640591",
+    "patient_id": "IP_8123122",
+    "diagnosis": "nevus"
+  }
+}

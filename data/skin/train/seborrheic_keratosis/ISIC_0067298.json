@@ -1,0 +1,19 @@
+{
+  "acquisition": {
+    "pixels_x": 1024,
+    "pixels_y": 1024,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "male",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign epidermal proliferations",
+    "diagnosis_3": "Seborrheic keratosis",
+    "diagnosis_confirm_type": "histopathology",
+    "melanocytic": false,
+    "age_approx": 70,
+    "lesion_id": "IL_2429265",
+    "diagnosis": "seborrheic keratosis"
+  }
+}

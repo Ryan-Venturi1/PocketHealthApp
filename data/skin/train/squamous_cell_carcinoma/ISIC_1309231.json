@@ -1,0 +1,22 @@
+{
+  "acquisition": {
+    "pixels_x": 1674,
+    "pixels_y": 1041,
+    "image_type": "clinical: overview"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "II",
+    "sex": "female",
+    "anatom_site_general": "head/neck",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant epidermal proliferations",
+    "diagnosis_3": "Squamous cell carcinoma, NOS",
+    "diagnosis_confirm_type": "histopathology",
+    "age_approx": 85,
+    "lesion_id": "IL_2659423",
+    "patient_id": "IP_1414430",
+    "diagnosis": "squamous cell carcinoma"
+  }
+}

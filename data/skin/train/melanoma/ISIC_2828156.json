@@ -1,0 +1,23 @@
+{
+  "acquisition": {
+    "pixels_x": 1773,
+    "pixels_y": 1773,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "II",
+    "sex": "female",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma, NOS",
+    "diagnosis_confirm_type": "histopathology",
+    "melanocytic": true,
+    "age_approx": 80,
+    "lesion_id": "IL_8348810",
+    "patient_id": "IP_7242799",
+    "diagnosis": "melanoma"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "acquisition": {
+    "pixels_x": 3264,
+    "pixels_y": 2448,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact non-polarized"
+  },
+  "clinical": {
+    "fitzpatrick_skin_type": "IV",
+    "sex": "male",
+    "anatom_site_general": "posterior torso",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign melanocytic proliferations",
+    "diagnosis_3": "Nevus",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": false,
+    "family_hx_mm": false,
+    "clin_size_long_diam_mm": "5.30",
+    "melanocytic": true,
+    "acquisition_day": 2887,
+    "age_approx": 60,
+    "lesion_id": "IL_6156202",
+    "patient_id": "IP_0892965",
+    "diagnosis": "nevus"
+  }
+}

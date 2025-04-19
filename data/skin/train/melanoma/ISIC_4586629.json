@@ -1,0 +1,26 @@
+{
+  "acquisition": {
+    "pixels_x": 111,
+    "pixels_y": 111,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "female",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma in situ",
+    "diagnosis_4": "Melanoma in situ, Superficial spreading",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "7.57",
+    "mel_class": "melanoma in situ",
+    "mel_type": "superficial spreading melanoma",
+    "acquisition_day": 40803,
+    "tbp_tile_type": "3D: white",
+    "age_approx": 60,
+    "lesion_id": "IL_1167544",
+    "patient_id": "IP_2608498",
+    "diagnosis": "melanoma"
+  }
+}

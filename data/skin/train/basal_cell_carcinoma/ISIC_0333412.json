@@ -1,0 +1,25 @@
+{
+  "acquisition": {
+    "pixels_x": 640,
+    "pixels_y": 480,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "I",
+    "sex": "female",
+    "anatom_site_general": "posterior torso",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant adnexal epithelial proliferations - Follicular",
+    "diagnosis_3": "Basal cell carcinoma",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": false,
+    "family_hx_mm": false,
+    "age_approx": 80,
+    "lesion_id": "IL_7170324",
+    "patient_id": "IP_5504955",
+    "diagnosis": "basal cell carcinoma"
+  }
+}

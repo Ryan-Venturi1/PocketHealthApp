@@ -1,0 +1,25 @@
+{
+  "acquisition": {
+    "pixels_x": 141,
+    "pixels_y": 141,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "male",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant epidermal proliferations",
+    "diagnosis_3": "Squamous cell carcinoma in situ",
+    "diagnosis_4": "Squamous cell carcinoma in situ, Bowens disease",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "7.71",
+    "acquisition_day": 22241,
+    "tbp_tile_type": "3D: XP",
+    "age_approx": 55,
+    "lesion_id": "IL_0199829",
+    "patient_id": "IP_1907604",
+    "diagnosis": "squamous cell carcinoma"
+  }
+}

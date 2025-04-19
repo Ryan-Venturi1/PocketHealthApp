@@ -1,0 +1,24 @@
+{
+  "acquisition": {
+    "pixels_x": 133,
+    "pixels_y": 133,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "female",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign melanocytic proliferations",
+    "diagnosis_3": "Nevus",
+    "diagnosis_4": "Nevus, Atypical, Dysplastic, or Clark",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "3.56",
+    "acquisition_day": 42280,
+    "tbp_tile_type": "3D: XP",
+    "age_approx": 45,
+    "lesion_id": "IL_4671404",
+    "patient_id": "IP_8701305",
+    "diagnosis": "nevus"
+  }
+}

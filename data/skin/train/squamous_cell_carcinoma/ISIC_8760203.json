@@ -1,0 +1,27 @@
+{
+  "acquisition": {
+    "pixels_x": 3264,
+    "pixels_y": 2448,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "II",
+    "sex": "male",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Collision - At least one malignant proliferation",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": true,
+    "family_hx_mm": false,
+    "clin_size_long_diam_mm": "9.00",
+    "melanocytic": false,
+    "acquisition_day": 169,
+    "age_approx": 75,
+    "lesion_id": "IL_9476050",
+    "patient_id": "IP_5951155",
+    "diagnosis": "squamous cell carcinoma"
+  }
+}

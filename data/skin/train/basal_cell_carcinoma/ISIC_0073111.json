@@ -1,0 +1,19 @@
+{
+  "acquisition": {
+    "pixels_x": 1024,
+    "pixels_y": 1024,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": false,
+    "sex": "male",
+    "anatom_site_general": "anterior torso",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant adnexal epithelial proliferations - Follicular",
+    "diagnosis_3": "Basal cell carcinoma",
+    "melanocytic": false,
+    "age_approx": 40,
+    "lesion_id": "IL_8848422",
+    "diagnosis": "basal cell carcinoma"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "acquisition": {
+    "pixels_x": 119,
+    "pixels_y": 119,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "male",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign epidermal proliferations",
+    "diagnosis_3": "Seborrheic keratosis",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "1.04",
+    "tbp_tile_type": "3D: white",
+    "age_approx": 45,
+    "lesion_id": "IL_2258748",
+    "patient_id": "IP_6728648",
+    "diagnosis": "seborrheic keratosis"
+  }
+}

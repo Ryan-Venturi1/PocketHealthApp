@@ -1,0 +1,26 @@
+{
+  "acquisition": {
+    "pixels_x": 6000,
+    "pixels_y": 4000,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact non-polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "female",
+    "anatom_site_general": "head/neck",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant epidermal proliferations",
+    "diagnosis_3": "Squamous cell carcinoma in situ",
+    "diagnosis_4": "Squamous cell carcinoma in situ, Bowens disease",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": false,
+    "family_hx_mm": true,
+    "acquisition_day": 1,
+    "age_approx": 55,
+    "lesion_id": "IL_8821812",
+    "patient_id": "IP_4072202",
+    "diagnosis": "squamous cell carcinoma"
+  }
+}

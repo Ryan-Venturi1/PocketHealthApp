@@ -1,0 +1,21 @@
+{
+  "acquisition": {
+    "pixels_x": 1017,
+    "pixels_y": 933,
+    "image_type": "clinical: overview"
+  },
+  "clinical": {
+    "concomitant_biopsy": false,
+    "fitzpatrick_skin_type": "II",
+    "sex": "female",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign melanocytic proliferations",
+    "diagnosis_3": "Nevus",
+    "age_approx": 35,
+    "lesion_id": "IL_0395628",
+    "patient_id": "IP_9853265",
+    "diagnosis": "nevus"
+  }
+}

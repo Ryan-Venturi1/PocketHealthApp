@@ -1,0 +1,21 @@
+{
+  "acquisition": {
+    "pixels_x": 3264,
+    "pixels_y": 2448,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "male",
+    "anatom_site_general": "posterior torso",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant epidermal proliferations",
+    "diagnosis_3": "Squamous cell carcinoma, NOS",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "9.00",
+    "melanocytic": false,
+    "age_approx": 65,
+    "diagnosis": "squamous cell carcinoma"
+  }
+}

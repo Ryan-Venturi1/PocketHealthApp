@@ -1,0 +1,20 @@
+{
+  "acquisition": {
+    "pixels_x": 600,
+    "pixels_y": 450,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "male",
+    "anatom_site_general": "lower extremity",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign soft tissue proliferations - Fibro-histiocytic",
+    "diagnosis_3": "Dermatofibroma",
+    "diagnosis_confirm_type": "histopathology",
+    "melanocytic": false,
+    "age_approx": 50,
+    "lesion_id": "IL_5311441",
+    "diagnosis": "dermatofibroma"
+  }
+}

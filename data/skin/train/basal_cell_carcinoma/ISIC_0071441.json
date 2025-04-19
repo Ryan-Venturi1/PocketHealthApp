@@ -1,0 +1,19 @@
+{
+  "acquisition": {
+    "pixels_x": 1024,
+    "pixels_y": 1024,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": false,
+    "sex": "female",
+    "anatom_site_general": "head/neck",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant adnexal epithelial proliferations - Follicular",
+    "diagnosis_3": "Basal cell carcinoma",
+    "melanocytic": false,
+    "age_approx": 80,
+    "lesion_id": "IL_6419641",
+    "diagnosis": "basal cell carcinoma"
+  }
+}

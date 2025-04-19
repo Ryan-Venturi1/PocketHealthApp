@@ -1,0 +1,18 @@
+{
+  "acquisition": {
+    "pixels_x": 707,
+    "pixels_y": 693,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "female",
+    "anatom_site_general": "posterior torso",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma, NOS",
+    "diagnosis_confirm_type": "histopathology",
+    "age_approx": 55,
+    "diagnosis": "melanoma"
+  }
+}

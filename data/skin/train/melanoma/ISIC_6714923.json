@@ -1,0 +1,31 @@
+{
+  "acquisition": {
+    "pixels_x": 3264,
+    "pixels_y": 2448,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "II",
+    "sex": "male",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma Invasive",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": true,
+    "family_hx_mm": true,
+    "clin_size_long_diam_mm": "10.20",
+    "melanocytic": true,
+    "mel_class": "invasive melanoma",
+    "mel_thick_mm": "0.40",
+    "mel_ulcer": false,
+    "acquisition_day": 2588,
+    "age_approx": 75,
+    "lesion_id": "IL_9323476",
+    "patient_id": "IP_0743466",
+    "diagnosis": "melanoma"
+  }
+}

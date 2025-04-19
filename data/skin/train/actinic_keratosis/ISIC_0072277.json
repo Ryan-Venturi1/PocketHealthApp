@@ -1,0 +1,19 @@
+{
+  "acquisition": {
+    "pixels_x": 1024,
+    "pixels_y": 1024,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": false,
+    "sex": "male",
+    "diagnosis_1": "Indeterminate",
+    "diagnosis_2": "Indeterminate epidermal proliferations",
+    "diagnosis_3": "Solar or actinic keratosis",
+    "diagnosis_confirm_type": "confocal microscopy with consensus dermoscopy",
+    "melanocytic": false,
+    "age_approx": 75,
+    "lesion_id": "IL_7143059",
+    "diagnosis": "actinic keratosis"
+  }
+}

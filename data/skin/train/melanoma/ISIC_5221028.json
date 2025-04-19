@@ -1,0 +1,23 @@
+{
+  "acquisition": {
+    "pixels_x": 117,
+    "pixels_y": 117,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "male",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma in situ",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "6.02",
+    "mel_class": "melanoma in situ",
+    "tbp_tile_type": "3D: white",
+    "age_approx": 40,
+    "lesion_id": "IL_9173680",
+    "patient_id": "IP_3912094",
+    "diagnosis": "melanoma"
+  }
+}

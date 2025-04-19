@@ -1,0 +1,22 @@
+{
+  "acquisition": {
+    "pixels_x": 570,
+    "pixels_y": 761,
+    "image_type": "clinical: overview"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "III",
+    "sex": "male",
+    "anatom_site_general": "posterior torso",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma, NOS",
+    "diagnosis_confirm_type": "histopathology",
+    "age_approx": 55,
+    "lesion_id": "IL_3699892",
+    "patient_id": "IP_2004044",
+    "diagnosis": "melanoma"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "acquisition": {
+    "pixels_x": 3264,
+    "pixels_y": 2448,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "IV",
+    "sex": "male",
+    "anatom_site_general": "posterior torso",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign soft tissue proliferations - Fibro-histiocytic",
+    "diagnosis_3": "Dermatofibroma",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": true,
+    "family_hx_mm": false,
+    "clin_size_long_diam_mm": "7.90",
+    "melanocytic": false,
+    "acquisition_day": 1,
+    "age_approx": 60,
+    "lesion_id": "IL_0294036",
+    "patient_id": "IP_4854139",
+    "diagnosis": "dermatofibroma"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "acquisition": {
+    "pixels_x": 125,
+    "pixels_y": 125,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "female",
+    "anatom_site_general": "head/neck",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign melanocytic proliferations",
+    "diagnosis_3": "Nevus",
+    "diagnosis_4": "Nevus, NOS, Dermal",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "1.23",
+    "tbp_tile_type": "3D: white",
+    "age_approx": 60,
+    "lesion_id": "IL_1595865",
+    "patient_id": "IP_4408352",
+    "diagnosis": "nevus"
+  }
+}

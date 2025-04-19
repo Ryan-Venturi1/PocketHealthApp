@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthCompanion | Dashboard</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="mainstyle.css">
+  <!-- Preconnect to CDN -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="app-body">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="app-logo">
+        <img src="assets/images/logo.svg" alt="HealthCompanion Logo">
+        <h1>HealthCompanion</h1>
+      </div>
+      <button id="sidebar-close" class="sidebar-toggle">
+        <img src="assets/images/icons/close.svg" alt="Close Menu">
+      </button>
+    </div>
+    
+    <div class="user-profile">
+      <div class="avatar">
+        <img src="assets/images/placeholder-avatar.jpg" alt="User Avatar" id="user-avatar">
+        <span class="avatar-badge pulse"></span>
+      </div>
+      <div class="user-info">
+        <h3 id="user-name">John Doe</h3>
+        <p id="user-email">john.doe@example.com</p>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <ul>
+        <li class="active">
+          <a href="#dashboard">
+            <img src="assets/images/icons/dashboard.svg" alt="Dashboard Icon">
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="#health-tests">
+            <img src="assets/images/icons/tests.svg" alt="Health Tests Icon">
+            <span>Health Tests</span>
+          </a>
+        </li>
+        <li>
+          <a href="#health-assistant">
+            <img src="assets/images/icons/assistant.svg" alt="Health Assistant Icon">
+            <span>AI Assistant</span>
+          </a>
+        </li>
+        <li>
+          <a href="#history">
+            <img src="assets/images/icons/history.svg" alt="History Icon">
+            <span>History</span>
+          </a>
+        </li>
+        <li>
+          <a href="#settings">
+            <img src="assets/images/icons/settings.svg" alt="Settings Icon">
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <button id="btn-emergency" class="btn-emergency">
+        <img src="assets/images/icons/emergency.svg" alt="Emergency Icon">
+        <span>Emergency</span>
+      </button>
+      
+      <button id="btn-logout" class="btn-logout">
+        <img src="assets/images/icons/logout.svg" alt="Logout Icon">
+        <span>Sign Out</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="main-header">
+      <button id="sidebar-open" class="sidebar-toggle mobile-only">
+        <img src="assets/images/icons/menu.svg" alt="Open Menu">
+      </button>
+      
+      <div class="page-title">
+        <h2 id="current-page-title">Dashboard</h2>
+      </div>
+      
+      <div class="header-actions">
+        <button id="notifications-toggle" class="btn-icon">
+          <img src="assets/images/icons/notification.svg" alt="Notifications">
+          <span class="notification-indicator"></span>
+        </button>
+        
+        <div class="quick-actions">
+          <button id="quick-test" class="btn-secondary">
+            <img src="assets/images/icons/quick-test.svg" alt="Quick Test">
+            <span>Quick Test</span>
+          </button>
+          <button id="talk-assistant" class="btn-primary">
+            <img src="assets/images/icons/chat.svg" alt="Chat">
+            <span>Talk to Assistant</span>
+          </button>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Dashboard Content -->
+    <div class="content-container">
+      <div class="dashboard-page page-content active" id="dashboard-page">
+        <div class="welcome-banner">
+          <div class="welcome-text">
+            <h3>Welcome back, <span id="welcome-name">John</span>!</h3>
+            <p>Your health journey continues. How are you feeling today?</p>
+          </div>
+          <div class="feel-buttons">
+            <button class="feel-btn" data-feeling="great">
+              <img src="assets/images/emoji/great.svg" alt="Great">
+              <span>Great</span>
+            </button>
+            <button class="feel-btn" data-feeling="good">
+              <img src="assets/images/emoji/good.svg" alt="Good">
+              <span>Good</span>
+            </button>
+            <button class="feel-btn" data-feeling="okay">
+              <img src="assets/images/emoji/okay.svg" alt="Okay">
+              <span>Okay</span>
+            </button>
+            <button class="feel-btn" data-feeling="bad">
+              <img src="assets/images/emoji/bad.svg" alt="Bad">
+              <span>Bad</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="dashboard-grid">
+          <!-- Health Metrics -->
+          <section class="dashboard-card health-metrics">
+            <h3>Health Metrics</h3>
+            <div class="metrics-list">
+              <div class="metric-item">
+                <div class="metric-icon pulse-rate">
+                  <img src="assets/images/icons/heart.svg" alt="Heart Rate">
+                </div>
+                <div class="metric-data">
+                  <h4>Heart Rate</h4>
+                  <p>72 <span>bpm</span></p>
+                  <span class="metric-date">Last check: Apr 16, 2025</span>
+                </div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-icon vision">
+                  <img src="assets/images/icons/eye.svg" alt="Vision">
+                </div>
+                <div class="metric-data">
+                  <h4>Vision</h4>
+                  <p>20/30</p>
+                  <span class="metric-date">Last check: Apr 15, 2025</span>
+                </div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-icon hearing">
+                  <img src="assets/images/icons/ear.svg" alt="Hearing">
+                </div>
+                <div class="metric-data">
+                  <h4>Hearing</h4>
+                  <p>Normal</p>
+                  <span class="metric-date">Last check: Apr 10, 2025</span>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Quick Actions -->
+          <section class="dashboard-card quick-actions-card">
+            <h3>Quick Actions</h3>
+            <div class="actions-grid">
+              <a href="#health-tests/skin" class="action-item">
+                <div class="action-icon skin">
+                  <img src="assets/images/icons/skin.svg" alt="Skin Analysis">
+                </div>
+                <span>Skin Analysis</span>
+              </a>
+              <a href="#health-tests/wound" class="action-item">
+                <div class="action-icon wound">
+                  <img src="assets/images/icons/wound.svg" alt="Wound Check">
+                </div>
+                <span>Wound Check</span>
+              </a>
+              <a href="#health-tests/vision" class="action-item">
+                <div class="action-icon vision-test">
+                  <img src="assets/images/icons/vision-test.svg" alt="Vision Test">
+                </div>
+                <span>Vision Test</span>
+              </a>
+              <a href="#health-tests/hearing" class="action-item">
+                <div class="action-icon hearing-test">
+                  <img src="assets/images/icons/hearing-test.svg" alt="Hearing Test">
+                </div>
+                <span>Hearing Test</span>
+              </a>
+              <a href="#health-tests/vitals" class="action-item">
+                <div class="action-icon vitals">
+                  <img src="assets/images/icons/vitals.svg" alt="Check Vitals">
+                </div>
+                <span>Check Vitals</span>
+              </a>
+              <a href="#health-tests/motion" class="action-item">
+                <div class="action-icon motion">
+                  <img src="assets/images/icons/motion.svg" alt="Motion Test">
+                </div>
+                <span>Motion Test</span>
+              </a>
+            </div>
+          </section>
+          
+          <!-- Recent Activity -->
+          <section class="dashboard-card recent-activity">
+            <h3>Recent Activity</h3>
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="activity-icon">
+                  <img src="assets/images/icons/vision-test.svg" alt="Vision Test">
+                </div>
+                <div class="activity-details">
+                  <h4>Vision Test Completed</h4>
+                  <p>Result: 20/30 - Mild visual impairment</p>
+                  <span class="activity-date">Apr 15, 2025 - 2:45 PM</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon">
+                  <img src="assets/images/icons/heart.svg" alt="Heart Rate">
+                </div>
+                <div class="activity-details">
+                  <h4>Heart Rate Measured</h4>
+                  <p>Result: 72 bpm - Normal</p>
+                  <span class="activity-date">Apr 16, 2025 - 9:30 AM</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon">
+                  <img src="assets/images/icons/assistant.svg" alt="AI Assistant">
+                </div>
+                <div class="activity-details">
+                  <h4>AI Consultation</h4>
+                  <p>Topic: Headache and fatigue</p>
+                  <span class="activity-date">Apr 14, 2025 - 4:15 PM</span>
+                </div>
+              </div>
+            </div>
+            <a href="#history" class="view-all">View all activity</a>
+          </section>
+          
+          <!-- Upcoming Reminders -->
+          <section class="dashboard-card reminders">
+            <h3>Reminders</h3>
+            <div class="reminders-list">
+              <div class="reminder-item">
+                <div class="reminder-checkbox">
+                  <input type="checkbox" id="reminder-1">
+                  <label for="reminder-1"></label>
+                </div>
+                <div class="reminder-details">
+                  <h4>Hearing Test Follow-up</h4>
+                  <p>Due in 2 days</p>
+                </div>
+              </div>
+              <div class="reminder-item">
+                <div class="reminder-checkbox">
+                  <input type="checkbox" id="reminder-2">
+                  <label for="reminder-2"></label>
+                </div>
+                <div class="reminder-details">
+                  <h4>Weekly Skin Check</h4>
+                  <p>Due tomorrow</p>
+                </div>
+              </div>
+              <div class="reminder-item completed">
+                <div class="reminder-checkbox">
+                  <input type="checkbox" id="reminder-3" checked>
+                  <label for="reminder-3"></label>
+                </div>
+                <div class="reminder-details">
+                  <h4>Vision Test</h4>
+                  <p>Completed yesterday</p>
+                </div>
+              </div>
+            </div>
+            <button class="btn-secondary btn-sm add-reminder">
+              <img src="assets/images/icons/add.svg" alt="Add">
+              <span>Add Reminder</span>
+            </button>
+          </section>
+        </div>
+      </div>
+      
+      <!-- Health Tests Page - Will be loaded dynamically -->
+      <div class="health-tests-page page-content" id="health-tests-page"></div>
+      
+      <!-- AI Assistant Page -->
+      <div class="assistant-page page-content" id="assistant-page">
+        <div class="assistant-container">
+          <div class="chat-header">
+            <div class="assistant-avatar">
+              <img src="assets/images/assistant-avatar.svg" alt="Health Assistant">
+            </div>
+            <div class="assistant-info">
+              <h3>Health Assistant</h3>
+              <p>AI-powered health guidance</p>
+            </div>
+          </div>
+          
+          <div class="chat-messages" id="chat-messages">
+            <div class="message assistant">
+              <div class="message-content">
+                <p>Hello! I'm your health assistant. I can help answer health questions, guide you through assessments, or recommend tests based on your symptoms. How can I help you today?</p>
+              </div>
+              <span class="message-time">Now</span>
+            </div>
+            
+            <!-- Messages will appear here -->
+          </div>
+          
+          <div class="suggestion-chips">
+            <button class="suggestion-chip">My back hurts</button>
+            <button class="suggestion-chip">I have a rash</button>
+            <button class="suggestion-chip">Eye strain</button>
+            <button class="suggestion-chip">Headache</button>
+          </div>
+          
+          <div class="chat-input">
+            <textarea id="user-message" placeholder="Type your health question or concern..."></textarea>
+            <div class="input-actions">
+              <button id="btn-attach" class="btn-icon">
+                <img src="assets/images/icons/attach.svg" alt="Attach">
+              </button>
+              <button id="btn-send" class="btn-icon send-btn">
+                <img src="assets/images/icons/send.svg" alt="Send">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- History Page - Will be loaded dynamically -->
+      <div class="history-page page-content" id="history-page"></div>
+      
+      <!-- Settings Page - Will be loaded dynamically -->
+      <div class="settings-page page-content" id="settings-page"></div>
+    </div>
+  </main>
+  
+  <!-- Notifications Panel (Hidden by default) -->
+  <div class="notifications-panel" id="notifications-panel">
+    <div class="notifications-header">
+      <h3>Notifications</h3>
+      <button id="notifications-close" class="btn-icon">
+        <img src="assets/images/icons/close.svg" alt="Close">
+      </button>
+    </div>
+    
+    <div class="notifications-list">
+      <div class="notification-item unread">
+        <div class="notification-icon">
+          <img src="assets/images/icons/reminder.svg" alt="Reminder">
+        </div>
+        <div class="notification-content">
+          <h4>Hearing Test Reminder</h4>
+          <p>Your scheduled hearing test is due in 2 days.</p>
+          <span class="notification-time">2 hours ago</span>
+        </div>
+      </div>
+      
+      <div class="notification-item unread">
+        <div class="notification-icon">
+          <img src="assets/images/icons/tip.svg" alt="Tip">
+        </div>
+        <div class="notification-content">
+          <h4>Health Tip</h4>
+          <p>Remember to take frequent breaks to reduce eye strain when using digital devices.</p>
+          <span class="notification-time">5 hours ago</span>
+        </div>
+      </div>
+      
+      <div class="notification-item">
+        <div class="notification-icon">
+          <img src="assets/images/icons/result.svg" alt="Result">
+        </div>
+        <div class="notification-content">
+          <h4>Test Results Available</h4>
+          <p>Your vision test results are now ready to view.</p>
+          <span class="notification-time">Yesterday</span>
+        </div>
+      </div>
+    </div>
+    
+    <button class="btn-text mark-all-read">Mark all as read</button>
+  </div>
+  
+  <!-- Modal Containers -->
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  <div class="modal-container" id="modal-container"></div>
+  
+  <!-- Load TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  
+  <!-- Load Application Scripts -->
+  <script src="js/app.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "acquisition": {
+    "pixels_x": 107,
+    "pixels_y": 107,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "female",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign epidermal proliferations",
+    "diagnosis_3": "Seborrheic keratosis",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "5.40",
+    "tbp_tile_type": "3D: XP",
+    "age_approx": 55,
+    "lesion_id": "IL_1255530",
+    "patient_id": "IP_2776672",
+    "diagnosis": "seborrheic keratosis"
+  }
+}

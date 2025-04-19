@@ -1,0 +1,25 @@
+{
+  "acquisition": {
+    "pixels_x": 2295,
+    "pixels_y": 2295,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "male",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma Invasive",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "4.20",
+    "melanocytic": true,
+    "mel_class": "invasive melanoma",
+    "mel_thick_mm": "0.40",
+    "age_approx": 70,
+    "lesion_id": "IL_3375510",
+    "patient_id": "IP_1180092",
+    "diagnosis": "melanoma"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "acquisition": {
+    "pixels_x": 1872,
+    "pixels_y": 1053,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "female",
+    "anatom_site_general": "lateral torso",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma, NOS",
+    "diagnosis_confirm_type": "histopathology",
+    "melanocytic": true,
+    "age_approx": 70,
+    "lesion_id": "IL_1610711",
+    "patient_id": "IP_9960111",
+    "diagnosis": "melanoma"
+  }
+}

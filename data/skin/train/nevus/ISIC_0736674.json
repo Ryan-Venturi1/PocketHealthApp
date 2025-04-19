@@ -1,0 +1,24 @@
+{
+  "acquisition": {
+    "pixels_x": 159,
+    "pixels_y": 159,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "female",
+    "anatom_site_general": "upper extremity",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign melanocytic proliferations",
+    "diagnosis_3": "Nevus",
+    "diagnosis_4": "Nevus, Atypical, Dysplastic, or Clark",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "4.40",
+    "acquisition_day": 16937,
+    "tbp_tile_type": "3D: XP",
+    "age_approx": 50,
+    "lesion_id": "IL_2844767",
+    "patient_id": "IP_7656744",
+    "diagnosis": "nevus"
+  }
+}

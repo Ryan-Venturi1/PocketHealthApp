@@ -1,0 +1,22 @@
+{
+  "acquisition": {
+    "pixels_x": 1454,
+    "pixels_y": 1179,
+    "image_type": "clinical: overview"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "II",
+    "sex": "male",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant epidermal proliferations",
+    "diagnosis_3": "Squamous cell carcinoma, NOS",
+    "diagnosis_confirm_type": "histopathology",
+    "age_approx": 65,
+    "lesion_id": "IL_8168888",
+    "patient_id": "IP_6579706",
+    "diagnosis": "squamous cell carcinoma"
+  }
+}

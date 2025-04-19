@@ -1,0 +1,23 @@
+{
+  "acquisition": {
+    "pixels_x": 91,
+    "pixels_y": 91,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "female",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "indeterminate",
+    "diagnosis_1": "Indeterminate",
+    "diagnosis_2": "Indeterminate epidermal proliferations",
+    "diagnosis_3": "Solar or actinic keratosis",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "3.10",
+    "acquisition_day": 31719,
+    "tbp_tile_type": "3D: white",
+    "age_approx": 30,
+    "lesion_id": "IL_5200104",
+    "patient_id": "IP_8171968",
+    "diagnosis": "actinic keratosis"
+  }
+}

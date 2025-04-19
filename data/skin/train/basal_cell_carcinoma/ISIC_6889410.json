@@ -1,0 +1,24 @@
+{
+  "acquisition": {
+    "pixels_x": 190,
+    "pixels_y": 203,
+    "image_type": "clinical: overview"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "I",
+    "sex": "male",
+    "anatom_site_general": "head/neck",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant adnexal epithelial proliferations - Follicular",
+    "diagnosis_3": "Basal cell carcinoma",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": false,
+    "family_hx_mm": false,
+    "age_approx": 45,
+    "lesion_id": "IL_2351875",
+    "patient_id": "IP_4771889",
+    "diagnosis": "basal cell carcinoma"
+  }
+}

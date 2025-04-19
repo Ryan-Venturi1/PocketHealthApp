@@ -1,0 +1,24 @@
+{
+  "acquisition": {
+    "pixels_x": 2543,
+    "pixels_y": 2543,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "female",
+    "anatom_site_general": "upper extremity",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign melanocytic proliferations",
+    "diagnosis_3": "Nevus",
+    "diagnosis_4": "Nevus, NOS, Dermal",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "5.20",
+    "melanocytic": true,
+    "age_approx": 65,
+    "lesion_id": "IL_8179865",
+    "patient_id": "IP_2095204",
+    "diagnosis": "nevus"
+  }
+}

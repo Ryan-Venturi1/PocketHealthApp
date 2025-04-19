@@ -1,0 +1,19 @@
+{
+  "acquisition": {
+    "pixels_x": 1024,
+    "pixels_y": 1024,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": false,
+    "sex": "female",
+    "anatom_site_general": "anterior torso",
+    "diagnosis_1": "Indeterminate",
+    "diagnosis_2": "Indeterminate epidermal proliferations",
+    "diagnosis_3": "Solar or actinic keratosis",
+    "melanocytic": false,
+    "age_approx": 30,
+    "lesion_id": "IL_8653528",
+    "diagnosis": "actinic keratosis"
+  }
+}

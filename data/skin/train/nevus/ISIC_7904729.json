@@ -1,0 +1,22 @@
+{
+  "acquisition": {
+    "pixels_x": 109,
+    "pixels_y": 109,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "male",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign melanocytic proliferations",
+    "diagnosis_3": "Nevus",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "19.80",
+    "tbp_tile_type": "3D: XP",
+    "age_approx": 80,
+    "lesion_id": "IL_8580085",
+    "patient_id": "IP_9449622",
+    "diagnosis": "nevus"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "acquisition": {
+    "pixels_x": 3264,
+    "pixels_y": 2448,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "non-contact polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "I",
+    "sex": "female",
+    "anatom_site_general": "upper extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Collision - At least one malignant proliferation",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": true,
+    "family_hx_mm": false,
+    "clin_size_long_diam_mm": "9.00",
+    "melanocytic": false,
+    "acquisition_day": 1,
+    "age_approx": 55,
+    "lesion_id": "IL_9132518",
+    "patient_id": "IP_7164821",
+    "diagnosis": "squamous cell carcinoma"
+  }
+}

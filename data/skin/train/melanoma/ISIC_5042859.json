@@ -1,0 +1,26 @@
+{
+  "acquisition": {
+    "pixels_x": 121,
+    "pixels_y": 121,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "male",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma in situ",
+    "diagnosis_4": "Melanoma in situ, associated with a nevus",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "7.31",
+    "mel_class": "melanoma in situ",
+    "acquisition_day": 18770,
+    "tbp_tile_type": "3D: XP",
+    "age_approx": 60,
+    "lesion_id": "IL_4424739",
+    "patient_id": "IP_5516884",
+    "diagnosis": "melanoma"
+  }
+}

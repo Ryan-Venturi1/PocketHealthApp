@@ -1,0 +1,22 @@
+{
+  "acquisition": {
+    "pixels_x": 113,
+    "pixels_y": 113,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "male",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant epidermal proliferations",
+    "diagnosis_3": "Squamous cell carcinoma in situ",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "8.51",
+    "tbp_tile_type": "3D: white",
+    "age_approx": 60,
+    "lesion_id": "IL_7739568",
+    "patient_id": "IP_9181133",
+    "diagnosis": "squamous cell carcinoma"
+  }
+}

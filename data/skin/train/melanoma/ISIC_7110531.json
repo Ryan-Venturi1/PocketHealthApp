@@ -1,0 +1,27 @@
+{
+  "acquisition": {
+    "pixels_x": 3264,
+    "pixels_y": 2448,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "male",
+    "anatom_site_general": "head/neck",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma Invasive",
+    "diagnosis_4": "Melanoma Invasive, Superficial spreading",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "5.50",
+    "melanocytic": true,
+    "mel_class": "invasive melanoma",
+    "mel_mitotic_index": "<1/mm^2",
+    "mel_thick_mm": "0.20",
+    "mel_type": "superficial spreading melanoma",
+    "mel_ulcer": false,
+    "age_approx": 75,
+    "diagnosis": "melanoma"
+  }
+}

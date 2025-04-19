@@ -1,0 +1,21 @@
+{
+  "acquisition": {
+    "pixels_x": 1024,
+    "pixels_y": 1024,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": false,
+    "sex": "female",
+    "anatom_site_general": "palms/soles",
+    "anatom_site_special": "acral palms or soles",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign epidermal proliferations",
+    "diagnosis_3": "Seborrheic keratosis",
+    "diagnosis_confirm_type": "confocal microscopy with consensus dermoscopy",
+    "melanocytic": false,
+    "age_approx": 50,
+    "lesion_id": "IL_8775280",
+    "diagnosis": "seborrheic keratosis"
+  }
+}

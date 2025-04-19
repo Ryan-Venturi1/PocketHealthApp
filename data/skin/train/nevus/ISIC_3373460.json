@@ -1,0 +1,25 @@
+{
+  "acquisition": {
+    "pixels_x": 119,
+    "pixels_y": 119,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "male",
+    "anatom_site_general": "posterior torso",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign melanocytic proliferations",
+    "diagnosis_3": "Nevus",
+    "diagnosis_4": "Nevus, Atypical, Dysplastic, or Clark",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "6.56",
+    "acquisition_day": 20535,
+    "tbp_tile_type": "3D: XP",
+    "age_approx": 75,
+    "lesion_id": "IL_3984156",
+    "patient_id": "IP_9853536",
+    "diagnosis": "nevus"
+  }
+}

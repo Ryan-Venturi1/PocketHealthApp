@@ -1,0 +1,28 @@
+{
+  "acquisition": {
+    "pixels_x": 141,
+    "pixels_y": 141,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "male",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma Invasive",
+    "diagnosis_4": "Melanoma Invasive, On chronically sun-exposed skin or lentigo maligna melanoma",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "10.96",
+    "mel_class": "invasive melanoma",
+    "mel_mitotic_index": "0/mm^2",
+    "mel_thick_mm": "0.60",
+    "mel_type": "lentigo maligna melanoma",
+    "acquisition_day": 36293,
+    "tbp_tile_type": "3D: XP",
+    "age_approx": 80,
+    "lesion_id": "IL_5555975",
+    "patient_id": "IP_5143034",
+    "diagnosis": "melanoma"
+  }
+}

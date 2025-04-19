@@ -1,0 +1,21 @@
+{
+  "acquisition": {
+    "pixels_x": 2448,
+    "pixels_y": 2448,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "female",
+    "anatom_site_general": "lower extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant epidermal proliferations",
+    "diagnosis_3": "Squamous cell carcinoma, NOS",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "3.90",
+    "melanocytic": false,
+    "age_approx": 70,
+    "diagnosis": "squamous cell carcinoma"
+  }
+}

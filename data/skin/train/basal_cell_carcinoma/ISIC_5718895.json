@@ -1,0 +1,23 @@
+{
+  "acquisition": {
+    "pixels_x": 2252,
+    "pixels_y": 3003,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "II",
+    "anatom_site_general": "palms/soles",
+    "anatom_site_special": "acral palms or soles",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant adnexal epithelial proliferations - Follicular",
+    "diagnosis_3": "Basal cell carcinoma",
+    "diagnosis_confirm_type": "histopathology",
+    "age_approx": 55,
+    "lesion_id": "IL_9726141",
+    "patient_id": "IP_1914877",
+    "diagnosis": "basal cell carcinoma"
+  }
+}

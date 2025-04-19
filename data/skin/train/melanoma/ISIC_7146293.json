@@ -1,0 +1,25 @@
+{
+  "acquisition": {
+    "pixels_x": 1975,
+    "pixels_y": 1975,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "female",
+    "anatom_site_general": "upper extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma Invasive",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "2.10",
+    "melanocytic": true,
+    "mel_class": "invasive melanoma",
+    "mel_thick_mm": "0.40",
+    "age_approx": 55,
+    "lesion_id": "IL_9050268",
+    "patient_id": "IP_3601283",
+    "diagnosis": "melanoma"
+  }
+}

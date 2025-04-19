@@ -1,0 +1,21 @@
+{
+  "acquisition": {
+    "pixels_x": 1219,
+    "pixels_y": 839,
+    "image_type": "clinical: overview"
+  },
+  "clinical": {
+    "concomitant_biopsy": false,
+    "fitzpatrick_skin_type": "II",
+    "sex": "female",
+    "anatom_site_general": "anterior torso",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign soft tissue proliferations - Fibro-histiocytic",
+    "diagnosis_3": "Dermatofibroma",
+    "age_approx": 35,
+    "lesion_id": "IL_8063573",
+    "patient_id": "IP_6578239",
+    "diagnosis": "dermatofibroma"
+  }
+}

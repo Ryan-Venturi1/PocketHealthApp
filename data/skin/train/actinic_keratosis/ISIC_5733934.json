@@ -1,0 +1,23 @@
+{
+  "acquisition": {
+    "pixels_x": 1438,
+    "pixels_y": 1473,
+    "image_type": "clinical: overview"
+  },
+  "clinical": {
+    "concomitant_biopsy": false,
+    "fitzpatrick_skin_type": "III",
+    "sex": "male",
+    "anatom_site_general": "head/neck",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Indeterminate",
+    "diagnosis_2": "Indeterminate epidermal proliferations",
+    "diagnosis_3": "Solar or actinic keratosis",
+    "personal_hx_mm": false,
+    "family_hx_mm": false,
+    "age_approx": 75,
+    "lesion_id": "IL_6263448",
+    "patient_id": "IP_1549548",
+    "diagnosis": "actinic keratosis"
+  }
+}

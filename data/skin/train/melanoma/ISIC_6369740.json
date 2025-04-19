@@ -1,0 +1,29 @@
+{
+  "acquisition": {
+    "pixels_x": 3264,
+    "pixels_y": 2448,
+    "image_type": "dermoscopic",
+    "dermoscopic_type": "contact polarized"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "fitzpatrick_skin_type": "II",
+    "sex": "male",
+    "anatom_site_general": "posterior torso",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma in situ",
+    "diagnosis_confirm_type": "histopathology",
+    "personal_hx_mm": true,
+    "family_hx_mm": false,
+    "clin_size_long_diam_mm": "7.80",
+    "melanocytic": true,
+    "mel_class": "melanoma in situ",
+    "acquisition_day": 1,
+    "age_approx": 60,
+    "lesion_id": "IL_5077151",
+    "patient_id": "IP_8112740",
+    "diagnosis": "melanoma"
+  }
+}

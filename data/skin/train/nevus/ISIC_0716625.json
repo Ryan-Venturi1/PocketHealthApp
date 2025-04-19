@@ -1,0 +1,23 @@
+{
+  "acquisition": {
+    "pixels_x": 141,
+    "pixels_y": 141,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "female",
+    "anatom_site_general": "posterior torso",
+    "benign_malignant": "benign",
+    "diagnosis_1": "Benign",
+    "diagnosis_2": "Benign melanocytic proliferations",
+    "diagnosis_3": "Nevus",
+    "diagnosis_4": "Nevus, NOS, Dermal",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "5.89",
+    "acquisition_day": 13908,
+    "tbp_tile_type": "3D: XP",
+    "lesion_id": "IL_5176429",
+    "patient_id": "IP_9652562",
+    "diagnosis": "nevus"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "acquisition": {
+    "pixels_x": 69,
+    "pixels_y": 69,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "male",
+    "anatom_site_general": "upper extremity",
+    "benign_malignant": "indeterminate",
+    "diagnosis_1": "Indeterminate",
+    "diagnosis_2": "Indeterminate epidermal proliferations",
+    "diagnosis_3": "Solar or actinic keratosis",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "2.19",
+    "acquisition_day": 29259,
+    "tbp_tile_type": "3D: white",
+    "age_approx": 55,
+    "lesion_id": "IL_3479226",
+    "patient_id": "IP_3905195",
+    "diagnosis": "actinic keratosis"
+  }
+}

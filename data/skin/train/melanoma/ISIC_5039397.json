@@ -1,0 +1,28 @@
+{
+  "acquisition": {
+    "pixels_x": 135,
+    "pixels_y": 135,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "male",
+    "anatom_site_general": "upper extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma Invasive",
+    "diagnosis_4": "Melanoma Invasive, Superficial spreading",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "12.98",
+    "mel_class": "invasive melanoma",
+    "mel_mitotic_index": ">4/mm^2",
+    "mel_thick_mm": "1.70",
+    "mel_type": "superficial spreading melanoma",
+    "acquisition_day": 40173,
+    "tbp_tile_type": "3D: XP",
+    "age_approx": 65,
+    "lesion_id": "IL_4597137",
+    "patient_id": "IP_9034566",
+    "diagnosis": "melanoma"
+  }
+}

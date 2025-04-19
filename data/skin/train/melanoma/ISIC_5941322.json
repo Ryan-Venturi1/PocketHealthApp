@@ -1,0 +1,24 @@
+{
+  "acquisition": {
+    "pixels_x": 2627,
+    "pixels_y": 2627,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "male",
+    "anatom_site_general": "upper extremity",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma in situ",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "3.30",
+    "melanocytic": true,
+    "mel_class": "melanoma in situ",
+    "age_approx": 70,
+    "lesion_id": "IL_4732104",
+    "patient_id": "IP_5253646",
+    "diagnosis": "melanoma"
+  }
+}

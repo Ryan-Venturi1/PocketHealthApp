@@ -1,0 +1,22 @@
+{
+  "acquisition": {
+    "pixels_x": 145,
+    "pixels_y": 145,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "male",
+    "anatom_site_general": "head/neck",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant epidermal proliferations",
+    "diagnosis_3": "Squamous cell carcinoma, NOS",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "4.68",
+    "tbp_tile_type": "3D: white",
+    "age_approx": 80,
+    "lesion_id": "IL_6679376",
+    "patient_id": "IP_8078890",
+    "diagnosis": "squamous cell carcinoma"
+  }
+}

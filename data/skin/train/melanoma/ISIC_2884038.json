@@ -1,0 +1,24 @@
+{
+  "acquisition": {
+    "pixels_x": 3264,
+    "pixels_y": 2448,
+    "image_type": "dermoscopic"
+  },
+  "clinical": {
+    "concomitant_biopsy": true,
+    "sex": "male",
+    "anatom_site_general": "head/neck",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant melanocytic proliferations (Melanoma)",
+    "diagnosis_3": "Melanoma in situ",
+    "diagnosis_4": "Melanoma in situ, Lentigo maligna type",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "8.00",
+    "melanocytic": true,
+    "mel_class": "melanoma in situ",
+    "mel_type": "lentigo maligna melanoma",
+    "age_approx": 60,
+    "diagnosis": "melanoma"
+  }
+}

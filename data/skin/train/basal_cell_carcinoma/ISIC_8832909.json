@@ -1,0 +1,24 @@
+{
+  "acquisition": {
+    "pixels_x": 153,
+    "pixels_y": 153,
+    "image_type": "TBP tile: close-up"
+  },
+  "clinical": {
+    "sex": "female",
+    "anatom_site_general": "posterior torso",
+    "benign_malignant": "malignant",
+    "diagnosis_1": "Malignant",
+    "diagnosis_2": "Malignant adnexal epithelial proliferations - Follicular",
+    "diagnosis_3": "Basal cell carcinoma",
+    "diagnosis_4": "Basal cell carcinoma, Nodular",
+    "diagnosis_confirm_type": "histopathology",
+    "clin_size_long_diam_mm": "1.23",
+    "acquisition_day": 24136,
+    "tbp_tile_type": "3D: XP",
+    "age_approx": 55,
+    "lesion_id": "IL_0637957",
+    "patient_id": "IP_7792811",
+    "diagnosis": "basal cell carcinoma"
+  }
+}
