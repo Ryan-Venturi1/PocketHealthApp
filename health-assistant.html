@@ -4,14 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PocketHealth | AI Assistant</title>
-  <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="mainstyle.css">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script type="module" src="js/storage-manager.js"></script>
-  <script type="module" src="js/ai-assistant.js"></script>
+  <script type="module" src="js/health-assistant.js"></script>
+  <script type="module">
+    // Import WebLLM using the recommended ESM CDN URL from the docs
+    import * as webllm from "https://esm.run/@mlc-ai/web-llm";
+    
+    // Wait for the library to load
+    window.addEventListener('DOMContentLoaded', () => {
+      // Check if WebGPU is supported
+      if (!navigator.gpu) {
+        const statusElement = document.getElementById("assistant-status");
+        if (statusElement) {
+          statusElement.textContent = "WebGPU not supported in your browser. Please use Chrome or Edge.";
+          statusElement.className = "status-error";
+        }
+        console.error("WebGPU is not supported in this browser");
+        return;
+      }
+      
+      console.log("WebLLM version:", webllm.version);
+      
+      // Use the prebuilt app config that comes with WebLLM
+      // This uses their default model registry
+      window.mlc = {
+        MLCEngine: webllm.MLCEngine,
+        appConfig: webllm.prebuiltAppConfig
+      };
+      
+      // Log available models for debugging
+      console.log("Available models:", window.mlc.appConfig.model_list.map(m => m.model_id).join(", "));
+    });
+  </script>
 </head>
 <body class="app-body">
   <!-- Sidebar Navigation -->
@@ -86,7 +114,7 @@
         <svg width="24" height="24" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19" stroke="#333" stroke-width="2"/><line x1="5" y1="12" x2="19" y2="12" stroke="#333" stroke-width="2"/></svg>
       </button>
       <div class="page-title">
-        <h2 id="current-page-title">AI Assistant</h2>
+        <h2 id="current-page-title">AI Health Assistant</h2>
       </div>
       <div class="header-actions">
         <button id="notifications-toggle" class="btn-icon">
@@ -107,48 +135,63 @@
       <div class="assistant-page page-content active" id="assistant-page">
         <div class="assistant-container">
           <div class="chat-header">
-            <div class="assistant-avatar">
-              <img src="assets/images/assistant-avatar.svg" alt="Health Assistant">
-            </div>
             <div class="assistant-info">
-              <h3>Health Assistant</h3>
-              <p>AI-powered health guidance</p>
+              <h3>AI Health Assistant</h3>
+              <p>Powered by WebLLM - Private & Secure</p>
+            </div>
+            <div class="assistant-status" id="assistant-status-container">
+              <span id="assistant-status">Loading...</span>
+              <div class="progress-container" id="assistant-progress-container">
+                <div class="progress-bar" id="assistant-progress" style="width: 0%"></div>
+              </div>
             </div>
           </div>
           
           <div class="chat-messages" id="chat-messages">
             <div class="message assistant">
               <div class="message-content">
-                <p>Hello! I'm your health assistant. I can help answer health questions, guide you through assessments, or recommend tests based on your symptoms. How can I help you today?</p>
+                <p>Hello! I'm your AI health assistant. I can help answer general health questions, guide you through symptom assessment, or provide information about common health conditions. How can I help you today?</p>
+                <p class="disclaimer">Note: I'm not a replacement for professional medical advice. For serious concerns, please consult a healthcare provider.</p>
               </div>
               <span class="message-time">Now</span>
             </div>
           </div>
           
           <div class="suggestion-chips">
-            <button class="suggestion-chip">My back hurts</button>
-            <button class="suggestion-chip">I have a rash</button>
-            <button class="suggestion-chip">Eye strain</button>
+            <button class="suggestion-chip">Back pain</button>
             <button class="suggestion-chip">Headache</button>
+            <button class="suggestion-chip">Common cold remedies</button>
+            <button class="suggestion-chip">Exercise recommendations</button>
           </div>
           
           <div class="chat-input">
-            <textarea id="user-message" placeholder="Type your health question or concern..."></textarea>
+            <textarea id="user-message" placeholder="Type your health question here..."></textarea>
             <div class="input-actions">
-              <button id="btn-attach" class="btn-icon">
-                <svg width="20" height="20" viewBox="0 0 20 20"><rect x="8" y="2" width="4" height="16" rx="2" fill="#A1A1AA"/></svg>
+              <button id="btn-attach" class="btn-icon" title="Attach image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3"/></svg>
               </button>
-              <button id="btn-send" class="btn-icon send-btn">
-                <svg width="20" height="20" viewBox="0 0 20 20"><polygon points="2,10 18,2 18,18" fill="#2563EB"/></svg>
+              <button id="btn-send" class="btn-icon" disabled>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
               </button>
             </div>
+          </div>
+          
+          <div class="model-selector">
+            <label for="model-select">AI Model:</label>
+            <select id="model-select">
+              <option value="Mistral-7B-Instruct-v0.3-q4f16_1-MLC">
+                Mistral 7B Instruct ‑ Medical knowledge
+              </option>
+              <option value="Phi-2">Phi-2 - Lightweight model</option>
+              <option value="TinyLlama-1.1B-Chat-v1.0">TinyLlama - Fast responses</option>
+            </select>
           </div>
         </div>
       </div>
     </div>
   </main>
   
-  <!-- Notifications Panel (Hidden by default) -->
+  <!-- Notifications Panel -->
   <div class="notifications-panel" id="notifications-panel">
     <div class="notifications-header">
       <h3>Notifications</h3>
@@ -160,34 +203,23 @@
     <div class="notifications-list">
       <div class="notification-item unread">
         <div class="notification-icon">
-          <img src="assets/images/icons/reminder.svg" alt="Reminder">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#F97316"><path d="M12 22a2 2 0 002-2h-4a2 2 0 002 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
         </div>
         <div class="notification-content">
-          <h4>Hearing Test Reminder</h4>
-          <p>Your scheduled hearing test is due in 2 days.</p>
+          <h4>Health Check Reminder</h4>
+          <p>Your weekly health check is due today.</p>
           <span class="notification-time">2 hours ago</span>
         </div>
       </div>
       
       <div class="notification-item unread">
         <div class="notification-icon">
-          <img src="assets/images/icons/tip.svg" alt="Tip">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#059669"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
         </div>
         <div class="notification-content">
           <h4>Health Tip</h4>
-          <p>Remember to take frequent breaks to reduce eye strain when using digital devices.</p>
+          <p>Remember to take regular breaks from screen time to reduce eye strain.</p>
           <span class="notification-time">5 hours ago</span>
-        </div>
-      </div>
-      
-      <div class="notification-item">
-        <div class="notification-icon">
-          <img src="assets/images/icons/result.svg" alt="Result">
-        </div>
-        <div class="notification-content">
-          <h4>Test Results Available</h4>
-          <p>Your vision test results are now ready to view.</p>
-          <span class="notification-time">Yesterday</span>
         </div>
       </div>
     </div>
@@ -195,21 +227,184 @@
     <button class="btn-text mark-all-read">Mark all as read</button>
   </div>
   
-  <!-- Modal Containers -->
+  <!-- Modal Backdrop -->
   <div class="modal-backdrop" id="modal-backdrop"></div>
-  <div class="modal-container" id="modal-container"></div>
   
-  <!-- Load TensorFlow.js -->
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-  
-  <!-- Load Application Scripts -->
-  <script src="js/app.js" type="module"></script>
-  <script src="js/dashboard.js" type="module"></script>
-  
-  <script>
-    // Initialize AI Assistant functionality
+  <!-- Load Scripts -->  
+  <script type="module">
+    import HealthAssistant from './js/health-assistant.js';
+    
     document.addEventListener('DOMContentLoaded', () => {
-      // Set up sidebar toggle for mobile
+      // Initialize the Health Assistant
+      const healthAssistant = new HealthAssistant();
+      
+      // Start loading the model
+      healthAssistant.initialize();
+      
+      // UI Elements
+      const chatMessages = document.getElementById('chat-messages');
+      const userMessageInput = document.getElementById('user-message');
+      const sendButton = document.getElementById('btn-send');
+      const modelSelect = document.getElementById('model-select');
+      const suggestionChips = document.querySelectorAll('.suggestion-chip');
+      
+      // Enable/disable send button based on input
+      userMessageInput.addEventListener('input', () => {
+        sendButton.disabled = userMessageInput.value.trim() === '';
+      });
+      
+      // Function to add user message to chat
+      function addUserMessage(message) {
+        const messageEl = document.createElement('div');
+        messageEl.className = 'message user';
+        
+        const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        messageEl.innerHTML = `
+          <div class="message-content">
+            <p>${message.replace(/\n/g, '<br>')}</p>
+          </div>
+          <span class="message-time">${timeString}</span>
+        `;
+        
+        chatMessages.appendChild(messageEl);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      
+      // Function to add assistant message to chat
+      function addAssistantMessage(message, isDone = true) {
+        // Check if there's already a partial message from the assistant
+        let messageEl = chatMessages.querySelector('.message.assistant.typing');
+        
+        if (!messageEl) {
+          // Create a new message element
+          messageEl = document.createElement('div');
+          messageEl.className = 'message assistant typing';
+          
+          const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          
+          messageEl.innerHTML = `
+            <div class="message-content">
+              <p></p>
+            </div>
+            <span class="message-time">${timeString}</span>
+          `;
+          
+          chatMessages.appendChild(messageEl);
+        }
+        
+        // Add content to the message
+        const contentEl = messageEl.querySelector('p');
+        contentEl.innerHTML += message.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+        
+        // If this is the final message, remove the typing class
+        if (isDone) {
+          messageEl.classList.remove('typing');
+        }
+        
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      
+      // Function to handle sending a message
+      async function sendMessage() {
+        const message = userMessageInput.value.trim();
+        if (!message) return;
+        
+        // Add user message to UI
+        addUserMessage(message);
+        
+        // Clear input
+        userMessageInput.value = '';
+        sendButton.disabled = true;
+        
+        // Add typing indicator
+        const typingIndicator = document.createElement('div');
+        typingIndicator.className = 'message assistant typing';
+        typingIndicator.innerHTML = `
+          <div class="message-content">
+            <div class="typing-indicator">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        `;
+        chatMessages.appendChild(typingIndicator);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Send message to the assistant
+        try {
+          await healthAssistant.sendMessage(message, (response, isDone) => {
+            // Remove typing indicator if it exists
+            const indicator = chatMessages.querySelector('.typing-indicator');
+            if (indicator) {
+              indicator.parentElement.parentElement.remove();
+            }
+            
+            // Add the response
+            if (response) {
+              // Check if response contains HTML (for resources)
+              if (response.includes('<div class="resources-section">')) {
+                // Split the response into text and resources
+                const parts = response.split('<div class="resources-section">');
+                
+                // Add the text part
+                if (parts[0]) {
+                  addAssistantMessage(parts[0], false);
+                }
+                
+                // Add the resources part with HTML
+                if (parts[1]) {
+                  const resourcesEl = document.createElement('div');
+                  resourcesEl.innerHTML = '<div class="resources-section">' + parts[1];
+                  
+                  // Get the last message element
+                  const lastMessage = chatMessages.querySelector('.message.assistant.typing');
+                  if (lastMessage) {
+                    lastMessage.querySelector('.message-content').appendChild(resourcesEl);
+                    if (isDone) {
+                      lastMessage.classList.remove('typing');
+                    }
+                  }
+                }
+              } else {
+                // Just regular text
+                addAssistantMessage(response, isDone);
+              }
+            }
+          });
+        } catch (error) {
+          console.error('Error sending message:', error);
+          addAssistantMessage('Sorry, I encountered an error processing your request. Please try again.', true);
+        }
+      }
+      
+      // Send message on button click
+      sendButton.addEventListener('click', sendMessage);
+      
+      // Send message on Enter key (but allow Shift+Enter for new lines)
+      userMessageInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          if (!sendButton.disabled) {
+            sendMessage();
+          }
+        }
+      });
+      
+      // Handle suggestion chips
+      suggestionChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          userMessageInput.value = chip.textContent;
+          sendMessage();
+        });
+      });
+      
+      // Handle model selection
+      modelSelect.addEventListener('change', async () => {
+        const newModel = modelSelect.value;
+        await healthAssistant.changeModel(newModel);
+      });
+      
+      // Toggle sidebar on mobile
       const sidebarOpen = document.getElementById('sidebar-open');
       const sidebarClose = document.getElementById('sidebar-close');
       const sidebar = document.querySelector('.sidebar');
@@ -226,121 +421,91 @@
         });
       }
       
-      // Set up notifications panel
+      // Handle notifications panel
       const notificationsToggle = document.getElementById('notifications-toggle');
-      const notificationsPanel = document.getElementById('notifications-panel');
       const notificationsClose = document.getElementById('notifications-close');
+      const notificationsPanel = document.getElementById('notifications-panel');
       const modalBackdrop = document.getElementById('modal-backdrop');
       
       if (notificationsToggle) {
         notificationsToggle.addEventListener('click', () => {
           notificationsPanel.classList.toggle('open');
-          modalBackdrop.classList.toggle('open');
+          modalBackdrop.classList.toggle('visible');
         });
       }
       
       if (notificationsClose) {
         notificationsClose.addEventListener('click', () => {
           notificationsPanel.classList.remove('open');
-          modalBackdrop.classList.remove('open');
+          modalBackdrop.classList.remove('visible');
         });
       }
       
       if (modalBackdrop) {
         modalBackdrop.addEventListener('click', () => {
           notificationsPanel.classList.remove('open');
-          modalBackdrop.classList.remove('open');
+          modalBackdrop.classList.remove('visible');
         });
       }
       
-      // AI Assistant functionality
-      const userMessage = document.getElementById('user-message');
-      const sendButton = document.getElementById('btn-send');
-      const chatMessages = document.getElementById('chat-messages');
-      const suggestionChips = document.querySelectorAll('.suggestion-chip');
-      
-      // Function to add a user message to the chat
-      function addUserMessage(message) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'message user';
-        messageDiv.innerHTML = `
-          <div class="message-content">
-            <p>${message}</p>
-          </div>
-          <span class="message-time">Just now</span>
-        `;
-        chatMessages.appendChild(messageDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }
-      
-      // Function to add an assistant message to the chat
-      function addAssistantMessage(message) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'message assistant';
-        messageDiv.innerHTML = `
-          <div class="message-content">
-            <p>${message}</p>
-          </div>
-          <span class="message-time">Just now</span>
-        `;
-        chatMessages.appendChild(messageDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }
-      
-      // Function to handle sending a message
-      function sendMessage() {
-        const message = userMessage.value.trim();
-        if (message) {
-          addUserMessage(message);
-          userMessage.value = '';
-          
-          // In a real implementation, we would send this message to an AI service
-          // and get a response. For now, we'll simulate a response.
-          setTimeout(() => {
-            // Simulate AI thinking
-            addAssistantMessage("I'm thinking about how to respond to your query about '" + message + "'. In a full implementation, this would connect to a language model API to provide personalized health guidance.");
-          }, 1000);
-        }
-      }
-      
-      // Event listeners for sending messages
-      if (sendButton) {
-        sendButton.addEventListener('click', sendMessage);
-      }
-      
-      if (userMessage) {
-        userMessage.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-          }
+      // Mark all notifications as read
+      const markAllReadBtn = document.querySelector('.mark-all-read');
+      if (markAllReadBtn) {
+        markAllReadBtn.addEventListener('click', () => {
+          const unreadNotifications = document.querySelectorAll('.notification-item.unread');
+          unreadNotifications.forEach(notification => {
+            notification.classList.remove('unread');
+          });
         });
       }
       
-      // Event listeners for suggestion chips
-      suggestionChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-          const message = chip.textContent;
-          addUserMessage(message);
+      // Handle file attachment
+      const attachButton = document.getElementById('btn-attach');
+      if (attachButton) {
+        attachButton.addEventListener('click', () => {
+          // Create a hidden file input
+          const fileInput = document.createElement('input');
+          fileInput.type = 'file';
+          fileInput.accept = 'image/*';
+          fileInput.style.display = 'none';
           
-          // Simulate AI response
-          setTimeout(() => {
-            let response;
-            if (message.includes('back hurts')) {
-              response = "I'm sorry to hear about your back pain. This could be caused by various factors including poor posture, strain, or underlying conditions. Would you like me to recommend some tests or exercises that might help?";
-            } else if (message.includes('rash')) {
-              response = "Skin rashes can have many causes. It would be helpful to analyze it using our Skin Assessment tool. Would you like to try that test now?";
-            } else if (message.includes('eye strain')) {
-              response = "Eye strain is common with digital device usage. You might benefit from our Vision Test to assess your visual health. Would you like to learn about the 20-20-20 rule for reducing eye strain?";
-            } else if (message.includes('headache')) {
-              response = "Headaches can range from minor to serious. Could you describe the pain pattern and any other symptoms you're experiencing? This will help me provide better guidance.";
-            } else {
-              response = "I understand you're concerned about this health issue. To give you better advice, could you provide more details about your symptoms?";
+          // Trigger click on the file input
+          document.body.appendChild(fileInput);
+          fileInput.click();
+          
+          // Handle file selection
+          fileInput.addEventListener('change', () => {
+            const file = fileInput.files[0];
+            if (file) {
+              // Display selected file preview
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                // Create preview in chat
+                const previewMessage = document.createElement('div');
+                previewMessage.className = 'message user';
+                previewMessage.innerHTML = `
+                  <div class="message-content">
+                    <div class="image-preview">
+                      <img src="${e.target.result}" alt="Uploaded image">
+                      <p>Image uploaded: ${file.name}</p>
+                    </div>
+                  </div>
+                  <span class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                `;
+                chatMessages.appendChild(previewMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Add a system message about image processing
+                addAssistantMessage("I've received your image, but I'm currently unable to fully analyze medical images. If you have concerns about something visible in this image, please describe your symptoms or questions in text, and I'll do my best to help.", true);
+              };
+              reader.readAsDataURL(file);
             }
-            addAssistantMessage(response);
-          }, 1000);
+            
+            // Remove the input element
+            document.body.removeChild(fileInput);
+          });
         });
-      });
+      }
     });
   </script>
 </body>
