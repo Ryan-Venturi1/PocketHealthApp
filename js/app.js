@@ -1,1122 +1,649 @@
-// File: app.js - Core functionality for Health Assessment Platform
-// This integrates all test modules and connects UI elements
+// js/app.js - Main Application Initialization and Navigation
 
-// Import core modules
-import { initializeCamera, stopCamera, switchCamera } from '../modules/camera-manager.js';
-import { 
-  loadSkinModel, analyzeSkinImage, captureSkinImage 
-} from './modules/skin-analysis.js';
-import { 
-  loadWoundModel, analyzeWoundImage, captureWoundImage 
-} from './modules/wound-analysis.js';
-import { VisionTestManager } from './modules/vision-tests.js';
-import { HearingTestManager } from './modules/hearing-tests.js';
-import { VitalsProcessor } from './modules/vitals-processing.js';
-import { MotionAnalyzer } from './modules/motion-analysis.js';
-import { UserManager } from '../user-manager.js';
+import DashboardManager from './dashboard-manager.js';
+import HealthTestsManager from './health-tests-manager.js';
+import AssistantUI from './assistant-ui.js';
 
-// Global application state
-const app = {
-  currentPage: 'dashboard',
-  activeModule: null,
-  userManager: new UserManager(),
-  camera: {
-    stream: null,
-    active: false,
-    facingMode: 'environment' // 'environment' is back camera, 'user' is front camera
-  },
-  models: {
-    skin: null,
-    wound: null,
-    motion: null
-  },
-  tests: {
-    vision: new VisionTestManager(),
-    hearing: new HearingTestManager(),
-    vitals: new VitalsProcessor(),
-    motion: new MotionAnalyzer()
-  },
-  results: {
-    skin: [],
-    wound: [],
-    vision: [],
-    hearing: [],
-    vitals: [],
-    motion: []
-  }
-};
-
-// Initialize the app
-document.addEventListener('DOMContentLoaded', () => {
-  // Check authentication
-  app.userManager.init();
-  
-  // Listen for user loaded event
-  document.addEventListener('user:loaded', (event) => {
-    initializeApp();
-  });
-  
-  // Setup event listeners
-  setupEventListeners();
-});
-
-// Initialize application after user is authenticated
-function initializeApp() {
-  // Update UI with user data
-  updateUserInterface();
-  
-  // Handle navigation based on URL hash
-  handleNavigation();
-  
-  // Load models
-  loadModels();
-  
-  // If on dashboard, load recent activity
-  if (app.currentPage === 'dashboard') {
-    loadRecentActivity();
-  }
-}
-
-// Load ML models
-async function loadModels() {
-  // Update UI
-  updateModelStatus('Loading models...');
-  
-  try {
-    // Load skin model
-    app.models.skin = await loadSkinModel(progress => {
-      updateModelProgress('skin', progress);
-    });
+/**
+ * Main application class that controls navigation and integration between modules
+ */
+class App {
+  constructor() {
+    // Core managers
+    this.dashboardManager = new DashboardManager();
+    this.healthTestsManager = new HealthTestsManager();
+    this.assistantUI = null; // Will be initialized when needed
     
-    // Load wound model
-    app.models.wound = await loadWoundModel(progress => {
-      updateModelProgress('wound', progress);
-    });
+    // Current page state
+    this.currentPage = 'dashboard';
+    this.activeModule = null;
     
-    // Load motion model
-    await app.tests.motion.loadModel(progress => {
-      updateModelProgress('motion', progress);
-    });
+    // Initialize core functionality
+    this.init();
+  }
+  
+  /**
+   * Initialize the application
+   */
+  init() {
+    // Check authentication (in a real app)
+    this.checkAuthentication();
     
-    // Update UI
-    updateModelStatus('All models loaded');
-  } catch (error) {
-    console.error('Error loading models:', error);
-    updateModelStatus('Error loading models', true);
-  }
-}
-
-// Update model loading status in UI
-function updateModelStatus(message, isError = false) {
-  const statusElement = document.getElementById('model-status');
-  if (statusElement) {
-    statusElement.textContent = message;
-    statusElement.className = isError ? 'status-error' : 'status-ready';
-  }
-}
-
-function updateModelProgress(modelName, progress) {
-  const statusElement = document.getElementById('model-status');
-  if (statusElement && progress.status === 'loading') {
-    statusElement.textContent = `Loading ${modelName} model: ${Math.round(progress.progress * 100)}%`;
-  }
-}
-
-// Update UI with user data
-function updateUserInterface() {
-  const userData = app.userManager.getCurrentUser();
-  
-  if (!userData) {
-    return;
+    // Set up navigation
+    this.setupNavigation();
+    
+    // Handle initial navigation based on URL hash
+    this.handleNavigation();
+    
+    // Initialize dashboard (default view)
+    this.dashboardManager.initializeDashboard();
   }
   
-  // Update user info in sidebar
-  document.getElementById('user-name').textContent = userData.name;
-  document.getElementById('user-email').textContent = userData.email;
-  document.getElementById('welcome-name').textContent = userData.name.split(' ')[0];
-  
-  // Load user's avatar if available
-  if (userData.avatar) {
-    document.getElementById('user-avatar').src = userData.avatar;
-  }
-  
-  // Load health metrics
-  loadHealthMetrics();
-}
-
-// Load user's health metrics
-function loadHealthMetrics() {
-  const metrics = app.userManager.getHealthMetrics();
-  if (!metrics) return;
-  
-  // Update metrics in the UI
-  updateMetricDisplay('Heart Rate', metrics.heartRate);
-  updateMetricDisplay('Vision', metrics.vision);
-  updateMetricDisplay('Hearing', metrics.hearing);
-}
-
-function updateMetricDisplay(metricName, metricData) {
-  if (!metricData || !metricData.value) return;
-  
-  // Find the metric item in the UI
-  const metricItems = document.querySelectorAll('.metric-item');
-  for (const item of metricItems) {
-    const title = item.querySelector('h4').textContent;
-    if (title === metricName) {
-      // Update the value
-      const valueDisplay = item.querySelector('p');
-      const timestampDisplay = item.querySelector('.metric-date');
+  /**
+   * Check if user is authenticated (simplified for demo)
+   */
+  checkAuthentication() {
+    // In a real application, this would verify a token or session
+    // For demo, we'll just check if userProfile exists in localStorage
+    const userProfile = localStorage.getItem('userProfile');
+    
+    if (!userProfile) {
+      // Create a default profile for demo
+      const defaultProfile = {
+        name: 'Demo User',
+        email: 'demo@example.com',
+        avatar: null,
+        dob: '1990-01-01',
+        gender: 'other'
+      };
       
-      if (valueDisplay) {
-        valueDisplay.textContent = metricData.unit ? 
-          `${metricData.value} ${metricData.unit}` : metricData.value;
-      }
+      localStorage.setItem('userProfile', JSON.stringify(defaultProfile));
+    }
+    
+    return true;
+  }
+  
+  /**
+   * Set up navigation event listeners
+   */
+  setupNavigation() {
+    // Handle hash changes
+    window.addEventListener('hashchange', () => {
+      this.handleNavigation();
+    });
+    
+    // Sidebar navigation
+    document.querySelectorAll('.sidebar-nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetPage = e.currentTarget.getAttribute('href').substring(1);
+        this.navigateTo(targetPage);
+      });
+    });
+    
+    // Mobile sidebar toggle
+    const sidebarOpen = document.getElementById('sidebar-open');
+    const sidebarClose = document.getElementById('sidebar-close');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (sidebarOpen && sidebarClose && sidebar) {
+      sidebarOpen.addEventListener('click', () => {
+        sidebar.classList.add('open');
+      });
       
-      if (timestampDisplay && metricData.timestamp) {
-        const date = metricData.timestamp.toDate ? 
-          metricData.timestamp.toDate() : new Date(metricData.timestamp);
-        timestampDisplay.textContent = `Last check: ${formatDate(date)}`;
-      }
+      sidebarClose.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+      });
     }
   }
-}
-
-// Format a date for display
-function formatDate(date) {
-  const options = { month: 'short', day: 'numeric', year: 'numeric' };
-  return date.toLocaleDateString('en-US', options);
-}
-
-function formatTime(date) {
-  const options = { hour: 'numeric', minute: 'numeric', hour12: true };
-  return date.toLocaleTimeString('en-US', options);
-}
-
-// Set up event listeners
-function setupEventListeners() {
-  // Navigation
-  setupNavigation();
   
-  // Module-specific listeners
-  setupModuleListeners();
-  
-  // Feeling buttons on dashboard
-  document.querySelectorAll('.feel-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const feeling = e.target.closest('.feel-btn').dataset.feeling;
-      recordUserFeeling(feeling);
-    });
-  });
-  
-  // Logout button
-  const logoutBtn = document.getElementById('btn-logout');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      app.userManager.logout();
-    });
+  /**
+   * Handle navigation based on URL hash
+   */
+  handleNavigation() {
+    const hash = window.location.hash.substring(1) || 'dashboard';
+    this.navigateTo(hash);
   }
   
-  // Notifications
-  setupNotifications();
-}
-
-// Set up navigation listeners
-function setupNavigation() {
-  // Sidebar navigation
-  document.querySelectorAll('.sidebar-nav a').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetPage = e.currentTarget.getAttribute('href').substring(1);
-      navigateTo(targetPage);
-    });
-  });
-  
-  // Mobile sidebar toggle
-  const sidebarOpen = document.getElementById('sidebar-open');
-  const sidebarClose = document.getElementById('sidebar-close');
-  const sidebar = document.querySelector('.sidebar');
-  
-  if (sidebarOpen && sidebarClose && sidebar) {
-    sidebarOpen.addEventListener('click', () => {
-      sidebar.classList.add('open');
+  /**
+   * Navigate to a specific page
+   */
+  navigateTo(page) {
+    // Clean up current active module
+    this.cleanupCurrentModule();
+    
+    // Hide all pages
+    document.querySelectorAll('.page-content').forEach(pageContent => {
+      pageContent.classList.remove('active');
     });
     
-    sidebarClose.addEventListener('click', () => {
-      sidebar.classList.remove('open');
+    // Update active nav item
+    document.querySelectorAll('.sidebar-nav li').forEach(item => {
+      item.classList.remove('active');
     });
-  }
-  
-  // Quick action buttons
-  document.querySelectorAll('.action-item').forEach(action => {
-    action.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetPage = e.currentTarget.getAttribute('href').substring(1);
-      navigateTo(targetPage);
-    });
-  });
-  
-  // Header quick buttons
-  const quickTestBtn = document.getElementById('quick-test');
-  const talkAssistantBtn = document.getElementById('talk-assistant');
-  
-  if (quickTestBtn) {
-    quickTestBtn.addEventListener('click', () => navigateTo('health-tests'));
-  }
-  
-  if (talkAssistantBtn) {
-    talkAssistantBtn.addEventListener('click', () => navigateTo('health-assistant'));
-  }
-}
-
-// Set up module-specific listeners
-function setupModuleListeners() {
-  // These will be set up when each module is loaded
-}
-
-// Handle navigation based on URL
-function handleNavigation() {
-  const hashPage = window.location.hash.substring(1) || 'dashboard';
-  navigateTo(hashPage);
-}
-
-// Navigate to a specific page
-function navigateTo(page) {
-  // Clean up current module if active
-  cleanupCurrentModule();
-  
-  // Hide all pages
-  document.querySelectorAll('.page-content').forEach(pageContent => {
-    pageContent.classList.remove('active');
-  });
-  
-  // Update active nav item
-  document.querySelectorAll('.sidebar-nav li').forEach(item => {
-    item.classList.remove('active');
-  });
-  
-  // Show selected page
-  let pageElement;
-  let sidebarItem;
-  
-  // Handle main pages vs. subpages
-  if (page.includes('/')) {
-    // This is a subpage (e.g., health-tests/skin)
-    const [mainPage, subPage] = page.split('/');
-    pageElement = document.getElementById(`${mainPage}-page`);
-    sidebarItem = document.querySelector(`.sidebar-nav li a[href="#${mainPage}"]`).parentElement;
     
-    // Load the appropriate module
-    loadModule(subPage);
-  } else {
-    // This is a main page
-    pageElement = document.getElementById(`${page}-page`);
-    sidebarItem = document.querySelector(`.sidebar-nav li a[href="#${page}"]`);
+    // Check if this is a subpage (e.g., health-tests/skin)
+    let pageElement;
+    let sidebarItem;
+    
+    if (page.includes('/')) {
+      // This is a subpage (e.g., health-tests/skin)
+      const [mainPage, subPage] = page.split('/');
+      pageElement = document.getElementById(`${mainPage}-page`);
+      sidebarItem = document.querySelector(`.sidebar-nav li a[href="#${mainPage}"]`);
+      
+      if (sidebarItem) {
+        sidebarItem = sidebarItem.parentElement;
+      }
+      
+      // Load the appropriate module
+      this.loadModule(mainPage, subPage);
+    } else {
+      // This is a main page
+      pageElement = document.getElementById(`${page}-page`);
+      sidebarItem = document.querySelector(`.sidebar-nav li a[href="#${page}"]`);
+      
+      if (sidebarItem) {
+        sidebarItem = sidebarItem.parentElement;
+      }
+      
+      // Handle special pages
+      this.loadMainPage(page);
+    }
+    
+    if (pageElement) {
+      pageElement.classList.add('active');
+      
+      // Update page title
+      document.getElementById('current-page-title').textContent = this.formatPageTitle(page);
+      
+      // Update URL hash
+      window.location.hash = `#${page}`;
+      
+      // Update current page state
+      this.currentPage = page;
+    } else {
+      console.error(`Page "${page}" not found`);
+      // Fallback to dashboard
+      this.navigateTo('dashboard');
+    }
     
     if (sidebarItem) {
-      sidebarItem = sidebarItem.parentElement;
-    }
-    
-    // Special handling for specific pages
-    if (page === 'health-tests') {
-      loadHealthTestsList();
-    } else if (page === 'health-assistant') {
-      initAssistant();
-    } else if (page === 'history') {
-      loadHistoryPage();
-    } else if (page === 'settings') {
-      loadSettingsPage();
-    } else if (page === 'dashboard') {
-      loadRecentActivity();
+      sidebarItem.classList.add('active');
     }
   }
   
-  if (pageElement && sidebarItem) {
-    pageElement.classList.add('active');
-    sidebarItem.classList.add('active');
-    document.getElementById('current-page-title').textContent = formatPageTitle(page);
+  /**
+   * Clean up current active module
+   */
+  cleanupCurrentModule() {
+    // Stop camera if it's active
+    if (this.activeModule === 'camera') {
+      // In a real app, this would call a method to stop the camera
+    }
     
-    // Update URL and app state
-    window.location.hash = `#${page}`;
-    app.currentPage = page;
-  }
-}
-
-// Clean up current module (stop camera, etc.)
-function cleanupCurrentModule() {
-  // Stop camera if it's active
-  if (app.camera.active) {
-    stopCamera();
+    this.activeModule = null;
   }
   
-  // Stop any active tests
-  if (app.activeModule === 'hearing' && app.tests.hearing.isRunning) {
-    app.tests.hearing.stopTest();
-  } else if (app.activeModule === 'vitals' && app.tests.vitals.measuring) {
-    app.tests.vitals.stopMeasurement();
-  } else if (app.activeModule === 'motion' && app.tests.motion.isRecording) {
-    app.tests.motion.stopRecording();
+  /**
+   * Load a main page
+   */
+  loadMainPage(page) {
+    switch (page) {
+      case 'dashboard':
+        this.dashboardManager.initializeDashboard();
+        break;
+      case 'health-tests':
+        this.healthTestsManager.initializeDashboard();
+        break;
+      case 'health-assistant':
+        this.initializeAssistant();
+        break;
+      case 'history':
+        this.loadHistoryPage();
+        break;
+      case 'settings':
+        this.loadSettingsPage();
+        break;
+    }
   }
   
-  app.activeModule = null;
-}
-
-// Format page title
-function formatPageTitle(page) {
-  if (page.includes('/')) {
-    const [mainPage, subPage] = page.split('/');
-    return `${formatString(subPage)} Test`;
+  /**
+   * Load a specific module
+   */
+  loadModule(mainPage, subPage) {
+    if (mainPage === 'health-tests') {
+      this.healthTestsManager.openTest(subPage);
+      this.activeModule = subPage;
+    }
   }
   
-  return formatString(page);
-}
-
-function formatString(str) {
-  return str
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
-
-// Show a toast notification
-function showToast(message, duration = 3000, actionButton = null, isError = false) {
-  // Create toast container if it doesn't exist
-  let toastContainer = document.getElementById('toast-container');
-  if (!toastContainer) {
-    toastContainer = document.createElement('div');
-    toastContainer.id = 'toast-container';
-    Object.assign(toastContainer.style, {
-      position: 'fixed',
-      bottom: '20px',
-      right: '20px',
-      zIndex: '1000',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '10px'
-    });
-    document.body.appendChild(toastContainer);
+  /**
+   * Initialize AI assistant
+   */
+  initializeAssistant() {
+    // Initialize if not already done
+    if (!this.assistantUI) {
+      // Load the assistant UI script
+      this.assistantUI = new AssistantUI();
+    }
   }
   
-  // Create toast element
-  const toast = document.createElement('div');
-  toast.className = isError ? 'toast toast-error' : 'toast';
-  Object.assign(toast.style, {
-    backgroundColor: isError ? '#fee2e2' : '#f0fdf4',
-    color: isError ? '#b91c1c' : '#166534',
-    borderRadius: '8px',
-    padding: '16px',
-    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    minWidth: '300px',
-    maxWidth: '400px',
-    border: isError ? '1px solid #fca5a5' : '1px solid #86efac'
-  });
-  
-  // Create message content
-  const messageDiv = document.createElement('div');
-  messageDiv.textContent = message;
-  toast.appendChild(messageDiv);
-  
-  // Add action button if provided
-  if (actionButton) {
-    toast.appendChild(actionButton);
-  }
-  
-  // Add close button
-  const closeBtn = document.createElement('button');
-  closeBtn.innerHTML = '×';
-  closeBtn.style.background = 'none';
-  closeBtn.style.border = 'none';
-  closeBtn.style.fontSize = '20px';
-  closeBtn.style.fontWeight = 'bold';
-  closeBtn.style.cursor = 'pointer';
-  closeBtn.style.marginLeft = '10px';
-  closeBtn.onclick = () => {
-    toast.style.opacity = '0';
-    setTimeout(() => {
-      if (toast.parentNode) {
-        toastContainer.removeChild(toast);
-      }
-    }, 300);
-  };
-  toast.appendChild(closeBtn);
-  
-  // Add toast to container
-  toastContainer.appendChild(toast);
-  
-  // Remove toast after specified duration
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transition = 'opacity 0.3s ease';
+  /**
+   * Load history page
+   */
+  loadHistoryPage() {
+    const historyPage = document.getElementById('history-page');
+    if (!historyPage) return;
     
-    setTimeout(() => {
-      if (toast.parentNode === toastContainer) {
-        toastContainer.removeChild(toast);
+    // Get all activities from localStorage
+    const activities = this.dashboardManager.loadActivities();
+    
+    // Sort by date, most recent first
+    activities.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    
+    // Group by month
+    const groupedActivities = this.groupActivitiesByMonth(activities);
+    
+    // Generate HTML
+    let historyHTML = `
+      <div class="history-header">
+        <h3>Your Health Activity</h3>
+        <div class="history-filters">
+          <div class="filter-group">
+            <label for="history-filter">Filter by:</label>
+            <select id="history-filter">
+              <option value="all">All Activities</option>
+              <option value="skin">Skin Analysis</option>
+              <option value="wound">Wound Assessment</option>
+              <option value="vision">Vision Tests</option>
+              <option value="hearing">Hearing Tests</option>
+              <option value="vitals">Vital Signs</option>
+              <option value="motion">Range of Motion</option>
+              <option value="assistant">AI Consultations</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="date-range">Time period:</label>
+            <select id="date-range">
+              <option value="week">Last 7 days</option>
+              <option value="month">Last 30 days</option>
+              <option value="year">Last year</option>
+              <option value="all">All time</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="history-timeline">
+    `;
+    
+    // Generate timeline for each month
+    for (const [month, monthActivities] of Object.entries(groupedActivities)) {
+      historyHTML += `
+        <div class="timeline-month">
+          <h4>${month}</h4>
+      `;
+      
+      // Group by day
+      const groupedByDay = this.groupActivitiesByDay(monthActivities);
+      
+      // Generate items for each day
+      for (const [day, dayActivities] of Object.entries(groupedByDay)) {
+        historyHTML += `
+          <div class="timeline-item">
+            <div class="timeline-date">
+              <div class="date-circle">${day}</div>
+              <div class="date-line"></div>
+            </div>
+            <div class="timeline-content">
+        `;
         
-        // Remove container if empty
-        if (toastContainer.children.length === 0) {
-          document.body.removeChild(toastContainer);
-        }
+        // Add each activity for this day
+        dayActivities.forEach(activity => {
+          const activityDate = new Date(activity.timestamp);
+          const formattedTime = this.dashboardManager.formatTime(activityDate);
+          
+          // Determine icon and title based on activity type
+          let icon, title;
+          
+          switch (activity.type) {
+            case 'skin':
+              icon = 'skin';
+              title = 'Skin Analysis Completed';
+              break;
+            case 'wound':
+              icon = 'wound';
+              title = 'Wound Assessment Completed';
+              break;
+            case 'vision':
+              icon = 'vision-test';
+              title = 'Vision Test Completed';
+              break;
+            case 'hearing':
+              icon = 'hearing-test';
+              title = 'Hearing Test Completed';
+              break;
+            case 'vitals':
+              icon = 'vitals';
+              title = 'Heart Rate Measured';
+              break;
+            case 'motion':
+              icon = 'motion';
+              title = 'Motion Test Completed';
+              break;
+            case 'feeling':
+              icon = 'feeling';
+              title = 'Feeling Recorded';
+              break;
+            case 'consultation':
+              icon = 'assistant';
+              title = 'AI Consultation';
+              break;
+            default:
+              icon = 'history';
+              title = 'Health Activity';
+          }
+          
+          historyHTML += `
+            <div class="activity-item">
+              <div class="activity-icon">
+                <img src="assets/images/icons/${icon}.svg" alt="${title}" 
+                     onerror="this.outerHTML='<div class=\\'icon-fallback\\'>${icon.charAt(0).toUpperCase()}</div>'">
+              </div>
+              <div class="activity-details">
+                <h4>${title}</h4>
+                <p>${activity.detail || 'No details available'}</p>
+                <span class="activity-date">${formattedTime}</span>
+              </div>
+            </div>
+          `;
+        });
+        
+        historyHTML += `
+            </div>
+          </div>
+        `;
       }
-    }, 300);
-  }, duration);
-}
-
-// Record user's feeling
-function recordUserFeeling(feeling) {
-  // Record the feeling in the database
-  app.userManager.addActivityRecord('feeling', `User reported feeling ${feeling}`);
-  
-  // Show a response based on feeling
-  let message;
-  switch (feeling) {
-    case 'great':
-      message = "That's wonderful! Keep up the healthy habits.";
-      break;
-    case 'good':
-      message = "Glad to hear you're doing well today!";
-      break;
-    case 'okay':
-      message = "Hope your day improves. Remember self-care is important.";
-      break;
-    case 'bad':
-      message = "I'm sorry to hear that. Would you like to talk to our AI assistant about how you're feeling?";
-      break;
-  }
-  
-  showToast(message);
-  
-  // If feeling bad, suggest talking to the assistant
-  if (feeling === 'bad') {
-    setTimeout(() => {
-      const talkBtn = document.createElement('button');
-      talkBtn.className = 'btn-primary';
-      talkBtn.textContent = 'Talk to Assistant';
-      talkBtn.addEventListener('click', () => {
-        navigateTo('health-assistant');
-      });
       
-      showToast("Our AI assistant can help recommend tests or provide guidance.", 5000, talkBtn);
-    }, 2000);
-  }
-}
-
-// Set up notifications
-function setupNotifications() {
-  const notificationsToggle = document.getElementById('notifications-toggle');
-  const notificationsPanel = document.getElementById('notifications-panel');
-  const notificationsClose = document.getElementById('notifications-close');
-  const markAllRead = document.querySelector('.mark-all-read');
-  
-  if (notificationsToggle && notificationsPanel) {
-    notificationsToggle.addEventListener('click', () => {
-      notificationsPanel.classList.toggle('open');
-      document.getElementById('modal-backdrop').classList.toggle('open');
-    });
+      historyHTML += `
+        </div>
+      `;
+    }
     
-    notificationsClose.addEventListener('click', () => {
-      notificationsPanel.classList.remove('open');
-      document.getElementById('modal-backdrop').classList.remove('open');
-    });
-    
-    // Close when clicking outside
-    document.getElementById('modal-backdrop').addEventListener('click', () => {
-      notificationsPanel.classList.remove('open');
-      document.getElementById('modal-backdrop').classList.remove('open');
-    });
-    
-    // Mark all as read
-    markAllRead.addEventListener('click', () => {
-      document.querySelectorAll('.notification-item.unread').forEach(item => {
-        item.classList.remove('unread');
-      });
+    historyHTML += `
+      </div>
       
-      // Hide notification indicator
-      document.querySelector('.notification-indicator').style.display = 'none';
-    });
-  }
-}
-
-// Load recent activity on dashboard
-async function loadRecentActivity() {
-  // Get activity from Firebase
-  const activities = await app.userManager.getActivityHistory(3);
-  const activityList = document.querySelector('.activity-list');
-  
-  if (!activityList) return;
-  
-  if (!activities || activities.length === 0) {
-    // No activities yet
-    activityList.innerHTML = `
-      <div class="no-activity">
-        <p>No activities recorded yet. Try some health tests to see your activity here.</p>
+      <div class="history-export">
+        <button id="export-history" class="btn-primary">
+          <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 2v10m-4-4l4 4 4-4" stroke="#fff" stroke-width="2" fill="none"/><path d="M3 12v4h14v-4" stroke="#fff" stroke-width="2" fill="none"/></svg>
+          Export Health Data
+        </button>
       </div>
     `;
-    return;
+    
+    // Set the history page HTML
+    historyPage.innerHTML = historyHTML;
+    
+    // Add event listeners
+    this.setupHistoryEventListeners();
   }
   
-  // Clear existing activities
-  activityList.innerHTML = '';
+  /**
+   * Group activities by month
+   */
+  groupActivitiesByMonth(activities) {
+    const grouped = {};
+    
+    activities.forEach(activity => {
+      const date = new Date(activity.timestamp);
+      const monthKey = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+      
+      if (!grouped[monthKey]) {
+        grouped[monthKey] = [];
+      }
+      
+      grouped[monthKey].push(activity);
+    });
+    
+    return grouped;
+  }
   
-  // Add recent activities
-  activities.forEach(activity => {
-    const activityItem = document.createElement('div');
-    activityItem.className = 'activity-item';
+  /**
+   * Group activities by day
+   */
+  groupActivitiesByDay(activities) {
+    const grouped = {};
     
-    // Determine icon and details based on activity type
-    let icon, title, details;
+    activities.forEach(activity => {
+      const date = new Date(activity.timestamp);
+      const dayKey = date.getDate().toString();
+      
+      if (!grouped[dayKey]) {
+        grouped[dayKey] = [];
+      }
+      
+      grouped[dayKey].push(activity);
+    });
     
-    switch (activity.type) {
-      case 'skin':
-        icon = 'skin';
-        title = 'Skin Analysis Completed';
-        details = activity.detail || 'Skin analysis performed';
+    // Sort keys in descending order (most recent day first)
+    return Object.fromEntries(
+      Object.entries(grouped).sort((a, b) => parseInt(b[0]) - parseInt(a[0]))
+    );
+  }
+  
+  /**
+   * Set up event listeners for history page
+   */
+  setupHistoryEventListeners() {
+    const filterSelect = document.getElementById('history-filter');
+    const dateRangeSelect = document.getElementById('date-range');
+    const exportButton = document.getElementById('export-history');
+    
+    if (filterSelect) {
+      filterSelect.addEventListener('change', () => {
+        this.filterHistory();
+      });
+    }
+    
+    if (dateRangeSelect) {
+      dateRangeSelect.addEventListener('change', () => {
+        this.filterHistory();
+      });
+    }
+    
+    if (exportButton) {
+      exportButton.addEventListener('click', () => {
+        this.exportHealthData();
+      });
+    }
+  }
+  
+  /**
+   * Filter history based on selected options
+   */
+  filterHistory() {
+    const filterType = document.getElementById('history-filter').value;
+    const dateRange = document.getElementById('date-range').value;
+    
+    // Get all activities
+    let activities = this.dashboardManager.loadActivities();
+    
+    // Filter by type if not "all"
+    if (filterType !== 'all') {
+      activities = activities.filter(activity => activity.type === filterType);
+    }
+    
+    // Filter by date range
+    const now = new Date();
+    let cutoffDate;
+    
+    switch (dateRange) {
+      case 'week':
+        cutoffDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
         break;
-      case 'wound':
-        icon = 'wound';
-        title = 'Wound Assessment Completed';
-        details = activity.detail || 'Wound assessment performed';
+      case 'month':
+        cutoffDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
         break;
-      case 'vision':
-        icon = 'vision-test';
-        title = 'Vision Test Completed';
-        details = activity.detail || 'Vision test performed';
-        break;
-      case 'hearing':
-        icon = 'hearing-test';
-        title = 'Hearing Test Completed';
-        details = activity.detail || 'Hearing test performed';
-        break;
-      case 'vitals':
-        icon = 'heart';
-        title = 'Heart Rate Measured';
-        details = activity.detail || 'Vitals check performed';
-        break;
-      case 'motion':
-        icon = 'motion';
-        title = 'Motion Test Completed';
-        details = activity.detail || 'Motion test performed';
-        break;
-      case 'consultation':
-        icon = 'assistant';
-        title = 'AI Consultation';
-        details = activity.detail || 'Consultation with AI assistant';
+      case 'year':
+        cutoffDate = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
         break;
       default:
-        icon = 'history';
-        title = 'Health Activity';
-        details = activity.detail || 'Health activity recorded';
+        cutoffDate = new Date(0); // Beginning of time
     }
     
-    // Format timestamp
-    const timestamp = new Date(activity.timestamp);
-    
-    activityItem.innerHTML = `
-      <div class="activity-icon">
-        <img src="assets/images/icons/${icon}.svg" alt="${title}">
-      </div>
-      <div class="activity-details">
-        <h4>${title}</h4>
-        <p>${details}</p>
-        <span class="activity-date">${formatDate(timestamp)} - ${formatTime(timestamp)}</span>
-      </div>
-    `;
-    
-    activityList.appendChild(activityItem);
-  });
-}
-
-// Load health tests list
-function loadHealthTestsList() {
-  const healthTestsPage = document.getElementById('health-tests-page');
-  
-  healthTestsPage.innerHTML = `
-    <div class="tests-container">
-      <h3>Available Health Tests</h3>
-      <p class="module-description">Select a test to begin your health assessment</p>
-      
-      <div class="tests-grid">
-        <div class="test-card" data-test="skin">
-          <div class="test-icon skin">
-            <img src="assets/images/icons/skin.svg" alt="Skin Analysis">
-          </div>
-          <div class="test-info">
-            <h4>Skin Analysis</h4>
-            <p>Analyze skin conditions, lesions, and rashes</p>
-          </div>
-        </div>
-        
-        <div class="test-card" data-test="wound">
-          <div class="test-icon wound">
-            <img src="assets/images/icons/wound.svg" alt="Wound Assessment">
-          </div>
-          <div class="test-info">
-            <h4>Wound Assessment</h4>
-            <p>Check wounds for signs of infection or healing</p>
-          </div>
-        </div>
-        
-        <div class="test-card" data-test="vision">
-          <div class="test-icon vision-test">
-            <img src="assets/images/icons/vision-test.svg" alt="Vision Tests">
-          </div>
-          <div class="test-info">
-            <h4>Vision Tests</h4>
-            <p>Basic vision screening tests and eye exams</p>
-          </div>
-        </div>
-        
-        <div class="test-card" data-test="hearing">
-          <div class="test-icon hearing-test">
-            <img src="assets/images/icons/hearing-test.svg" alt="Hearing Tests">
-          </div>
-          <div class="test-info">
-            <h4>Hearing Tests</h4>
-            <p>Hearing screening and frequency tests</p>
-          </div>
-        </div>
-        
-        <div class="test-card" data-test="vitals">
-          <div class="test-icon vitals">
-            <img src="assets/images/icons/vitals.svg" alt="Vital Signs">
-          </div>
-          <div class="test-info">
-            <h4>Vital Signs</h4>
-            <p>Measure heart rate and other vital metrics</p>
-          </div>
-        </div>
-        
-        <div class="test-card" data-test="motion">
-          <div class="test-icon motion">
-            <img src="assets/images/icons/motion.svg" alt="Range of Motion">
-          </div>
-          <div class="test-info">
-            <h4>Range of Motion</h4>
-            <p>Analyze joint flexibility and movement range</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-  
-  // Add event listeners to test cards
-  document.querySelectorAll('.test-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const testType = card.dataset.test;
-      navigateTo(`health-tests/${testType}`);
-    });
-  });
-}
-
-// Load and initialize a specific test module
-function loadModule(moduleType) {
-  app.activeModule = moduleType;
-  
-  // Load the module implementation based on type
-  switch (moduleType) {
-    case 'skin':
-      loadSkinModule();
-      break;
-    case 'wound':
-      loadWoundModule();
-      break;
-    case 'vision':
-      loadVisionModule();
-      break;
-    case 'hearing':
-      loadHearingModule();
-      break;
-    case 'vitals':
-      loadVitalsModule();
-      break;
-    case 'motion':
-      loadMotionModule();
-      break;
-    default:
-      showToast(`Module ${moduleType} not implemented yet`, true);
-  }
-}
-
-// Load skin analysis module
-function loadSkinModule() {
-  const healthTestsPage = document.getElementById('health-tests-page');
-  
-  // Check if model is loaded
-  if (!app.models.skin) {
-    showToast('Skin analysis model is still loading. Please wait.', true);
-    
-    // Show a loading indicator
-    healthTestsPage.innerHTML = `
-      <button class="btn-secondary back-btn">
-        <img src="assets/images/icons/arrow-left.svg" alt="Back"> Back to Tests
-      </button>
-      
-      <h3>Skin Analysis</h3>
-      <p class="module-description">Analyzing skin conditions, lesions, and rashes</p>
-      
-      <div class="loading-container">
-        <div class="spinner"></div>
-        <p>Loading skin analysis model...</p>
-      </div>
-    `;
-    
-    document.querySelector('.back-btn').addEventListener('click', () => {
-      navigateTo('health-tests');
+    activities = activities.filter(activity => {
+      const activityDate = new Date(activity.timestamp);
+      return activityDate >= cutoffDate;
     });
     
-    return;
-  }
-  
-  // Render skin module UI
-  healthTestsPage.innerHTML = `
-    <button class="btn-secondary back-btn">
-      <img src="assets/images/icons/arrow-left.svg" alt="Back"> Back to Tests
-    </button>
-    
-    <h3>Skin Analysis</h3>
-    <p class="module-description">Analyze skin lesions, rashes, and other conditions. Capture a clear image of the affected area.</p>
-    
-    <div class="camera-container">
-      <video id="video-skin" autoplay playsinline></video>
-      <div id="focus-indicator" class="focus-indicator"></div>
-      <div id="guidance-container" class="guidance-container">
-        <div id="guidance-message" class="guidance-message">Aligning camera...</div>
-        <div class="guidance-progress">
-          <div id="guidance-progress-bar" class="guidance-progress-bar" style="width: 0%"></div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="button-container">
-      <button id="capture-skin" class="primary-button">Capture Image</button>
-      <button id="switch-camera" class="secondary-button">Switch Camera</button>
-    </div>
-    
-    <div id="results-skin" class="results-container">
-      <h3>Analysis Results</h3>
-      <p class="no-results">No analyses yet. Capture an image to begin.</p>
-    </div>
-  `;
-  
-  // Add event listeners
-  document.querySelector('.back-btn').addEventListener('click', () => {
-    navigateTo('health-tests');
-  });
-  
-  document.getElementById('capture-skin').addEventListener('click', captureSkinImageHandler);
-  document.getElementById('switch-camera').addEventListener('click', switchCamera);
-  
-  // Initialize camera
-  initializeCamera('video-skin');
-}
-
-// Handle skin image capture and analysis
-async function captureSkinImageHandler() {
-  const videoElement = document.getElementById('video-skin');
-  const resultsContainer = document.getElementById('results-skin');
-  const captureButton = document.getElementById('capture-skin');
-  
-  // Change button state
-  captureButton.textContent = 'Processing...';
-  captureButton.disabled = true;
-  
-  try {
-    // Get focus quality from the UI
-    const focusIndicator = document.getElementById('focus-indicator');
-    const focusQuality = focusIndicator.classList.contains('good') ? 0.9 : 
-                         focusIndicator.classList.contains('bad') ? 0.3 : 0.6;
-    
-    // Capture the image
-    const imageData = captureSkinImage(videoElement, focusQuality);
-    
-    // Analyze the image
-    const analysisResult = await analyzeSkinImage(app.models.skin.model, imageData.processingCanvas);
-    
-    // Display results
-    displaySkinResults(analysisResult, imageData.imageDataUrl, focusQuality);
-    
-    // Record activity
-    app.userManager.addActivityRecord(
-      'skin', 
-      `Analysis: ${analysisResult.results[0].display} (${Math.round(analysisResult.results[0].confidence * 100)}% confidence)`,
-      analysisResult
-    );
-  } catch (error) {
-    console.error('Error capturing image:', error);
-    showToast('Error processing image. Please try again.', true);
-  } finally {
-    // Reset button state
-    captureButton.textContent = 'Capture Image';
-    captureButton.disabled = false;
-  }
-}
-
-// Display skin analysis results
-function displaySkinResults(analysis, imageDataUrl, imageQuality) {
-  const resultsContainer = document.getElementById('results-skin');
-  const timestamp = new Date().toLocaleString();
-  
-  // Remove "no results" message if present
-  const noResults = resultsContainer.querySelector('.no-results');
-  if (noResults) {
-    resultsContainer.removeChild(noResults);
-  }
-  
-  // Create result item
-  const resultItem = document.createElement('div');
-  resultItem.className = 'result-item';
-  
-  // Top 3 conditions from results
-  const topResults = analysis.results.slice(0, 3);
-  
-  // Format alert based on risk assessment
-  const alertClass = analysis.riskAssessment.level === 'high' ? 'alert-danger' : 
-                    analysis.riskAssessment.level === 'moderate' ? 'alert-warning' : 
-                    'alert-info';
-  
-  // Format top result bars
-  const resultBars = topResults.map(result => {
-    const percent = (result.confidence * 100).toFixed(1);
-    let confidenceClass = 'confidence-low';
-    
-    if (result.confidence > 0.7) {
-      confidenceClass = 'confidence-high';
-    } else if (result.confidence > 0.4) {
-      confidenceClass = 'confidence-medium';
-    }
-    
-    return `
-      <div class="detail-row">
-        <span class="detail-label">${result.display}</span>
-        <div class="detail-bar-container">
-          <div class="detail-bar ${confidenceClass}" style="width: ${percent}%"></div>
-        </div>
-        <span class="detail-percentage">${percent}%</span>
-      </div>
-    `;
-  }).join('');
-  
-  // Add image quality warning if poor
-  const qualityWarning = imageQuality < 0.5 ? 
-    `<div class="alert-box alert-warning">
-      <strong>Low image quality.</strong> Results may be less reliable. Try again with better lighting and focus.
-    </div>` : '';
-  
-  // Build HTML for the result
-  resultItem.innerHTML = `
-    <div class="result-header">
-      <h4 class="result-title">Skin Analysis</h4>
-      <span class="result-timestamp">${timestamp}</span>
-    </div>
-    <div class="result-content">
-      <img src="${imageDataUrl}" class="result-image" alt="Analyzed skin">
-      <div class="result-details">
-        <div class="detail-row">
-          <span class="detail-label">Primary Assessment:</span>
-          <span class="detail-value">${topResults[0].display}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">Confidence:</span>
-          <span class="detail-value">${(topResults[0].confidence * 100).toFixed(1)}%</span>
-        </div>
-        <h5>Other Potential Matches:</h5>
-        ${resultBars}
-        ${qualityWarning}
-        <div class="alert-box ${alertClass}">
-          <strong>${analysis.riskAssessment.recommendation.level === 'high' ? 'High concern detected.' : 
-                   analysis.riskAssessment.recommendation.level === 'moderate' ? 'Moderate concern.' : 
-                   'Low concern.'}</strong>
-          <p>${analysis.riskAssessment.recommendation.message}</p>
-        </div>
-      </div>
-    </div>
-  `;
-  
-  // Add to results container (at the top)
-  resultsContainer.insertBefore(resultItem, resultsContainer.firstChild);
-  
-  // Store results
-  app.results.skin.unshift({
-    timestamp: timestamp,
-    image: imageDataUrl,
-    results: analysis
-  });
-  
-  // Limit stored results to 10
-  if (app.results.skin.length > 10) {
-    app.results.skin.pop();
-  }
-  
-  // Update dashboard
-  loadRecentActivity();
-}
-
-// Wound assessment module implementation
-function loadWoundModule() {
-  // Similar to skin module, implement wound assessment
-  // ...
-}
-
-// Vision test module implementation
-function loadVisionModule() {
-  // Implement vision test
-  // ...
-}
-
-// Hearing test module implementation
-function loadHearingModule() {
-  // Implement hearing test
-  // ...
-}
-
-// Vitals measurement module implementation
-function loadVitalsModule() {
-  // Implement vitals measurement
-  // ...
-}
-
-// Range of motion module implementation
-function loadMotionModule() {
-  // Implement range of motion assessment
-  // ...
-}
-
-// Load history page
-function loadHistoryPage() {
-  // Implement history page
-  // ...
-}
-
-// Load settings page
-function loadSettingsPage() {
-  // Implement settings page
-  // ...
-}
-
-// Initialize AI assistant
-function initAssistant() {
-  // Implement AI assistant functionality
-  // ...
-}
-
-// Camera management functions
-function initializeCamera(videoElementId) {
-  const videoElement = document.getElementById(videoElementId);
-  if (!videoElement) return;
-  
-  // Check if camera is supported
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    showToast('Camera not supported in this browser.', true);
-    return;
-  }
-  
-  // Update camera status in UI
-  const cameraStatus = document.getElementById('camera-status');
-  if (cameraStatus) {
-    cameraStatus.textContent = 'Requesting access...';
-  }
-  
-  // Request camera access
-  const constraints = {
-    video: { 
-      facingMode: app.camera.facingMode,
-      width: { ideal: 1280 },
-      height: { ideal: 720 }
-    }
-  };
-  
-  navigator.mediaDevices.getUserMedia(constraints)
-    .then(stream => {
-      // Store the stream
-      app.camera.stream = stream;
-      app.camera.active = true;
-      
-      // Connect stream to video element
-      videoElement.srcObject = stream;
-      
-      // Update camera status
-      if (cameraStatus) {
-        cameraStatus.textContent = 'Ready';
-        cameraStatus.className = 'status-ready';
+    // Re-render history page with filtered activities
+    if (activities.length === 0) {
+      // No activities match the filter
+      const historyTimeline = document.querySelector('.history-timeline');
+      if (historyTimeline) {
+        historyTimeline.innerHTML = `
+          <div class="no-history">
+            <p>No activities match your filter criteria.</p>
+          </div>
+        `;
       }
-      
-      // Set up focus checking if this is the skin module
-      if (videoElementId === 'video-skin') {
-        setupFocusChecking();
-      }
-    })
-    .catch(error => {
-      console.error('Error accessing camera:', error);
-      
-      if (cameraStatus) {
-        cameraStatus.textContent = 'Access denied';
-        cameraStatus.className = 'status-error';
-      }
-      
-      showToast('Could not access camera. Please check permissions.', true);
-    });
-}
-
-function stopCamera() {
-  if (app.camera.stream) {
-    app.camera.stream.getTracks().forEach(track => track.stop());
-    app.camera.stream = null;
-    app.camera.active = false;
-  }
-}
-
-function switchCamera() {
-  // Stop current camera
-  stopCamera();
-  
-  // Switch camera mode
-  app.camera.facingMode = app.camera.facingMode === 'environment' ? 'user' : 'environment';
-  
-  // Reinitialize with new camera
-  const videoId = `video-${app.activeModule}`;
-  initializeCamera(videoId);
-}
-
-function setupFocusChecking() {
-  const videoElement = document.getElementById('video-skin');
-  const focusIndicator = document.getElementById('focus-indicator');
-  const guidanceMessage = document.getElementById('guidance-message');
-  const progressBar = document.getElementById('guidance-progress-bar');
-  
-  // Check focus quality periodically
-  const focusCheckInterval = setInterval(() => {
-    if (!app.camera.active) {
-      clearInterval(focusCheckInterval);
-      return;
-    }
-    
-    // In a real implementation, this would analyze the image sharpness
-    // For demo, we'll just randomize focus quality
-    const randomQuality = Math.random();
-    
-    if (randomQuality > 0.7) {
-      // Good focus
-      focusIndicator.className = 'focus-indicator good';
-      guidanceMessage.textContent = 'Good focus! Ready to capture.';
-      progressBar.style.width = '100%';
-      
-      // Enable capture button with visual cue
-      const captureButton = document.getElementById('capture-skin');
-      captureButton.classList.add('pulse-animation');
-    } else if (randomQuality > 0.4) {
-      // Moderate focus
-      focusIndicator.className = 'focus-indicator';
-      guidanceMessage.textContent = 'Hold steady for better focus...';
-      progressBar.style.width = '50%';
     } else {
-      // Poor focus
-      focusIndicator.className = 'focus-indicator bad';
-      guidanceMessage.textContent = 'Focus is poor. Move closer or check lighting.';
-      progressBar.style.width = '20%';
+      // Reload the history page with filtered activities
+      this.loadHistoryPage();
     }
-  }, 1000);
+  }
+  
+  /**
+   * Export health data as JSON
+   */
+  exportHealthData() {
+    // Collect all health data
+    const exportData = {
+      userProfile: this.dashboardManager.userProfile,
+      healthMetrics: this.dashboardManager.healthMetrics,
+      activities: this.dashboardManager.activities,
+      testResults: this.healthTestsManager.savedResults
+    };
+    
+    // Convert to JSON string
+    const jsonString = JSON.stringify(exportData, null, 2);
+    
+    // Create download link
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonString);
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "health_data_export.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }
+  
+  /**
+   * Load settings page
+   */
+  loadSettingsPage() {
+    const settingsPage = document.getElementById('settings-page');
+    if (!settingsPage) return;
+    
+    // No need to implement this for the demo
+    // The settings page HTML is already in the template
+    
+    // Just add event listeners for the settings functionality
+    this.setupSettingsEventListeners();
+  }
+  
+  /**
+   * Set up event listeners for settings page
+   */
+  setupSettingsEventListeners() {
+    // Tab switching
+    document.querySelectorAll('.settings-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetTab = tab.dataset.tab;
+        
+        // Update active tab
+        document.querySelectorAll('.settings-tab').forEach(t => {
+          t.classList.remove('active');
+        });
+        tab.classList.add('active');
+        
+        // Show corresponding section
+        document.querySelectorAll('.settings-section').forEach(section => {
+          section.classList.remove('active');
+        });
+        document.getElementById(`${targetTab}-settings`).classList.add('active');
+      });
+    });
+    
+    // Profile form submission
+    const profileForm = document.getElementById('profile-form');
+    if (profileForm) {
+      profileForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Get form data
+        const name = document.getElementById('profile-display-name').value;
+        const dob = document.getElementById('profile-dob').value;
+        const gender = document.querySelector('input[name="gender"]:checked')?.value;
+        const height = document.getElementById('profile-height').value;
+        const heightUnit = document.getElementById('height-unit').value;
+        const weight = document.getElementById('profile-weight').value;
+        const weightUnit = document.getElementById('weight-unit').value;
+        
+        // Get selected medical conditions
+        const conditionCheckboxes = document.querySelectorAll('input[name="conditions"]:checked');
+        const conditions = Array.from(conditionCheckboxes).map(cb => cb.value);
+        
+        // Create profile object
+        const profile = {
+          ...this.dashboardManager.userProfile,
+          name,
+          dob,
+          gender,
+          height,
+          heightUnit,
+          weight,
+          weightUnit,
+          conditions
+        };
+        
+        // Save profile
+        this.dashboardManager.saveUserProfile(profile);
+        
+        // Show success message
+        alert('Profile updated successfully!');
+      });
+    }
+  }
+  
+  /**
+   * Format page title from URL path
+   */
+  formatPageTitle(page) {
+    if (page.includes('/')) {
+      const [mainPage, subPage] = page.split('/');
+      return `${this.formatString(subPage)} Test`;
+    }
+    
+    return this.formatString(page);
+  }
+  
+  /**
+   * Format string for display (capitalize words, replace hyphens)
+   */
+  formatString(str) {
+    return str
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
 }
 
-// Export the app object for debugging
-window.app = app;
+// Initialize the app when the DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  window.healthApp = new App();
+});
+
+// Make app global for debugging
+window.App = App;
