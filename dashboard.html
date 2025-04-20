@@ -10,6 +10,98 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Additional styles for new functionality */
+    .no-data-message {
+      padding: 20px;
+      text-align: center;
+      color: var(--text-secondary);
+    }
+    
+    .reminder-actions {
+      display: flex;
+      margin-left: auto;
+    }
+    
+    .reminder-delete {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 4px;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    
+    .reminder-delete:hover {
+      opacity: 1;
+      color: var(--danger);
+    }
+    
+    .reminder-form {
+      display: none;
+      margin-top: 16px;
+    }
+    
+    .reminder-form.active {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .reminder-form input {
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    
+    .reminder-form-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .reminder-item {
+      display: flex;
+      align-items: flex-start;
+      position: relative;
+    }
+    
+    .reminder-details {
+      flex: 1;
+      margin-right: 8px;
+    }
+
+    /* Feeling buttons styles */
+    .feel-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    
+    .feel-btn {
+      background: none;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .feel-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .feel-btn.active {
+      border-color: var(--primary);
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+  </style>
 </head>
 <body class="app-body">
   <!-- Sidebar Navigation -->
@@ -24,8 +116,6 @@
       </button>
     </div>
     <div class="user-info">
-      <h3 id="user-name">User</h3>
-      <p id="user-email">user@email.com</p>
     </div>
     <nav class="sidebar-nav">
       <ul>
@@ -90,11 +180,6 @@
         <h2 id="current-page-title">Dashboard</h2>
       </div>
       <div class="header-actions">
-        <button id="notifications-toggle" class="btn-icon">
-          <!-- Bell icon -->
-          <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 22a2 2 0 002-2H10a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5l-2 2v1h16v-1l-2-2z" fill="#F59E42"/></svg>
-          <span class="notification-indicator"></span>
-        </button>
         <div class="quick-actions">
           <button id="quick-test" class="btn-secondary" onclick="window.location.href='health-tests.html'">
             <span>Quick Test</span>
@@ -110,7 +195,7 @@
       <div class="dashboard-page page-content active" id="dashboard-page">
         <div class="welcome-banner">
           <div class="welcome-text">
-            <h3>Welcome back, <span id="welcome-name">User</span>!</h3>
+            <h3>Welcome back<span id="welcome-name"></span></h3>
             <p>Your health journey continues. How are you feeling today?</p>
           </div>
           <div class="feel-buttons">
@@ -124,40 +209,8 @@
           <!-- Health Metrics -->
           <section class="dashboard-card health-metrics">
             <h3>Health Metrics</h3>
-            <div class="metrics-list">
-              <div class="metric-item">
-                <div class="metric-icon pulse-rate">
-                  <!-- Heart SVG -->
-                  <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 21s-6-4.35-9-8.5C-1.5 7.5 4.5 3 12 10.5 19.5 3 25.5 7.5 21 12.5 18 16.65 12 21 12 21z" fill="#F87171"/></svg>
-                </div>
-                <div class="metric-data">
-                  <h4>Heart Rate</h4>
-                  <p>72 <span>bpm</span></p>
-                  <span class="metric-date">Last check: Apr 16, 2025</span>
-                </div>
-              </div>
-              <div class="metric-item">
-                <div class="metric-icon vision">
-                  <!-- Eye SVG -->
-                  <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="6" fill="#2563EB"/><circle cx="12" cy="12" r="3" fill="#1E3A8A"/></svg>
-                </div>
-                <div class="metric-data">
-                  <h4>Vision</h4>
-                  <p>20/30</p>
-                  <span class="metric-date">Last check: Apr 15, 2025</span>
-                </div>
-              </div>
-              <div class="metric-item">
-                <div class="metric-icon hearing">
-                  <!-- Ear SVG -->
-                  <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12c0 5 4 9 9 9s9-4 9-9c0-5-4-9-9-9zm0 16a7 7 0 110-14 7 7 0 010 14z" fill="#059669"/></svg>
-                </div>
-                <div class="metric-data">
-                  <h4>Hearing</h4>
-                  <p>Normal</p>
-                  <span class="metric-date">Last check: Apr 10, 2025</span>
-                </div>
-              </div>
+            <div class="metrics-list" id="metrics-list">
+              <!-- Health metrics will be loaded dynamically -->
             </div>
           </section>
           
@@ -165,42 +218,42 @@
           <section class="dashboard-card quick-actions-card">
             <h3>Quick Actions</h3>
             <div class="actions-grid">
-              <a href="health-tests.html" class="action-item" data-test="skin">
+              <a href="health-tests.html?test=skin" class="action-item" data-test="skin">
                 <div class="action-icon skin">
                   <!-- Skin SVG -->
                   <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="16" rx="8" ry="6" fill="#F59E42"/><ellipse cx="12" cy="10" rx="6" ry="4" fill="#FBBF24"/></svg>
                 </div>
                 <span>Skin Analysis</span>
               </a>
-              <a href="health-tests.html" class="action-item" data-test="wound">
+              <a href="health-tests.html?test=wound" class="action-item" data-test="wound">
                 <div class="action-icon wound">
                   <!-- Wound SVG -->
                   <svg width="24" height="24" viewBox="0 0 24 24"><rect x="8" y="11" width="8" height="2" rx="1" fill="#B91C1C"/><rect x="11" y="8" width="2" height="8" rx="1" fill="#B91C1C"/></svg>
                 </div>
                 <span>Wound Check</span>
               </a>
-              <a href="health-tests.html" class="action-item" data-test="vision">
+              <a href="health-tests.html?test=vision" class="action-item" data-test="vision">
                 <div class="action-icon vision-test">
                   <!-- Vision SVG -->
                   <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="6" fill="#2563EB"/><circle cx="12" cy="12" r="3" fill="#1E3A8A"/></svg>
                 </div>
                 <span>Vision Test</span>
               </a>
-              <a href="health-tests.html" class="action-item" data-test="hearing">
+              <a href="health-tests.html?test=hearing" class="action-item" data-test="hearing">
                 <div class="action-icon hearing-test">
                   <!-- Hearing SVG -->
                   <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12c0 5 4 9 9 9s9-4 9-9c0-5-4-9-9-9zm0 16a7 7 0 110-14 7 7 0 010 14z" fill="#059669"/></svg>
                 </div>
                 <span>Hearing Test</span>
               </a>
-              <a href="health-tests.html" class="action-item" data-test="vitals">
+              <a href="health-tests.html?test=vitals" class="action-item" data-test="vitals">
                 <div class="action-icon vitals">
                   <!-- Vitals SVG -->
                   <svg width="24" height="24" viewBox="0 0 24 24"><path d="M4 12h4l2 6 4-12 2 6h4" stroke="#B91C1C" stroke-width="2" fill="none"/></svg>
                 </div>
                 <span>Check Vitals</span>
               </a>
-              <a href="health-tests.html" class="action-item" data-test="motion">
+              <a href="health-tests.html?test=motion" class="action-item" data-test="motion">
                 <div class="action-icon motion">
                   <!-- Motion SVG -->
                   <svg width="24" height="24" viewBox="0 0 24 24"><rect x="8" y="4" width="8" height="16" rx="4" fill="#6366F1"/></svg>
@@ -213,40 +266,8 @@
           <!-- Recent Activity -->
           <section class="dashboard-card recent-activity">
             <h3>Recent Activity</h3>
-            <div class="activity-list">
-              <div class="activity-item">
-                <div class="activity-icon">
-                  <!-- Vision SVG -->
-                  <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="6" fill="#2563EB"/><circle cx="12" cy="12" r="3" fill="#1E3A8A"/></svg>
-                </div>
-                <div class="activity-details">
-                  <h4>Vision Test Completed</h4>
-                  <p>Result: 20/30 - Mild visual impairment</p>
-                  <span class="activity-date">Apr 15, 2025 - 2:45 PM</span>
-                </div>
-              </div>
-              <div class="activity-item">
-                <div class="activity-icon">
-                  <!-- Heart SVG -->
-                  <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 21s-6-4.35-9-8.5C-1.5 7.5 4.5 3 12 10.5 19.5 3 25.5 7.5 21 12.5 18 16.65 12 21 12 21z" fill="#F87171"/></svg>
-                </div>
-                <div class="activity-details">
-                  <h4>Heart Rate Measured</h4>
-                  <p>Result: 72 bpm - Normal</p>
-                  <span class="activity-date">Apr 16, 2025 - 9:30 AM</span>
-                </div>
-              </div>
-              <div class="activity-item">
-                <div class="activity-icon">
-                  <!-- Assistant SVG -->
-                  <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#F59E42"/><ellipse cx="12" cy="15" rx="5" ry="2" fill="#fff"/></svg>
-                </div>
-                <div class="activity-details">
-                  <h4>AI Consultation</h4>
-                  <p>Topic: Headache and fatigue</p>
-                  <span class="activity-date">Apr 14, 2025 - 4:15 PM</span>
-                </div>
-              </div>
+            <div class="activity-list" id="activity-list">
+              <!-- Recent activity will be loaded dynamically -->
             </div>
             <a href="history.html" class="view-all">View all activity</a>
           </section>
@@ -254,45 +275,18 @@
           <!-- Upcoming Reminders -->
           <section class="dashboard-card reminders">
             <h3>Reminders</h3>
-            <div class="reminders-list">
-              <div class="reminder-item">
-                <div class="reminder-checkbox">
-                  <!-- Checkbox SVG for unchecked -->
-                  <svg width="20" height="20" viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" rx="4" fill="#F3F4F6" stroke="#A1A1AA" stroke-width="2"/></svg>
-                  <input type="checkbox" id="reminder-1">
-                  <label for="reminder-1"></label>
-                </div>
-                <div class="reminder-details">
-                  <h4>Hearing Test Follow-up</h4>
-                  <p>Due in 2 days</p>
-                </div>
-              </div>
-              <div class="reminder-item">
-                <div class="reminder-checkbox">
-                  <!-- Checkbox SVG for unchecked -->
-                  <svg width="20" height="20" viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" rx="4" fill="#F3F4F6" stroke="#A1A1AA" stroke-width="2"/></svg>
-                  <input type="checkbox" id="reminder-2">
-                  <label for="reminder-2"></label>
-                </div>
-                <div class="reminder-details">
-                  <h4>Weekly Skin Check</h4>
-                  <p>Due tomorrow</p>
-                </div>
-              </div>
-              <div class="reminder-item completed">
-                <div class="reminder-checkbox">
-                  <!-- Checkbox SVG for checked -->
-                  <svg width="20" height="20" viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" rx="4" fill="#A7F3D0" stroke="#059669" stroke-width="2"/><polyline points="5,11 9,15 15,7" fill="none" stroke="#059669" stroke-width="2"/></svg>
-                  <input type="checkbox" id="reminder-3" checked>
-                  <label for="reminder-3"></label>
-                </div>
-                <div class="reminder-details">
-                  <h4>Vision Test</h4>
-                  <p>Completed yesterday</p>
-                </div>
+            <div class="reminders-list" id="reminders-list">
+              <!-- Reminders will be loaded dynamically -->
+            </div>
+            <div class="reminder-form" id="reminder-form">
+              <input type="text" id="new-reminder-text" placeholder="Enter reminder text">
+              <input type="datetime-local" id="new-reminder-datetime" required>
+              <div class="reminder-form-actions">
+                <button class="btn-primary btn-sm" id="save-reminder">Save</button>
+                <button class="btn-secondary btn-sm" id="cancel-reminder">Cancel</button>
               </div>
             </div>
-            <button class="btn-secondary btn-sm add-reminder">
+            <button class="btn-secondary btn-sm add-reminder" id="add-reminder-btn">
               <!-- Plus SVG -->
               <svg width="20" height="20" viewBox="0 0 20 20"><line x1="10" y1="4" x2="10" y2="16" stroke="#2563EB" stroke-width="2"/><line x1="4" y1="10" x2="16" y2="10" stroke="#2563EB" stroke-width="2"/></svg>
               <span>Add Reminder</span>
@@ -302,53 +296,6 @@
       </div>
     </div>
   </main>
-  
-  <!-- Notifications Panel (Hidden by default) -->
-  <div class="notifications-panel" id="notifications-panel">
-    <div class="notifications-header">
-      <h3>Notifications</h3>
-      <button id="notifications-close" class="btn-icon">
-        <svg width="20" height="20" viewBox="0 0 20 20"><line x1="5" y1="5" x2="15" y2="15" stroke="#333" stroke-width="2"/><line x1="15" y1="5" x2="5" y2="15" stroke="#333" stroke-width="2"/></svg>
-      </button>
-    </div>
-    
-    <div class="notifications-list">
-      <div class="notification-item unread">
-        <div class="notification-icon">
-          <img src="assets/images/icons/reminder.svg" alt="Reminder">
-        </div>
-        <div class="notification-content">
-          <h4>Hearing Test Reminder</h4>
-          <p>Your scheduled hearing test is due in 2 days.</p>
-          <span class="notification-time">2 hours ago</span>
-        </div>
-      </div>
-      
-      <div class="notification-item unread">
-        <div class="notification-icon">
-          <img src="assets/images/icons/tip.svg" alt="Tip">
-        </div>
-        <div class="notification-content">
-          <h4>Health Tip</h4>
-          <p>Remember to take frequent breaks to reduce eye strain when using digital devices.</p>
-          <span class="notification-time">5 hours ago</span>
-        </div>
-      </div>
-      
-      <div class="notification-item">
-        <div class="notification-icon">
-          <img src="assets/images/icons/result.svg" alt="Result">
-        </div>
-        <div class="notification-content">
-          <h4>Test Results Available</h4>
-          <p>Your vision test results are now ready to view.</p>
-          <span class="notification-time">Yesterday</span>
-        </div>
-      </div>
-    </div>
-    
-    <button class="btn-text mark-all-read">Mark all as read</button>
-  </div>
   
   <!-- Modal Containers -->
   <div class="modal-backdrop" id="modal-backdrop"></div>
@@ -415,6 +362,430 @@
           window.location.href = `health-tests.html?test=${testType}`;
         });
       });
+
+      // ====== Health Metrics ======
+      function loadHealthMetrics() {
+        const metricsContainer = document.getElementById('metrics-list');
+        // Try to get metrics from localStorage
+        let metrics = localStorage.getItem('healthMetrics');
+        
+        if (metrics) {
+          try {
+            metrics = JSON.parse(metrics);
+          } catch (e) {
+            metrics = [];
+          }
+        } else {
+          metrics = [];
+        }
+        
+        // Clear container
+        metricsContainer.innerHTML = '';
+        
+        if (metrics.length === 0) {
+          // No metrics available, show message
+          metricsContainer.innerHTML = `
+            <div class="no-data-message">
+              <p>No health metrics recorded yet. Complete a health test to see your results here.</p>
+              <a href="health-tests.html" class="btn-text">Go to Health Tests</a>
+            </div>
+          `;
+          return;
+        }
+        
+        // Add each metric to the container
+        metrics.forEach(metric => {
+          const metricElement = createMetricElement(metric);
+          metricsContainer.appendChild(metricElement);
+        });
+      }
+      
+      function createMetricElement(metric) {
+        const metricDiv = document.createElement('div');
+        metricDiv.className = 'metric-item';
+        
+        let iconSvg = '';
+        switch(metric.type) {
+          case 'heart':
+            iconSvg = '<svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 21s-6-4.35-9-8.5C-1.5 7.5 4.5 3 12 10.5 19.5 3 25.5 7.5 21 12.5 18 16.65 12 21 12 21z" fill="#F87171"/></svg>';
+            break;
+          case 'vision':
+            iconSvg = '<svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="6" fill="#2563EB"/><circle cx="12" cy="12" r="3" fill="#1E3A8A"/></svg>';
+            break;
+          case 'hearing':
+            iconSvg = '<svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12c0 5 4 9 9 9s9-4 9-9c0-5-4-9-9-9zm0 16a7 7 0 110-14 7 7 0 010 14z" fill="#059669"/></svg>';
+            break;
+          default:
+            iconSvg = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#6B7280"/></svg>';
+        }
+        
+        const date = new Date(metric.date);
+        const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        
+        metricDiv.innerHTML = `
+          <div class="metric-icon ${metric.type}-rate">
+            ${iconSvg}
+          </div>
+          <div class="metric-data">
+            <h4>${metric.name}</h4>
+            <p>${metric.value} <span>${metric.unit || ''}</span></p>
+            <span class="metric-date">Last check: ${formattedDate}</span>
+          </div>
+        `;
+        
+        return metricDiv;
+      }
+
+      // ====== Recent Activity ======
+      function loadRecentActivity() {
+        const activityContainer = document.getElementById('activity-list');
+        // Try to get activity from localStorage
+        let activities = localStorage.getItem('recentActivity');
+        
+        if (activities) {
+          try {
+            activities = JSON.parse(activities);
+          } catch (e) {
+            activities = [];
+          }
+        } else {
+          activities = [];
+        }
+        
+        // Clear container
+        activityContainer.innerHTML = '';
+        
+        if (activities.length === 0) {
+          // No activities available, show message
+          activityContainer.innerHTML = `
+            <div class="no-data-message">
+              <p>No recent activity recorded yet. Complete a health test to track your activity.</p>
+            </div>
+          `;
+          return;
+        }
+        
+        // Sort activities by date (newest first)
+        activities.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        // Show only the 3 most recent activities
+        const recentActivities = activities.slice(0, 3);
+        
+        // Add each activity to the container
+        recentActivities.forEach(activity => {
+          const activityElement = createActivityElement(activity);
+          activityContainer.appendChild(activityElement);
+        });
+      }
+      
+      function createActivityElement(activity) {
+        const activityDiv = document.createElement('div');
+        activityDiv.className = 'activity-item';
+        
+        let iconSvg = '';
+        switch(activity.type) {
+          case 'heart':
+            iconSvg = '<svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 21s-6-4.35-9-8.5C-1.5 7.5 4.5 3 12 10.5 19.5 3 25.5 7.5 21 12.5 18 16.65 12 21 12 21z" fill="#F87171"/></svg>';
+            break;
+          case 'vision':
+            iconSvg = '<svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="6" fill="#2563EB"/><circle cx="12" cy="12" r="3" fill="#1E3A8A"/></svg>';
+            break;
+          case 'hearing':
+            iconSvg = '<svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12c0 5 4 9 9 9s9-4 9-9c0-5-4-9-9-9zm0 16a7 7 0 110-14 7 7 0 010 14z" fill="#059669"/></svg>';
+            break;
+          case 'assistant':
+            iconSvg = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#F59E42"/><ellipse cx="12" cy="15" rx="5" ry="2" fill="#fff"/></svg>';
+            break;
+          default:
+            iconSvg = '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#6B7280"/></svg>';
+        }
+        
+        const date = new Date(activity.date);
+        const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' - ' + 
+                              date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        
+        activityDiv.innerHTML = `
+          <div class="activity-icon">
+            ${iconSvg}
+          </div>
+          <div class="activity-details">
+            <h4>${activity.title}</h4>
+            <p>${activity.description}</p>
+            <span class="activity-date">${formattedDate}</span>
+          </div>
+        `;
+        
+        return activityDiv;
+      }
+
+      // ====== Reminders ======
+      function loadReminders() {
+        const remindersContainer = document.getElementById('reminders-list');
+        // Try to get reminders from localStorage
+        let reminders = localStorage.getItem('reminders');
+        
+        if (reminders) {
+          try {
+            reminders = JSON.parse(reminders);
+          } catch (e) {
+            reminders = [];
+            localStorage.setItem('reminders', JSON.stringify(reminders));
+          }
+        } else {
+          reminders = [];
+          localStorage.setItem('reminders', JSON.stringify(reminders));
+        }
+        
+        // Clear container
+        remindersContainer.innerHTML = '';
+        
+        if (reminders.length === 0) {
+          remindersContainer.innerHTML = `
+            <div class="no-data-message">
+              <p>No reminders set. Add a reminder to get started.</p>
+            </div>
+          `;
+          return;
+        }
+        
+        // Sort reminders by date
+        reminders.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+        
+        // Add each reminder to the container
+        reminders.forEach((reminder, index) => {
+          const reminderElement = createReminderElement(reminder, index);
+          remindersContainer.appendChild(reminderElement);
+        });
+        
+        // Add event listeners for checkbox changes
+        document.querySelectorAll('.reminder-checkbox input').forEach(checkbox => {
+          checkbox.addEventListener('change', handleReminderToggle);
+        });
+        
+        // Add event listeners for delete buttons
+        document.querySelectorAll('.reminder-delete').forEach(button => {
+          button.addEventListener('click', handleReminderDelete);
+        });
+      }
+      
+      function createReminderElement(reminder, index) {
+        const reminderDiv = document.createElement('div');
+        reminderDiv.className = reminder.completed ? 'reminder-item completed' : 'reminder-item';
+        reminderDiv.dataset.id = reminder.id;
+        
+        const datetime = new Date(reminder.datetime);
+        const formattedDate = datetime.toLocaleDateString('en-US', { 
+          month: 'short', 
+          day: 'numeric', 
+          year: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit'
+        });
+        
+        reminderDiv.innerHTML = `
+          <div class="reminder-checkbox">
+            <input type="checkbox" id="reminder-${index}" ${reminder.completed ? 'checked' : ''}>
+            <label for="reminder-${index}"></label>
+          </div>
+          <div class="reminder-details">
+            <h4>${reminder.text}</h4>
+            <p>Due: ${formattedDate}</p>
+          </div>
+          <div class="reminder-actions">
+            <button class="reminder-delete" data-id="${reminder.id}">
+              <svg width="16" height="16" viewBox="0 0 24 24">
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="currentColor"/>
+              </svg>
+            </button>
+          </div>
+        `;
+        
+        return reminderDiv;
+      }
+      
+      function handleReminderToggle(e) {
+        const checkbox = e.target;
+        const reminderItem = checkbox.closest('.reminder-item');
+        const reminderId = parseInt(reminderItem.dataset.id);
+        
+        // Update reminder item class
+        if (checkbox.checked) {
+          reminderItem.classList.add('completed');
+        } else {
+          reminderItem.classList.remove('completed');
+        }
+        
+        // Update localStorage
+        let reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
+        const reminderIndex = reminders.findIndex(r => r.id === reminderId);
+        
+        if (reminderIndex !== -1) {
+          reminders[reminderIndex].completed = checkbox.checked;
+          localStorage.setItem('reminders', JSON.stringify(reminders));
+        }
+      }
+      
+      function handleReminderDelete(e) {
+        const button = e.target.closest('.reminder-delete');
+        const reminderId = parseInt(button.dataset.id);
+        
+        // Remove from DOM
+        const reminderItem = button.closest('.reminder-item');
+        reminderItem.remove();
+        
+        // Update localStorage
+        let reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
+        reminders = reminders.filter(r => r.id !== reminderId);
+        localStorage.setItem('reminders', JSON.stringify(reminders));
+        
+        // If no reminders left, show message
+        if (reminders.length === 0) {
+          document.getElementById('reminders-list').innerHTML = `
+            <div class="no-data-message">
+              <p>No reminders set. Add a reminder to get started.</p>
+            </div>
+          `;
+        }
+      }
+      
+      // Add new reminder
+      const addReminderBtn = document.getElementById('add-reminder-btn');
+      const reminderForm = document.getElementById('reminder-form');
+      const newReminderText = document.getElementById('new-reminder-text');
+      const newReminderDatetime = document.getElementById('new-reminder-datetime');
+      const saveReminderBtn = document.getElementById('save-reminder');
+      const cancelReminderBtn = document.getElementById('cancel-reminder');
+      
+      addReminderBtn.addEventListener('click', () => {
+        reminderForm.classList.add('active');
+        addReminderBtn.style.display = 'none';
+        newReminderText.focus();
+        // Set minimum datetime to current time
+        newReminderDatetime.min = new Date().toISOString().slice(0, 16);
+      });
+      
+      cancelReminderBtn.addEventListener('click', () => {
+        reminderForm.classList.remove('active');
+        addReminderBtn.style.display = 'block';
+        newReminderText.value = '';
+        newReminderDatetime.value = '';
+      });
+      
+      saveReminderBtn.addEventListener('click', () => {
+        const text = newReminderText.value.trim();
+        const datetime = newReminderDatetime.value;
+        
+        if (!text || !datetime) return;
+        
+        // Create new reminder
+        const newReminder = {
+          id: Date.now(),
+          text: text,
+          datetime: datetime,
+          completed: false
+        };
+        
+        // Add to localStorage
+        let reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
+        reminders.push(newReminder);
+        localStorage.setItem('reminders', JSON.stringify(reminders));
+        
+        // Reload reminders
+        loadReminders();
+        
+        // Reset form
+        reminderForm.classList.remove('active');
+        addReminderBtn.style.display = 'block';
+        newReminderText.value = '';
+        newReminderDatetime.value = '';
+      });
+      
+      // Add enter key support for the reminder form
+      newReminderText.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          saveReminderBtn.click();
+        }
+      });
+
+      // Handle feeling buttons
+      const feelButtons = document.querySelectorAll('.feel-btn');
+      const today = new Date().toDateString();
+      
+      // Load saved feeling for today
+      const savedFeeling = localStorage.getItem(`feeling_${today}`);
+      if (savedFeeling) {
+        const activeBtn = document.querySelector(`.feel-btn[data-feeling="${savedFeeling}"]`);
+        if (activeBtn) {
+          activeBtn.classList.add('active');
+        }
+      }
+      
+      feelButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Remove active class from all buttons
+          feelButtons.forEach(btn => btn.classList.remove('active'));
+          
+          // Add active class to clicked button
+          button.classList.add('active');
+          
+          // Save feeling to localStorage
+          localStorage.setItem(`feeling_${today}`, button.dataset.feeling);
+        });
+      });
+
+      // Initialize everything
+      loadHealthMetrics();
+      loadRecentActivity();
+      loadReminders();
+      
+      // ====== Demo data for testing ======
+      // This adds sample data if none exists (comment this out for production)
+      function setupDemoData() {
+        // Add sample health metrics if none exist
+        if (!localStorage.getItem('healthMetrics')) {
+          const sampleMetrics = [
+            { id: 1, type: 'heart', name: 'Heart Rate', value: 72, unit: 'bpm', date: new Date('2025-04-16').toISOString() },
+            { id: 2, type: 'vision', name: 'Vision', value: '20/30', date: new Date('2025-04-15').toISOString() },
+            { id: 3, type: 'hearing', name: 'Hearing', value: 'Normal', date: new Date('2025-04-10').toISOString() }
+          ];
+          localStorage.setItem('healthMetrics', JSON.stringify(sampleMetrics));
+        }
+        
+        // Add sample activity if none exists
+        if (!localStorage.getItem('recentActivity')) {
+          const sampleActivity = [
+            { 
+              id: 1, 
+              type: 'vision', 
+              title: 'Vision Test Completed', 
+              description: 'Result: 20/30 - Mild visual impairment', 
+              date: new Date('2025-04-15T14:45:00').toISOString() 
+            },
+            { 
+              id: 2, 
+              type: 'heart', 
+              title: 'Heart Rate Measured', 
+              description: 'Result: 72 bpm - Normal', 
+              date: new Date('2025-04-16T09:30:00').toISOString() 
+            },
+            { 
+              id: 3, 
+              type: 'assistant', 
+              title: 'AI Consultation', 
+              description: 'Topic: Headache and fatigue', 
+              date: new Date('2025-04-14T16:15:00').toISOString() 
+            }
+          ];
+          localStorage.setItem('recentActivity', JSON.stringify(sampleActivity));
+        }
+        
+        // Reload data
+        loadHealthMetrics();
+        loadRecentActivity();
+      }
+      
+      // Uncomment the line below to add sample data for testing
+      // setupDemoData();
     });
   </script>
 </body>
