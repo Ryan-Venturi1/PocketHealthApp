@@ -12,6 +12,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script type="module" src="js/storage-manager.js"></script>
   <script type="module" src="js/health-tests.js"></script>
+    <!-- Add these scripts before the closing body tag of health-tests.html -->
+  <script type="module" src="js/modules/vitals-measurer.js"></script>
+  <script type="module" src="js/health-tests-controller.js"></script>
+  <script type="module" src="js/load-tests.js"></script>
 </head>
 <body class="app-body">
   <!-- Sidebar Navigation -->
@@ -414,6 +418,41 @@
       cursor: pointer;
       color: #6B7280;
     }
+
+    .hearing-test-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #059669, #047857);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .hearing-test-button:hover {
+      background: linear-gradient(135deg, #047857, #065F46);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .hearing-test-button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .button-icon {
+      font-size: 20px;
+    }
+
+    .button-text {
+      margin-left: 4px;
+    }
   </style>
   
   <script>
@@ -492,7 +531,27 @@
                 <video id="skin-camera" autoplay playsinline></video>
                 <canvas id="skin-canvas" style="display: none;"></canvas>
               </div>
-              <button onclick="analyzeSkin()">Analyze</button>
+              <div class="button-container">
+                <button id="capture-skin" class="primary-button">Capture Image</button>
+                <button id="switch-camera" class="secondary-button">Switch Camera</button>
+              </div>
+              <button onclick="analyzeSkin()" class="analyze-button">Analyze</button>
+            </div>
+          `;
+          break;
+        case 'wound':
+          testContent.innerHTML = `
+            <div class="test-instructions">
+              <p>Please position your camera to capture the wound area. Ensure good lighting and focus.</p>
+              <div class="camera-container">
+                <video id="wound-camera" autoplay playsinline></video>
+                <canvas id="wound-canvas" style="display: none;"></canvas>
+              </div>
+              <div class="button-container">
+                <button id="capture-wound" class="primary-button">Capture Image</button>
+                <button id="switch-camera" class="secondary-button">Switch Camera</button>
+              </div>
+              <button onclick="analyzeWound()" class="analyze-button">Analyze</button>
             </div>
           `;
           break;
@@ -506,6 +565,24 @@
                 <div class="vision-row">D E F P O T E C</div>
               </div>
               <button onclick="checkVision()">Check Vision</button>
+            </div>
+          `;
+          break;
+        case 'hearing':
+          testContent.innerHTML = `
+            <div class="test-instructions">
+              <p>Please put on headphones and find a quiet environment before starting the test.</p>
+              <div class="hearing-test-container">
+                <div class="frequency-display">
+                  <p>You will hear a series of tones. Press the button when you hear a tone.</p>
+                </div>
+                <div class="button-container">
+                  <button id="start-hearing-test" class="primary-button hearing-test-button">
+                    <span class="button-icon">🎵</span>
+                    <span class="button-text">Start Hearing Test</span>
+                  </button>
+                </div>
+              </div>
             </div>
           `;
           break;

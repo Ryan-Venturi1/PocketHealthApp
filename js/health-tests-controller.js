@@ -14,7 +14,7 @@ class HealthTestsController {
     this.woundAnalyzer = new WoundAnalyzer();
     this.visionTester = new VisionTester();
     this.hearingTester = new HearingTester();
-    this.vitalsMeasurer = new VitalsMeasurer();
+    this.vitalsMeasurer = new VitalsMeasurer(); // Added this line
     
     // Current active test
     this.activeTest = null;
@@ -72,7 +72,7 @@ class HealthTestsController {
       case 'hearing':
         this.hearingTester.initTest(testContent);
         break;
-      case 'vitals':
+      case 'vitals': // Added this case
         this.vitalsMeasurer.initTest(testContent);
         break;
       default:
@@ -106,7 +106,7 @@ class HealthTestsController {
         case 'hearing':
           this.hearingTester.cleanup();
           break;
-        case 'vitals':
+        case 'vitals': // Added this case
           this.vitalsMeasurer.cleanup();
           break;
       }
