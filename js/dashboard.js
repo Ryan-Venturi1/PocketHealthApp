@@ -12,6 +12,8 @@ import {
   serverTimestamp
 } from '../firebaseConfig.js';
 import { UserManager } from './user-manager.js';
+import { StorageManager } from './storage-manager.js';
+import DashboardManager from './dashboard-manager.js';
 
 // Global application state
 const app = {
@@ -1177,3 +1179,207 @@ function generateBalanceResultHTML() {
     </div>
   `;
 }
+
+class Dashboard {
+  constructor() {
+    this.manager = new DashboardManager();
+    this.setupEventListeners();
+    this.initializeDashboard();
+  }
+
+  setupEventListeners() {
+    // Feeling buttons
+    document.querySelectorAll('.feel-btn').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const feeling = e.currentTarget.getAttribute('data-feeling');
+        this.manager.recordUserFeeling(feeling);
+      });
+    });
+
+    // Reminders
+    document.querySelectorAll('.reminder-checkbox input').forEach((checkbox, index) => {
+      checkbox.addEventListener('change', () => {
+        this.manager.toggleReminderCompleted(index);
+      });
+    });
+
+    // Add reminder button
+    document.querySelector('.add-reminder').addEventListener('click', () => {
+      this.showAddReminderModal();
+    });
+
+    // Mark all notifications as read
+    document.querySelector('.mark-all-read').addEventListener('click', () => {
+      this.manager.markAllNotificationsRead();
+    });
+  }
+
+  initializeDashboard() {
+    // Load user's last feeling
+    const lastFeeling = localStorage.getItem('lastUserFeeling');
+    if (lastFeeling) {
+      const feelingData = JSON.parse(lastFeeling);
+      const today = new Date().toDateString();
+      const lastFeelingDate = new Date(feelingData.timestamp).toDateString();
+      
+      // Reset feeling if it's a new day
+      if (today !== lastFeelingDate) {
+        localStorage.removeItem('lastUserFeeling');
+      }
+    }
+
+    // Update health metrics with latest test results
+    this.updateHealthMetrics();
+
+    // Load recent activity
+    this.loadRecentActivity();
+
+    // Load reminders
+    this.updateReminders();
+  }
+
+  updateHealthMetrics() {
+    const metricsContainer = document.querySelector('.metrics-list');
+    const metrics = this.manager.healthMetrics;
+
+    // Update each metric
+    Object.entries(metrics).forEach(([metricName, data]) => {
+      if (data) {
+        const value = data.value + (data.unit ? ` ${data.unit}` : '');
+        this.manager.updateMetricDisplay(metricsContainer, metricName, value, data.timestamp);
+      }
+    });
+  }
+
+  loadRecentActivity() {
+    const activitiesContainer = document.querySelector('.activity-list');
+    const activities = this.manager.activities.slice(0, 3); // Show only 3 most recent
+
+    activitiesContainer.innerHTML = activities.map(activity => `
+      <div class="activity-item">
+        <div class="activity-icon">
+          ${this.getActivityIcon(activity.type)}
+        </div>
+        <div class="activity-details">
+          <h4>${this.formatActivityTitle(activity)}</h4>
+          <p>${activity.detail}</p>
+          <span class="activity-date">${this.formatDate(new Date(activity.timestamp))}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  updateReminders() {
+    const remindersContainer = document.querySelector('.reminders-list');
+    const reminders = this.manager.reminders;
+
+    remindersContainer.innerHTML = reminders.map((reminder, index) => `
+      <div class="reminder-item ${reminder.completed ? 'completed' : ''}">
+        <div class="reminder-checkbox">
+          <input type="checkbox" id="reminder-${index}" ${reminder.completed ? 'checked' : ''}>
+          <label for="reminder-${index}"></label>
+        </div>
+        <div class="reminder-details">
+          <h4>${reminder.title}</h4>
+          <p>${this.formatDueDate(reminder.due)}</p>
+        </div>
+      </div>
+    `).join('');
+
+    // Reattach event listeners
+    document.querySelectorAll('.reminder-checkbox input').forEach((checkbox, index) => {
+      checkbox.addEventListener('change', () => {
+        this.manager.toggleReminderCompleted(index);
+      });
+    });
+  }
+
+  showAddReminderModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+      <div class="modal-content">
+        <h3>Add New Reminder</h3>
+        <form id="add-reminder-form">
+          <div class="form-group">
+            <label for="reminder-title">Title</label>
+            <input type="text" id="reminder-title" required>
+          </div>
+          <div class="form-group">
+            <label for="reminder-due">Due Date</label>
+            <input type="date" id="reminder-due" required>
+          </div>
+          <div class="form-buttons">
+            <button type="button" class="btn-secondary" onclick="this.closest('.modal').remove()">Cancel</button>
+            <button type="submit" class="btn-primary">Add Reminder</button>
+          </div>
+        </form>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    modal.querySelector('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = document.getElementById('reminder-title').value;
+      const due = document.getElementById('reminder-due').value;
+      
+      this.manager.addReminder(title, due);
+      modal.remove();
+    });
+  }
+
+  getActivityIcon(type) {
+    const icons = {
+      'heartRate': '<svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 21s-6-4.35-9-8.5C-1.5 7.5 4.5 3 12 10.5 19.5 3 25.5 7.5 21 12.5 18 16.65 12 21 12 21z" fill="#F87171"/></svg>',
+      'vision': '<svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="6" fill="#2563EB"/><circle cx="12" cy="12" r="3" fill="#1E3A8A"/></svg>',
+      'hearing': '<svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12c0 5 4 9 9 9s9-4 9-9c0-5-4-9-9-9zm0 16a7 7 0 110-14 7 7 0 010 14z" fill="#059669"/></svg>',
+      'feeling': '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#F59E42"/><ellipse cx="12" cy="15" rx="5" ry="2" fill="#fff"/></svg>',
+      'reminder': '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#A78BFA"/><circle cx="12" cy="12" r="4" fill="#fff"/></svg>'
+    };
+    return icons[type] || icons['feeling'];
+  }
+
+  formatActivityTitle(activity) {
+    const titles = {
+      'heartRate': 'Heart Rate Measured',
+      'vision': 'Vision Test Completed',
+      'hearing': 'Hearing Test Completed',
+      'feeling': 'Mood Check',
+      'reminder': 'Reminder Added'
+    };
+    return titles[activity.type] || activity.type;
+  }
+
+  formatDate(date) {
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric'
+    });
+  }
+
+  formatDueDate(due) {
+    const today = new Date();
+    const dueDate = new Date(due);
+    const diffTime = dueDate - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) {
+      return 'Overdue';
+    } else if (diffDays === 0) {
+      return 'Due today';
+    } else if (diffDays === 1) {
+      return 'Due tomorrow';
+    } else {
+      return `Due in ${diffDays} days`;
+    }
+  }
+}
+
+// Initialize dashboard when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  new Dashboard();
+});

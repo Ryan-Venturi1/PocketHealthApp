@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="js/storage-manager.js"></script>
+  <script type="module" src="js/health-tests.js"></script>
 </head>
 <body class="app-body">
   <!-- Sidebar Navigation -->
@@ -105,103 +107,152 @@
     </header>
     
     <!-- Health Tests Content -->
-    <div class="content-container">
-      <div class="health-tests-page page-content active" id="health-tests-page">
-        <div class="tests-container">
-          <h3>Available Health Tests</h3>
-          <p class="module-description">Select a test to begin your health assessment</p>
-          
-          <div class="tests-grid">
-            <div class="test-card" data-test="skin">
-              <div class="test-icon skin">
-                <img src="assets/images/icons/skin.svg" alt="Skin Analysis">
-              </div>
-              <div class="test-info">
-                <h4>Skin Analysis</h4>
-                <p>Analyze skin conditions, lesions, and rashes</p>
-              </div>
-            </div>
-            
-            <div class="test-card" data-test="wound">
-              <div class="test-icon wound">
-                <img src="assets/images/icons/wound.svg" alt="Wound Assessment">
-              </div>
-              <div class="test-info">
-                <h4>Wound Assessment</h4>
-                <p>Check wounds for signs of infection or healing</p>
-              </div>
-            </div>
-            
-            <div class="test-card" data-test="vision">
-              <div class="test-icon vision-test">
-                <img src="assets/images/icons/vision-test.svg" alt="Vision Tests">
-              </div>
-              <div class="test-info">
-                <h4>Vision Tests</h4>
-                <p>Basic vision screening tests and eye exams</p>
-              </div>
-            </div>
-            
-            <div class="test-card" data-test="hearing">
-              <div class="test-icon hearing-test">
-                <img src="assets/images/icons/hearing-test.svg" alt="Hearing Tests">
-              </div>
-              <div class="test-info">
-                <h4>Hearing Tests</h4>
-                <p>Hearing screening and frequency tests</p>
-              </div>
-            </div>
-            
-            <div class="test-card" data-test="vitals">
-              <div class="test-icon vitals">
-                <img src="assets/images/icons/vitals.svg" alt="Vital Signs">
-              </div>
-              <div class="test-info">
-                <h4>Vital Signs</h4>
-                <p>Measure heart rate and other vital metrics</p>
-              </div>
-            </div>
-            
-            <div class="test-card" data-test="motion">
-              <div class="test-icon motion">
-                <img src="assets/images/icons/motion.svg" alt="Range of Motion">
-              </div>
-              <div class="test-info">
-                <h4>Range of Motion</h4>
-                <p>Analyze joint flexibility and movement range</p>
-              </div>
-            </div>
-            
-            <div class="test-card" data-test="reaction">
-              <div class="test-icon reaction">
-                <img src="assets/images/icons/reaction.svg" alt="Reaction Time">
-              </div>
-              <div class="test-info">
-                <h4>Reaction Time</h4>
-                <p>Measure reaction speed and accuracy</p>
-              </div>
-            </div>
-            
-            <div class="test-card" data-test="tremor">
-              <div class="test-icon tremor">
-                <img src="assets/images/icons/tremor.svg" alt="Tremor Analysis">
-              </div>
-              <div class="test-info">
-                <h4>Tremor Analysis</h4>
-                <p>Assess tremor severity and patterns</p>
-              </div>
-            </div>
-            
-            <div class="test-card" data-test="balance">
-              <div class="test-icon balance">
-                <img src="assets/images/icons/balance.svg" alt="Balance Test">
-              </div>
-              <div class="test-info">
-                <h4>Balance Test</h4>
-                <p>Evaluate stability and coordination</p>
-              </div>
-            </div>
+    <div class="health-tests-container">
+      <h2>Available Health Tests</h2>
+      <p class="subtitle">Select a test to begin your health assessment</p>
+
+      <div class="tests-grid">
+        <!-- Skin Analysis Test -->
+        <div class="test-card" data-test="skin">
+          <div class="test-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <ellipse cx="12" cy="16" rx="8" ry="6" fill="#F59E42"/>
+              <ellipse cx="12" cy="10" rx="6" ry="4" fill="#FBBF24"/>
+            </svg>
           </div>
+          <div class="test-info">
+            <h3>Skin Analysis</h3>
+            <p>Analyze skin conditions, lesions, and rashes</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('skin')">Start Test</button>
+        </div>
+
+        <!-- Wound Assessment Test -->
+        <div class="test-card" data-test="wound">
+          <div class="test-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <rect x="8" y="11" width="8" height="2" rx="1" fill="#B91C1C"/>
+              <rect x="11" y="8" width="2" height="8" rx="1" fill="#B91C1C"/>
+            </svg>
+          </div>
+          <div class="test-info">
+            <h3>Wound Assessment</h3>
+            <p>Check wounds for signs of infection or healing</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('wound')">Start Test</button>
+        </div>
+
+        <!-- Vision Test -->
+        <div class="test-card" data-test="vision">
+          <div class="test-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <ellipse cx="12" cy="12" rx="10" ry="6" fill="#2563EB"/>
+              <circle cx="12" cy="12" r="3" fill="#1E3A8A"/>
+            </svg>
+          </div>
+          <div class="test-info">
+            <h3>Vision Test</h3>
+            <p>Basic vision screening tests and eye exams</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('vision')">Start Test</button>
+        </div>
+
+        <!-- Hearing Test -->
+        <div class="test-card" data-test="hearing">
+          <div class="test-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M12 3C7 3 3 7 3 12c0 5 4 9 9 9s9-4 9-9c0-5-4-9-9-9zm0 16a7 7 0 110-14 7 7 0 010 14z" fill="#059669"/>
+            </svg>
+          </div>
+          <div class="test-info">
+            <h3>Hearing Test</h3>
+            <p>Hearing screening and frequency tests</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('hearing')">Start Test</button>
+        </div>
+
+        <!-- Vitals Test -->
+        <div class="test-card" data-test="vitals">
+          <div class="test-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M4 12h4l2 6 4-12 2 6h4" stroke="#B91C1C" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
+          <div class="test-info">
+            <h3>Vital Signs</h3>
+            <p>Measure heart rate and other vital metrics</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('vitals')">Start Test</button>
+        </div>
+
+        <!-- Motion Test -->
+        <div class="test-card" data-test="motion">
+          <div class="test-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <rect x="8" y="4" width="8" height="16" rx="4" fill="#6366F1"/>
+            </svg>
+          </div>
+          <div class="test-info">
+            <h3>Range of Motion</h3>
+            <p>Analyze joint flexibility and movement range</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('motion')">Start Test</button>
+        </div>
+
+        <!-- Reaction Time Test -->
+        <div class="test-card" data-test="reaction">
+          <div class="test-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#F59E42" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
+          <div class="test-info">
+            <h3>Reaction Time</h3>
+            <p>Measure reaction speed and accuracy</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('reaction')">Start Test</button>
+        </div>
+
+        <!-- Tremor Analysis Test -->
+        <div class="test-card" data-test="tremor">
+          <div class="test-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M12 2v20M2 12h20" stroke="#6366F1" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
+          <div class="test-info">
+            <h3>Tremor Analysis</h3>
+            <p>Assess tremor severity and patterns</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('tremor')">Start Test</button>
+        </div>
+
+        <!-- Balance Test -->
+        <div class="test-card" data-test="balance">
+          <div class="test-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" fill="#059669"/>
+              <path d="M12 2v20M2 12h20" stroke="#fff" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
+          <div class="test-info">
+            <h3>Balance Test</h3>
+            <p>Evaluate stability and coordination</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('balance')">Start Test</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Test Modal -->
+    <div id="test-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="test-title">Test Title</h3>
+          <button class="close-modal" onclick="closeTestModal()">&times;</button>
+        </div>
+        <div id="test-content" class="modal-body">
+          <!-- Test content will be loaded here -->
         </div>
       </div>
     </div>
@@ -265,6 +316,106 @@
   <script src="js/app.js" type="module"></script>
   <script src="js/dashboard.js" type="module"></script>
   
+  <style>
+    .health-tests-container {
+      padding: 20px;
+    }
+
+    .tests-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .test-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .test-icon {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #F3F4F6;
+      border-radius: 12px;
+    }
+
+    .test-info h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #1F2937;
+    }
+
+    .test-info p {
+      margin: 5px 0 0;
+      color: #6B7280;
+      font-size: 14px;
+    }
+
+    .start-test-btn {
+      background: #2563EB;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+
+    .start-test-btn:hover {
+      background: #1D4ED8;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      margin: 50px auto;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #6B7280;
+    }
+  </style>
+  
   <script>
     // Initialize page-specific functionality
     document.addEventListener('DOMContentLoaded', () => {
@@ -322,6 +473,59 @@
         });
       }
     });
+
+    function startTest(testType) {
+      const modal = document.getElementById('test-modal');
+      const testTitle = document.getElementById('test-title');
+      const testContent = document.getElementById('test-content');
+      
+      // Set test title
+      testTitle.textContent = document.querySelector(`[data-test="${testType}"] h3`).textContent;
+      
+      // Load test content based on type
+      switch(testType) {
+        case 'skin':
+          testContent.innerHTML = `
+            <div class="test-instructions">
+              <p>Please position your camera to capture the affected skin area. Ensure good lighting and focus.</p>
+              <div class="camera-container">
+                <video id="skin-camera" autoplay playsinline></video>
+                <canvas id="skin-canvas" style="display: none;"></canvas>
+              </div>
+              <button onclick="analyzeSkin()">Analyze</button>
+            </div>
+          `;
+          break;
+        case 'vision':
+          testContent.innerHTML = `
+            <div class="test-instructions">
+              <p>Stand 10 feet away from your screen. Cover one eye and read the letters below.</p>
+              <div class="vision-chart">
+                <div class="vision-row">E F P O T E C</div>
+                <div class="vision-row">E C F D P T O</div>
+                <div class="vision-row">D E F P O T E C</div>
+              </div>
+              <button onclick="checkVision()">Check Vision</button>
+            </div>
+          `;
+          break;
+        // Add other test types...
+      }
+      
+      modal.style.display = 'block';
+    }
+
+    function closeTestModal() {
+      document.getElementById('test-modal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('test-modal');
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    }
   </script>
 </body>
 </html>

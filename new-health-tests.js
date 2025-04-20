@@ -1,5 +1,7 @@
 // new-health-tests.js - Additional health tests for mobile devices
 
+import { StorageManager } from './storage-manager.js';
+
 /**
  * RESPIRATORY RATE MONITOR
  * Uses camera to detect chest/abdomen movement for breathing rate
@@ -19,6 +21,7 @@ export class RespiratoryRateMonitor {
       this.detectionRegion = { x: 0, y: 0, width: 0, height: 0 };
       this.previousFrame = null;
       this.processingInterval = null;
+      this.storageManager = new StorageManager();
     }
     
     /**
@@ -249,7 +252,7 @@ export class RespiratoryRateMonitor {
     /**
      * Calculate final results
      */
-    calculateResults() {
+    async calculateResults() {
       // Get recording duration in minutes
       const durationMs = Date.now() - this.startTime;
       const durationMinutes = durationMs / 1000 / 60;
@@ -281,7 +284,7 @@ export class RespiratoryRateMonitor {
         alertLevel = "warning";
       }
       
-      return {
+      const result = {
         breathingRate: Math.round(breathingRate),
         breathCount: this.breathCount,
         duration: durationMs / 1000,
@@ -289,6 +292,11 @@ export class RespiratoryRateMonitor {
         message,
         alertLevel
       };
+
+      // Save to local storage
+      this.storageManager.saveTestResult('respiratory', result);
+      
+      return result;
     }
   }
   
@@ -309,6 +317,7 @@ export class RespiratoryRateMonitor {
       this.reactionTimes = [];
       this.timeoutId = null;
       this.stimulusStart = null;
+      this.storageManager = new StorageManager();
     }
     
     /**
@@ -622,7 +631,7 @@ export class RespiratoryRateMonitor {
         alertLevel = "warning";
       }
       
-      return {
+      const result = {
         avgReactionTime,
         reactionTimes: this.reactionTimes,
         falseStarts: this.reactionTimes.filter(time => time < 0).length,
@@ -630,6 +639,11 @@ export class RespiratoryRateMonitor {
         message,
         alertLevel
       };
+
+      // Save to local storage
+      this.storageManager.saveTestResult('reaction', result);
+      
+      return result;
     }
   }
   
@@ -651,6 +665,7 @@ export class RespiratoryRateMonitor {
       this.container = null;
       this.startButton = null;
       this.resultDisplay = null;
+      this.storageManager = new StorageManager();
     }
     
     /**
@@ -869,12 +884,18 @@ export class RespiratoryRateMonitor {
         alertLevel = "warning";
       }
       
-      return {
-        ...metrics,
+      const result = {
+        tremorAmplitude: metrics.tremorAmplitude,
+        tremorFrequency: metrics.tremorFrequency,
         category,
         message,
         alertLevel
       };
+
+      // Save to local storage
+      this.storageManager.saveTestResult('tremor', result);
+      
+      return result;
     }
     
     /**
@@ -1121,6 +1142,7 @@ export class RespiratoryRateMonitor {
       this.container = null;
       this.startButton = null;
       this.resultDisplay = null;
+      this.storageManager = new StorageManager();
     }
     
     /**
@@ -1403,12 +1425,18 @@ export class RespiratoryRateMonitor {
         alertLevel = "warning";
       }
       
-      return {
-        ...metrics,
+      const result = {
+        stabilityScore: metrics.stabilityScore,
+        swayArea: metrics.swayArea,
         category,
         message,
         alertLevel
       };
+
+      // Save to local storage
+      this.storageManager.saveTestResult('balance', result);
+      
+      return result;
     }
     
     /**
