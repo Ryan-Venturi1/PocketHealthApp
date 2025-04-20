@@ -10,7 +10,7 @@ import {
   collection,
   addDoc,
   serverTimestamp
-} from './firebaseConfig.js';
+} from '../firebaseConfig.js';
 import { UserManager } from './user-manager.js';
 
 // Global application state

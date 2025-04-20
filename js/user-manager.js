@@ -9,7 +9,7 @@ import {
     updateDoc, 
     serverTimestamp, 
     signOut
-  } from './firebaseConfig.js';
+  } from '../firebaseConfig.js';
   
   export class UserManager {
     constructor() {

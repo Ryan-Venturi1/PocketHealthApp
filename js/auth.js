@@ -11,7 +11,7 @@ import {
     setDoc,
     getDoc,
     serverTimestamp
-  } from './firebaseConfig.js';
+  } from '../firebaseConfig.js';
   
   // DOM Elements
   const loginForm = document.getElementById('form-login');
