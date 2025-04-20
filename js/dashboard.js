@@ -33,6 +33,28 @@ const app = {
   }
 };
 
+// SVG icon map for health tests (fallback if image missing)
+const ICON_SVGS = {
+  skin: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="16" fill="#FDE68A"/><ellipse cx="16" cy="20" rx="8" ry="6" fill="#F59E42"/><ellipse cx="16" cy="14" rx="6" ry="4" fill="#FBBF24"/></svg>`,
+  wound: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#FECACA"/><rect x="10" y="14" width="12" height="4" rx="2" fill="#B91C1C"/><rect x="14" y="10" width="4" height="12" rx="2" fill="#B91C1C"/></svg>`,
+  vision: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#DBEAFE"/><ellipse cx="16" cy="16" rx="10" ry="6" fill="#2563EB"/><circle cx="16" cy="16" r="3" fill="#1E3A8A"/></svg>`,
+  hearing: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#D1FAE5"/><path d="M20 16a4 4 0 11-8 0 4 4 0 018 0z" fill="#059669"/><path d="M16 20v2" stroke="#059669" stroke-width="2" stroke-linecap="round"/></svg>`,
+  vitals: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#FCA5A5"/><path d="M8 16h3l2 6 4-12 2 6h5" stroke="#B91C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  motion: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#C7D2FE"/><rect x="12" y="8" width="8" height="16" rx="4" fill="#6366F1"/></svg>`,
+  reaction: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#FDE68A"/><path d="M16 8v8l6 3" stroke="#B45309" stroke-width="2" stroke-linecap="round"/></svg>`,
+  tremor: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#FECACA"/><path d="M10 22c2-4 10-4 12 0" stroke="#B91C1C" stroke-width="2" stroke-linecap="round"/></svg>`,
+  balance: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#D1FAE5"/><rect x="12" y="12" width="8" height="8" rx="4" fill="#059669"/></svg>`
+};
+
+// Helper to get icon HTML (img or SVG fallback)
+function getIconHTML(type) {
+  const imgPath = `assets/images/icons/${type}.svg`;
+  return `<img src="${imgPath}" alt="${type} icon" onerror="this.outerHTML=window.ICON_SVGS && window.ICON_SVGS['${type}'] ? window.ICON_SVGS['${type}'] : ''">`;
+}
+
+// Expose SVGs globally for onerror fallback
+window.ICON_SVGS = ICON_SVGS;
+
 // ====================================
 // Core Application Initialization
 // ====================================
@@ -128,12 +150,14 @@ function setupEventListeners() {
   if (sidebarOpen) {
     sidebarOpen.addEventListener('click', () => {
       sidebar.classList.add('open');
+      sidebarOpen.style.display = 'none';
     });
   }
   
   if (sidebarClose) {
     sidebarClose.addEventListener('click', () => {
       sidebar.classList.remove('open');
+      sidebarOpen.style.display = '';
     });
   }
   
@@ -185,6 +209,15 @@ function setupEventListeners() {
       showEmergencyModal();
     });
   }
+  
+  // Reminders logic
+  loadReminders();
+  document.querySelector('.add-reminder').addEventListener('click', showAddReminderModal);
+  document.querySelector('.reminders-list').addEventListener('change', (e) => {
+    if (e.target.type === 'checkbox') {
+      toggleReminderComplete(e.target.id);
+    }
+  });
 }
 
 // Handle navigation based on URL hash
@@ -387,6 +420,21 @@ async function loadRecentActivity() {
         title = 'Motion Test Completed';
         details = activity.detail || 'Motion test performed';
         break;
+      case 'reaction':
+        icon = 'reaction';
+        title = 'Reaction Time Test Completed';
+        details = activity.detail || 'Reaction time test performed';
+        break;
+      case 'tremor':
+        icon = 'tremor';
+        title = 'Tremor Test Completed';
+        details = activity.detail || 'Tremor test performed';
+        break;
+      case 'balance':
+        icon = 'balance';
+        title = 'Balance Test Completed';
+        details = activity.detail || 'Balance test performed';
+        break;
       case 'consultation':
         icon = 'assistant';
         title = 'AI Consultation';
@@ -403,7 +451,7 @@ async function loadRecentActivity() {
     
     activityItem.innerHTML = `
       <div class="activity-icon">
-        <img src="assets/images/icons/${icon}.svg" alt="${title}">
+        ${getIconHTML(icon)}
       </div>
       <div class="activity-details">
         <h4>${title}</h4>
@@ -417,11 +465,69 @@ async function loadRecentActivity() {
 }
 
 function loadReminders() {
-  // In a real application, this would fetch reminders from the database
-  // For demo purposes, we'll use the static reminders from the HTML
+  const reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
+  const list = document.querySelector('.reminders-list');
+  list.innerHTML = reminders.map((r, i) => `
+    <div class="reminder-item${r.completed ? ' completed' : ''}">
+      <div class="reminder-checkbox">
+        <svg width="20" height="20" viewBox="0 0 20 20">${r.completed ? '<rect x="2" y="2" width="16" height="16" rx="4" fill="#A7F3D0" stroke="#059669" stroke-width="2"/><polyline points="5,11 9,15 15,7" fill="none" stroke="#059669" stroke-width="2"/>' : '<rect x="2" y="2" width="16" height="16" rx="4" fill="#F3F4F6" stroke="#A1A1AA" stroke-width="2"/>'}</svg>
+        <input type="checkbox" id="reminder-${i}" ${r.completed ? 'checked' : ''}>
+        <label for="reminder-${i}"></label>
+      </div>
+      <div class="reminder-details">
+        <h4>${r.title}</h4>
+        <p>${r.due}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function showAddReminderModal() {
+  const modal = document.getElementById('modal-container');
+  modal.innerHTML = `
+    <div class="modal">
+      <h3>Add Reminder</h3>
+      <input id="reminder-title" placeholder="Reminder title">
+      <input id="reminder-due" placeholder="Due (e.g. tomorrow)">
+      <button id="save-reminder" class="btn-primary">Save</button>
+      <button id="cancel-reminder" class="btn-secondary">Cancel</button>
+    </div>
+  `;
+  document.getElementById('modal-backdrop').classList.add('open');
+  modal.classList.add('open');
+  document.getElementById('save-reminder').onclick = () => {
+    const title = document.getElementById('reminder-title').value;
+    const due = document.getElementById('reminder-due').value;
+    if (title && due) {
+      const reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
+      reminders.push({ title, due, completed: false });
+      localStorage.setItem('reminders', JSON.stringify(reminders));
+      loadReminders();
+      closeModal();
+    }
+  };
+  document.getElementById('cancel-reminder').onclick = closeModal;
+}
+
+function closeModal() {
+  document.getElementById('modal-backdrop').classList.remove('open');
+  document.getElementById('modal-container').classList.remove('open');
+  document.getElementById('modal-container').innerHTML = '';
+}
+
+function toggleReminderComplete(id) {
+  const idx = parseInt(id.replace('reminder-', ''));
+  const reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
+  if (reminders[idx]) {
+    reminders[idx].completed = !reminders[idx].completed;
+    localStorage.setItem('reminders', JSON.stringify(reminders));
+    loadReminders();
+  }
 }
 
 function recordUserFeeling(feeling) {
+  localStorage.setItem('userFeeling', JSON.stringify({ feeling, date: new Date().toISOString() }));
+  
   // Record the feeling in Firebase
   app.userManager.addActivityRecord('feeling', `User reported feeling ${feeling}`);
   
@@ -523,7 +629,7 @@ function loadHealthTestsList() {
       <div class="tests-grid">
         <div class="test-card" data-test="skin">
           <div class="test-icon skin">
-            <img src="assets/images/icons/skin.svg" alt="Skin Analysis">
+            ${getIconHTML('skin')}
           </div>
           <div class="test-info">
             <h4>Skin Analysis</h4>
@@ -533,7 +639,7 @@ function loadHealthTestsList() {
         
         <div class="test-card" data-test="wound">
           <div class="test-icon wound">
-            <img src="assets/images/icons/wound.svg" alt="Wound Assessment">
+            ${getIconHTML('wound')}
           </div>
           <div class="test-info">
             <h4>Wound Assessment</h4>
@@ -543,7 +649,7 @@ function loadHealthTestsList() {
         
         <div class="test-card" data-test="vision">
           <div class="test-icon vision-test">
-            <img src="assets/images/icons/vision-test.svg" alt="Vision Tests">
+            ${getIconHTML('vision')}
           </div>
           <div class="test-info">
             <h4>Vision Tests</h4>
@@ -553,7 +659,7 @@ function loadHealthTestsList() {
         
         <div class="test-card" data-test="hearing">
           <div class="test-icon hearing-test">
-            <img src="assets/images/icons/hearing-test.svg" alt="Hearing Tests">
+            ${getIconHTML('hearing')}
           </div>
           <div class="test-info">
             <h4>Hearing Tests</h4>
@@ -563,7 +669,7 @@ function loadHealthTestsList() {
         
         <div class="test-card" data-test="vitals">
           <div class="test-icon vitals">
-            <img src="assets/images/icons/vitals.svg" alt="Vital Signs">
+            ${getIconHTML('vitals')}
           </div>
           <div class="test-info">
             <h4>Vital Signs</h4>
@@ -573,11 +679,41 @@ function loadHealthTestsList() {
         
         <div class="test-card" data-test="motion">
           <div class="test-icon motion">
-            <img src="assets/images/icons/motion.svg" alt="Range of Motion">
+            ${getIconHTML('motion')}
           </div>
           <div class="test-info">
             <h4>Range of Motion</h4>
             <p>Analyze joint flexibility and movement range</p>
+          </div>
+        </div>
+        
+        <div class="test-card" data-test="reaction">
+          <div class="test-icon reaction">
+            ${getIconHTML('reaction')}
+          </div>
+          <div class="test-info">
+            <h4>Reaction Time</h4>
+            <p>Measure reaction speed and accuracy</p>
+          </div>
+        </div>
+        
+        <div class="test-card" data-test="tremor">
+          <div class="test-icon tremor">
+            ${getIconHTML('tremor')}
+          </div>
+          <div class="test-info">
+            <h4>Tremor Analysis</h4>
+            <p>Assess tremor severity and patterns</p>
+          </div>
+        </div>
+        
+        <div class="test-card" data-test="balance">
+          <div class="test-icon balance">
+            ${getIconHTML('balance')}
+          </div>
+          <div class="test-info">
+            <h4>Balance Test</h4>
+            <p>Evaluate stability and coordination</p>
           </div>
         </div>
       </div>
@@ -608,7 +744,7 @@ function loadModule(moduleType) {
     
     <div class="placeholder-container">
       <div class="placeholder-icon ${moduleType}">
-        <img src="assets/images/icons/${moduleType}.svg" alt="${formatString(moduleType)} Test">
+        ${getIconHTML(moduleType)}
       </div>
       <p>The ${formatString(moduleType)} test module would be fully implemented in a production version.</p>
       <p>This would include camera access, data processing, and result analysis.</p>
@@ -713,6 +849,30 @@ function simulateTestResults(testType) {
         category: 'Normal'
       };
       break;
+    case 'reaction':
+      resultHTML = generateReactionResultHTML();
+      activityDetail = 'Reaction time: 250ms (Normal)';
+      mockResults = {
+        reactionTime: 250,
+        category: 'Normal'
+      };
+      break;
+    case 'tremor':
+      resultHTML = generateTremorResultHTML();
+      activityDetail = 'Tremor severity: Mild';
+      mockResults = {
+        severity: 'Mild',
+        patterns: 'Consistent'
+      };
+      break;
+    case 'balance':
+      resultHTML = generateBalanceResultHTML();
+      activityDetail = 'Balance test: Stable';
+      mockResults = {
+        stability: 'Stable',
+        coordination: 'Good'
+      };
+      break;
   }
   
   resultItem.innerHTML = resultHTML;
@@ -740,7 +900,7 @@ function generateSkinResultHTML() {
     <div class="result-content">
       <div class="placeholder-image">
         <div class="placeholder-icon skin">
-          <img src="assets/images/icons/skin.svg" alt="Skin">
+          ${getIconHTML('skin')}
         </div>
       </div>
       <div class="result-details">
@@ -785,7 +945,7 @@ function generateWoundResultHTML() {
     <div class="result-content">
       <div class="placeholder-image">
         <div class="placeholder-icon wound">
-          <img src="assets/images/icons/wound.svg" alt="Wound">
+          ${getIconHTML('wound')}
         </div>
       </div>
       <div class="result-details">
@@ -831,7 +991,7 @@ function generateVisionResultHTML() {
     <div class="result-content">
       <div class="placeholder-image">
         <div class="placeholder-icon vision-test">
-          <img src="assets/images/icons/vision-test.svg" alt="Vision Test">
+          ${getIconHTML('vision')}
         </div>
       </div>
       <div class="result-details">
@@ -861,7 +1021,7 @@ function generateHearingResultHTML() {
     <div class="result-content">
       <div class="placeholder-image">
         <div class="placeholder-icon hearing-test">
-          <img src="assets/images/icons/hearing-test.svg" alt="Hearing Test">
+          ${getIconHTML('hearing')}
         </div>
       </div>
       <div class="result-details">
@@ -886,7 +1046,7 @@ function generateVitalsResultHTML() {
     <div class="result-content">
       <div class="placeholder-image">
         <div class="placeholder-icon vitals">
-          <img src="assets/images/icons/vitals.svg" alt="Vitals">
+          ${getIconHTML('vitals')}
         </div>
       </div>
       <div class="result-details">
@@ -906,3 +1066,114 @@ function generateVitalsResultHTML() {
           <p>Your heart rate is within the normal range for a resting adult.</p>
         </div>
       </div>
+    </div>
+  `;
+}
+
+function generateMotionResultHTML() {
+  return `
+    <div class="result-header">
+      <h4 class="result-title">Motion Test</h4>
+      <span class="result-timestamp">${new Date().toLocaleString()}</span>
+    </div>
+    <div class="result-content">
+      <div class="placeholder-image">
+        <div class="placeholder-icon motion">
+          ${getIconHTML('motion')}
+        </div>
+      </div>
+      <div class="result-details">
+        <div class="detail-row">
+          <span class="detail-label">Joint:</span>
+          <span class="detail-value">Shoulder</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Range of Motion:</span>
+          <span class="detail-value">165°</span>
+        </div>
+        <div class="alert-box alert-success">
+          <p>Your shoulder range of motion is within the normal range.</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function generateReactionResultHTML() {
+  return `
+    <div class="result-header">
+      <h4 class="result-title">Reaction Time Test</h4>
+      <span class="result-timestamp">${new Date().toLocaleString()}</span>
+    </div>
+    <div class="result-content">
+      <div class="placeholder-image">
+        <div class="placeholder-icon reaction">
+          ${getIconHTML('reaction')}
+        </div>
+      </div>
+      <div class="result-details">
+        <div class="detail-row">
+          <span class="detail-label">Reaction Time:</span>
+          <span class="detail-value">250ms</span>
+        </div>
+        <div class="alert-box alert-success">
+          <p>Your reaction time is within the normal range.</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function generateTremorResultHTML() {
+  return `
+    <div class="result-header">
+      <h4 class="result-title">Tremor Test</h4>
+      <span class="result-timestamp">${new Date().toLocaleString()}</span>
+    </div>
+    <div class="result-content">
+      <div class="placeholder-image">
+        <div class="placeholder-icon tremor">
+          ${getIconHTML('tremor')}
+        </div>
+      </div>
+      <div class="result-details">
+        <div class="detail-row">
+          <span class="detail-label">Severity:</span>
+          <span class="detail-value">Mild</span>
+        </div>
+        <div class="alert-box alert-warning">
+          <p>Mild tremor detected. Consider consulting a healthcare professional for further evaluation.</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function generateBalanceResultHTML() {
+  return `
+    <div class="result-header">
+      <h4 class="result-title">Balance Test</h4>
+      <span class="result-timestamp">${new Date().toLocaleString()}</span>
+    </div>
+    <div class="result-content">
+      <div class="placeholder-image">
+        <div class="placeholder-icon balance">
+          ${getIconHTML('balance')}
+        </div>
+      </div>
+      <div class="result-details">
+        <div class="detail-row">
+          <span class="detail-label">Stability:</span>
+          <span class="detail-value">Stable</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Coordination:</span>
+          <span class="detail-value">Good</span>
+        </div>
+        <div class="alert-box alert-success">
+          <p>Your balance and coordination are within the normal range.</p>
+        </div>
+      </div>
+    </div>
+  `;
+}

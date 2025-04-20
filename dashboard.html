@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HealthCompanion | Dashboard</title>
+  <title>PocketHealth | Dashboard</title>
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="mainstyle.css">
-  <!-- Preconnect to CDN -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,131 +16,110 @@
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="app-logo">
-        <img src="assets/images/logo.svg" alt="HealthCompanion Logo">
-        <h1>HealthCompanion</h1>
+        <h1>PocketHealth</h1>
       </div>
       <button id="sidebar-close" class="sidebar-toggle">
-        <img src="assets/images/icons/close.svg" alt="Close Menu">
+        <!-- X icon -->
+        <svg width="24" height="24" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18" stroke="#333" stroke-width="2"/><line x1="18" y1="6" x2="6" y2="18" stroke="#333" stroke-width="2"/></svg>
       </button>
     </div>
-    
-    <div class="user-profile">
-      <div class="avatar">
-        <img src="assets/images/placeholder-avatar.jpg" alt="User Avatar" id="user-avatar">
-        <span class="avatar-badge pulse"></span>
-      </div>
-      <div class="user-info">
-        <h3 id="user-name">John Doe</h3>
-        <p id="user-email">john.doe@example.com</p>
-      </div>
+    <div class="user-info">
+      <h3 id="user-name">User</h3>
+      <p id="user-email">user@email.com</p>
     </div>
-    
     <nav class="sidebar-nav">
       <ul>
         <li class="active">
           <a href="#dashboard">
-            <img src="assets/images/icons/dashboard.svg" alt="Dashboard Icon">
+            <!-- Dashboard icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="11" width="7" height="10" fill="#2563EB"/><rect x="14" y="3" width="7" height="18" fill="#60A5FA"/></svg>
             <span>Dashboard</span>
           </a>
         </li>
         <li>
           <a href="#health-tests">
-            <img src="assets/images/icons/tests.svg" alt="Health Tests Icon">
+            <!-- Health Tests icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="#059669"/><rect x="9" y="9" width="6" height="6" rx="3" fill="#fff"/></svg>
             <span>Health Tests</span>
           </a>
         </li>
         <li>
           <a href="#health-assistant">
-            <img src="assets/images/icons/assistant.svg" alt="Health Assistant Icon">
+            <!-- AI Assistant icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#F59E42"/><ellipse cx="12" cy="15" rx="5" ry="2" fill="#fff"/></svg>
             <span>AI Assistant</span>
           </a>
         </li>
         <li>
           <a href="#history">
-            <img src="assets/images/icons/history.svg" alt="History Icon">
+            <!-- History icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FBBF24"/><path d="M12 7v5l4 2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
             <span>History</span>
           </a>
         </li>
         <li>
           <a href="#settings">
-            <img src="assets/images/icons/settings.svg" alt="Settings Icon">
+            <!-- Settings icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#A78BFA"/><circle cx="12" cy="12" r="4" fill="#fff"/></svg>
             <span>Settings</span>
           </a>
         </li>
       </ul>
     </nav>
-    
     <div class="sidebar-footer">
-      <button id="btn-emergency" class="btn-emergency">
-        <img src="assets/images/icons/emergency.svg" alt="Emergency Icon">
+      <a id="btn-emergency" class="btn-emergency" href="https://www.911.gov" target="_blank" rel="noopener">
+        <!-- 911 icon -->
+        <svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="6" fill="#DC2626"/><text x="12" y="17" text-anchor="middle" font-size="10" fill="#fff" font-family="Arial">911</text></svg>
         <span>Emergency</span>
-      </button>
-      
+      </a>
       <button id="btn-logout" class="btn-logout">
-        <img src="assets/images/icons/logout.svg" alt="Logout Icon">
+        <!-- Logout icon -->
+        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M16 17l5-5-5-5" stroke="#333" stroke-width="2" fill="none"/><path d="M21 12H9" stroke="#333" stroke-width="2" fill="none"/><rect x="3" y="4" width="6" height="16" rx="2" fill="#A1A1AA"/></svg>
         <span>Sign Out</span>
       </button>
     </div>
   </aside>
-
   <!-- Main Content -->
   <main class="main-content">
     <header class="main-header">
       <button id="sidebar-open" class="sidebar-toggle mobile-only">
-        <img src="assets/images/icons/menu.svg" alt="Open Menu">
+        <!-- Plus icon -->
+        <svg width="24" height="24" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19" stroke="#333" stroke-width="2"/><line x1="5" y1="12" x2="19" y2="12" stroke="#333" stroke-width="2"/></svg>
       </button>
-      
       <div class="page-title">
         <h2 id="current-page-title">Dashboard</h2>
       </div>
-      
       <div class="header-actions">
         <button id="notifications-toggle" class="btn-icon">
-          <img src="assets/images/icons/notification.svg" alt="Notifications">
+          <!-- Bell icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 22a2 2 0 002-2H10a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5l-2 2v1h16v-1l-2-2z" fill="#F59E42"/></svg>
           <span class="notification-indicator"></span>
         </button>
-        
         <div class="quick-actions">
-          <button id="quick-test" class="btn-secondary">
-            <img src="assets/images/icons/quick-test.svg" alt="Quick Test">
+          <button id="quick-test" class="btn-secondary" data-nav="health-tests">
             <span>Quick Test</span>
           </button>
-          <button id="talk-assistant" class="btn-primary">
-            <img src="assets/images/icons/chat.svg" alt="Chat">
+          <button id="talk-assistant" class="btn-primary" data-nav="assistant">
             <span>Talk to Assistant</span>
           </button>
         </div>
       </div>
     </header>
-    
     <!-- Dashboard Content -->
     <div class="content-container">
       <div class="dashboard-page page-content active" id="dashboard-page">
         <div class="welcome-banner">
           <div class="welcome-text">
-            <h3>Welcome back, <span id="welcome-name">John</span>!</h3>
+            <h3>Welcome back, <span id="welcome-name">User</span>!</h3>
             <p>Your health journey continues. How are you feeling today?</p>
           </div>
           <div class="feel-buttons">
-            <button class="feel-btn" data-feeling="great">
-              <img src="assets/images/emoji/great.svg" alt="Great">
-              <span>Great</span>
-            </button>
-            <button class="feel-btn" data-feeling="good">
-              <img src="assets/images/emoji/good.svg" alt="Good">
-              <span>Good</span>
-            </button>
-            <button class="feel-btn" data-feeling="okay">
-              <img src="assets/images/emoji/okay.svg" alt="Okay">
-              <span>Okay</span>
-            </button>
-            <button class="feel-btn" data-feeling="bad">
-              <img src="assets/images/emoji/bad.svg" alt="Bad">
-              <span>Bad</span>
-            </button>
+            <button class="feel-btn" data-feeling="great">😀</button>
+            <button class="feel-btn" data-feeling="good">🙂</button>
+            <button class="feel-btn" data-feeling="okay">😐</button>
+            <button class="feel-btn" data-feeling="bad">😞</button>
           </div>
         </div>
-        
         <div class="dashboard-grid">
           <!-- Health Metrics -->
           <section class="dashboard-card health-metrics">
@@ -149,7 +127,8 @@
             <div class="metrics-list">
               <div class="metric-item">
                 <div class="metric-icon pulse-rate">
-                  <img src="assets/images/icons/heart.svg" alt="Heart Rate">
+                  <!-- Heart SVG -->
+                  <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 21s-6-4.35-9-8.5C-1.5 7.5 4.5 3 12 10.5 19.5 3 25.5 7.5 21 12.5 18 16.65 12 21 12 21z" fill="#F87171"/></svg>
                 </div>
                 <div class="metric-data">
                   <h4>Heart Rate</h4>
@@ -159,7 +138,8 @@
               </div>
               <div class="metric-item">
                 <div class="metric-icon vision">
-                  <img src="assets/images/icons/eye.svg" alt="Vision">
+                  <!-- Eye SVG -->
+                  <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="6" fill="#2563EB"/><circle cx="12" cy="12" r="3" fill="#1E3A8A"/></svg>
                 </div>
                 <div class="metric-data">
                   <h4>Vision</h4>
@@ -169,7 +149,8 @@
               </div>
               <div class="metric-item">
                 <div class="metric-icon hearing">
-                  <img src="assets/images/icons/ear.svg" alt="Hearing">
+                  <!-- Ear SVG -->
+                  <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12c0 5 4 9 9 9s9-4 9-9c0-5-4-9-9-9zm0 16a7 7 0 110-14 7 7 0 010 14z" fill="#059669"/></svg>
                 </div>
                 <div class="metric-data">
                   <h4>Hearing</h4>
@@ -186,37 +167,43 @@
             <div class="actions-grid">
               <a href="#health-tests/skin" class="action-item">
                 <div class="action-icon skin">
-                  <img src="assets/images/icons/skin.svg" alt="Skin Analysis">
+                  <!-- Skin SVG -->
+                  <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="16" rx="8" ry="6" fill="#F59E42"/><ellipse cx="12" cy="10" rx="6" ry="4" fill="#FBBF24"/></svg>
                 </div>
                 <span>Skin Analysis</span>
               </a>
               <a href="#health-tests/wound" class="action-item">
                 <div class="action-icon wound">
-                  <img src="assets/images/icons/wound.svg" alt="Wound Check">
+                  <!-- Wound SVG -->
+                  <svg width="24" height="24" viewBox="0 0 24 24"><rect x="8" y="11" width="8" height="2" rx="1" fill="#B91C1C"/><rect x="11" y="8" width="2" height="8" rx="1" fill="#B91C1C"/></svg>
                 </div>
                 <span>Wound Check</span>
               </a>
               <a href="#health-tests/vision" class="action-item">
                 <div class="action-icon vision-test">
-                  <img src="assets/images/icons/vision-test.svg" alt="Vision Test">
+                  <!-- Vision SVG -->
+                  <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="6" fill="#2563EB"/><circle cx="12" cy="12" r="3" fill="#1E3A8A"/></svg>
                 </div>
                 <span>Vision Test</span>
               </a>
               <a href="#health-tests/hearing" class="action-item">
                 <div class="action-icon hearing-test">
-                  <img src="assets/images/icons/hearing-test.svg" alt="Hearing Test">
+                  <!-- Hearing SVG -->
+                  <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12c0 5 4 9 9 9s9-4 9-9c0-5-4-9-9-9zm0 16a7 7 0 110-14 7 7 0 010 14z" fill="#059669"/></svg>
                 </div>
                 <span>Hearing Test</span>
               </a>
               <a href="#health-tests/vitals" class="action-item">
                 <div class="action-icon vitals">
-                  <img src="assets/images/icons/vitals.svg" alt="Check Vitals">
+                  <!-- Vitals SVG -->
+                  <svg width="24" height="24" viewBox="0 0 24 24"><path d="M4 12h4l2 6 4-12 2 6h4" stroke="#B91C1C" stroke-width="2" fill="none"/></svg>
                 </div>
                 <span>Check Vitals</span>
               </a>
               <a href="#health-tests/motion" class="action-item">
                 <div class="action-icon motion">
-                  <img src="assets/images/icons/motion.svg" alt="Motion Test">
+                  <!-- Motion SVG -->
+                  <svg width="24" height="24" viewBox="0 0 24 24"><rect x="8" y="4" width="8" height="16" rx="4" fill="#6366F1"/></svg>
                 </div>
                 <span>Motion Test</span>
               </a>
@@ -229,7 +216,8 @@
             <div class="activity-list">
               <div class="activity-item">
                 <div class="activity-icon">
-                  <img src="assets/images/icons/vision-test.svg" alt="Vision Test">
+                  <!-- Vision SVG -->
+                  <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="6" fill="#2563EB"/><circle cx="12" cy="12" r="3" fill="#1E3A8A"/></svg>
                 </div>
                 <div class="activity-details">
                   <h4>Vision Test Completed</h4>
@@ -239,7 +227,8 @@
               </div>
               <div class="activity-item">
                 <div class="activity-icon">
-                  <img src="assets/images/icons/heart.svg" alt="Heart Rate">
+                  <!-- Heart SVG -->
+                  <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 21s-6-4.35-9-8.5C-1.5 7.5 4.5 3 12 10.5 19.5 3 25.5 7.5 21 12.5 18 16.65 12 21 12 21z" fill="#F87171"/></svg>
                 </div>
                 <div class="activity-details">
                   <h4>Heart Rate Measured</h4>
@@ -249,7 +238,8 @@
               </div>
               <div class="activity-item">
                 <div class="activity-icon">
-                  <img src="assets/images/icons/assistant.svg" alt="AI Assistant">
+                  <!-- Assistant SVG -->
+                  <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#F59E42"/><ellipse cx="12" cy="15" rx="5" ry="2" fill="#fff"/></svg>
                 </div>
                 <div class="activity-details">
                   <h4>AI Consultation</h4>
@@ -267,6 +257,8 @@
             <div class="reminders-list">
               <div class="reminder-item">
                 <div class="reminder-checkbox">
+                  <!-- Checkbox SVG for unchecked -->
+                  <svg width="20" height="20" viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" rx="4" fill="#F3F4F6" stroke="#A1A1AA" stroke-width="2"/></svg>
                   <input type="checkbox" id="reminder-1">
                   <label for="reminder-1"></label>
                 </div>
@@ -277,6 +269,8 @@
               </div>
               <div class="reminder-item">
                 <div class="reminder-checkbox">
+                  <!-- Checkbox SVG for unchecked -->
+                  <svg width="20" height="20" viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" rx="4" fill="#F3F4F6" stroke="#A1A1AA" stroke-width="2"/></svg>
                   <input type="checkbox" id="reminder-2">
                   <label for="reminder-2"></label>
                 </div>
@@ -287,6 +281,8 @@
               </div>
               <div class="reminder-item completed">
                 <div class="reminder-checkbox">
+                  <!-- Checkbox SVG for checked -->
+                  <svg width="20" height="20" viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" rx="4" fill="#A7F3D0" stroke="#059669" stroke-width="2"/><polyline points="5,11 9,15 15,7" fill="none" stroke="#059669" stroke-width="2"/></svg>
                   <input type="checkbox" id="reminder-3" checked>
                   <label for="reminder-3"></label>
                 </div>
@@ -297,14 +293,15 @@
               </div>
             </div>
             <button class="btn-secondary btn-sm add-reminder">
-              <img src="assets/images/icons/add.svg" alt="Add">
+              <!-- Plus SVG -->
+              <svg width="20" height="20" viewBox="0 0 20 20"><line x1="10" y1="4" x2="10" y2="16" stroke="#2563EB" stroke-width="2"/><line x1="4" y1="10" x2="16" y2="10" stroke="#2563EB" stroke-width="2"/></svg>
               <span>Add Reminder</span>
             </button>
           </section>
         </div>
       </div>
       
-      <!-- Health Tests Page - Will be loaded dynamically -->
+      <!-- Health Tests Page -->
       <div class="health-tests-page page-content" id="health-tests-page"></div>
       
       <!-- AI Assistant Page -->
@@ -327,8 +324,6 @@
               </div>
               <span class="message-time">Now</span>
             </div>
-            
-            <!-- Messages will appear here -->
           </div>
           
           <div class="suggestion-chips">
@@ -342,21 +337,31 @@
             <textarea id="user-message" placeholder="Type your health question or concern..."></textarea>
             <div class="input-actions">
               <button id="btn-attach" class="btn-icon">
-                <img src="assets/images/icons/attach.svg" alt="Attach">
+                <svg width="20" height="20" viewBox="0 0 20 20"><rect x="8" y="2" width="4" height="16" rx="2" fill="#A1A1AA"/></svg>
               </button>
               <button id="btn-send" class="btn-icon send-btn">
-                <img src="assets/images/icons/send.svg" alt="Send">
+                <svg width="20" height="20" viewBox="0 0 20 20"><polygon points="2,10 18,2 18,18" fill="#2563EB"/></svg>
               </button>
             </div>
           </div>
         </div>
       </div>
       
-      <!-- History Page - Will be loaded dynamically -->
-      <div class="history-page page-content" id="history-page"></div>
+      <!-- History Page -->
+      <div class="history-page page-content" id="history-page">
+        <div class="history-container">
+          <h3>Test History</h3>
+          <div class="history-list"></div>
+        </div>
+      </div>
       
-      <!-- Settings Page - Will be loaded dynamically -->
-      <div class="settings-page page-content" id="settings-page"></div>
+      <!-- Settings Page -->
+      <div class="settings-page page-content" id="settings-page">
+        <div class="settings-container">
+          <h3>Settings</h3>
+          <div class="settings-list"></div>
+        </div>
+      </div>
     </div>
   </main>
   
@@ -365,7 +370,7 @@
     <div class="notifications-header">
       <h3>Notifications</h3>
       <button id="notifications-close" class="btn-icon">
-        <img src="assets/images/icons/close.svg" alt="Close">
+        <svg width="20" height="20" viewBox="0 0 20 20"><line x1="5" y1="5" x2="15" y2="15" stroke="#333" stroke-width="2"/><line x1="15" y1="5" x2="5" y2="15" stroke="#333" stroke-width="2"/></svg>
       </button>
     </div>
     
@@ -416,5 +421,6 @@
   
   <!-- Load Application Scripts -->
   <script src="js/app.js" type="module"></script>
+  <script src="js/dashboard.js" type="module"></script>
 </body>
 </html>
