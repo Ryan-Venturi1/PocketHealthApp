@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PocketHealth | Settings</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="mainstyle.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="app-body">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="app-logo">
+        <h1>PocketHealth</h1>
+      </div>
+      <button id="sidebar-close" class="sidebar-toggle">
+        <!-- X icon -->
+        <svg width="24" height="24" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18" stroke="#333" stroke-width="2"/><line x1="18" y1="6" x2="6" y2="18" stroke="#333" stroke-width="2"/></svg>
+      </button>
+    </div>
+    <div class="user-info">
+      <h3 id="user-name">User</h3>
+      <p id="user-email">user@email.com</p>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li>
+          <a href="dashboard.html">
+            <!-- Dashboard icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="11" width="7" height="10" fill="#2563EB"/><rect x="14" y="3" width="7" height="18" fill="#60A5FA"/></svg>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="health-tests.html">
+            <!-- Health Tests icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="#059669"/><rect x="9" y="9" width="6" height="6" rx="3" fill="#fff"/></svg>
+            <span>Health Tests</span>
+          </a>
+        </li>
+        <li>
+          <a href="health-assistant.html">
+            <!-- AI Assistant icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#F59E42"/><ellipse cx="12" cy="15" rx="5" ry="2" fill="#fff"/></svg>
+            <span>AI Assistant</span>
+          </a>
+        </li>
+        <li>
+          <a href="history.html">
+            <!-- History icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FBBF24"/><path d="M12 7v5l4 2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+            <span>History</span>
+          </a>
+        </li>
+        <li class="active">
+          <a href="settings.html">
+            <!-- Settings icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#A78BFA"/><circle cx="12" cy="12" r="4" fill="#fff"/></svg>
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer">
+      <a id="btn-emergency" class="btn-emergency" href="https://www.911.gov" target="_blank" rel="noopener">
+        <!-- 911 icon -->
+        <svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="6" fill="#DC2626"/><text x="12" y="17" text-anchor="middle" font-size="10" fill="#fff" font-family="Arial">911</text></svg>
+        <span>Emergency</span>
+      </a>
+      <button id="btn-logout" class="btn-logout">
+        <!-- Logout icon -->
+        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M16 17l5-5-5-5" stroke="#333" stroke-width="2" fill="none"/><path d="M21 12H9" stroke="#333" stroke-width="2" fill="none"/><rect x="3" y="4" width="6" height="16" rx="2" fill="#A1A1AA"/></svg>
+        <span>Sign Out</span>
+      </button>
+    </div>
+  </aside>
+  
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="main-header">
+      <button id="sidebar-open" class="sidebar-toggle mobile-only">
+        <!-- Plus icon -->
+        <svg width="24" height="24" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19" stroke="#333" stroke-width="2"/><line x1="5" y1="12" x2="19" y2="12" stroke="#333" stroke-width="2"/></svg>
+      </button>
+      <div class="page-title">
+        <h2 id="current-page-title">Settings</h2>
+      </div>
+      <div class="header-actions">
+        <button id="notifications-toggle" class="btn-icon">
+          <!-- Bell icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 22a2 2 0 002-2H10a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5l-2 2v1h16v-1l-2-2z" fill="#F59E42"/></svg>
+          <span class="notification-indicator"></span>
+        </button>
+        <div class="quick-actions">
+          <button id="quick-test" class="btn-secondary" data-nav="health-tests">
+            <span>Quick Test</span>
+          </button>
+          <button id="talk-assistant" class="btn-primary" data-nav="assistant">
+            <span>Talk to Assistant</span>
+          </button>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Settings Content -->
+    <div class="content-container">
+      <div class="settings-page page-content active" id="settings-page">
+        <!-- Settings Tabs -->
+        <div class="settings-tabs">
+          <button class="settings-tab active" data-tab="profile">Profile</button>
+          <button class="settings-tab" data-tab="account">Account</button>
+          <button class="settings-tab" data-tab="notifications">Notifications</button>
+          <button class="settings-tab" data-tab="privacy">Privacy</button>
+          <button class="settings-tab" data-tab="data">Data Management</button>
+        </div>
+        
+        <!-- Settings Content -->
+        <div class="settings-content">
+          <!-- Profile Settings -->
+          <div class="settings-section active" id="profile-settings">
+            <h3>Profile Settings</h3>
+            <p class="settings-description">Manage your personal information and health profile</p>
+            
+            <div class="profile-header">
+              <div class="profile-avatar">
+                <img src="assets/images/placeholder-avatar.jpg" alt="User Avatar" id="profile-image">
+                <button class="avatar-upload-btn">
+                  <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 2v16M2 10h16" stroke="#fff" stroke-width="2"/></svg>
+                </button>
+              </div>
+              <div class="profile-info">
+                <h4 id="profile-name">User Name</h4>
+                <p id="profile-email">user@email.com</p>
+              </div>
+            </div>
+            
+            <form id="profile-form" class="settings-form">
+              <div class="form-group">
+                <label for="profile-display-name">Full Name</label>
+                <input type="text" id="profile-display-name" placeholder="Your full name">
+              </div>
+              
+              <div class="form-group">
+                <label for="profile-dob">Date of Birth</label>
+                <input type="date" id="profile-dob">
+              </div>
+              
+              <div class="form-group">
+                <label>Gender</label>
+                <div class="radio-group">
+                  <label class="radio-label">
+                    <input type="radio" name="gender" value="male"> Male
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="gender" value="female"> Female
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="gender" value="other"> Other
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="gender" value="preferNot"> Prefer not to say
+                  </label>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="profile-height">Height</label>
+                <div class="input-with-unit">
+                  <input type="number" id="profile-height" min="0" step="0.01">
+                  <select id="height-unit">
+                    <option value="cm">cm</option>
+                    <option value="ft">ft/in</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="profile-weight">Weight</label>
+                <div class="input-with-unit">
+                  <input type="number" id="profile-weight" min="0" step="0.1">
+                  <select id="weight-unit">
+                    <option value="kg">kg</option>
+                    <option value="lb">lb</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label>Medical Conditions</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="conditions" value="diabetes"> Diabetes
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="conditions" value="hypertension"> Hypertension
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="conditions" value="asthma"> Asthma
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="conditions" value="heartDisease"> Heart Disease
+                  </label>
+                </div>
+                <button type="button" class="btn-text" id="add-condition">+ Add another condition</button>
+              </div>
+              
+              <div class="form-buttons">
+                <button type="submit" class="btn-primary">Save Changes</button>
+                <button type="reset" class="btn-secondary">Cancel</button>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Account Settings -->
+          <div class="settings-section" id="account-settings">
+            <h3>Account Settings</h3>
+            <p class="settings-description">Manage your account details and security</p>
+            
+            <div class="settings-card">
+              <h4>Email Address</h4>
+              <p>Your current email is <strong id="current-email">user@email.com</strong></p>
+              <button class="btn-secondary" id="change-email">Change Email</button>
+            </div>
+            
+            <div class="settings-card">
+              <h4>Password</h4>
+              <p>Last changed: <span id="password-changed">April 10, 2025</span></p>
+              <button class="btn-secondary" id="change-password">Change Password</button>
+            </div>
+            
+            <div class="settings-card">
+              <h4>Two-Factor Authentication</h4>
+              <p>Add an extra layer of security to your account</p>
+              <div class="toggle-switch">
+                <input type="checkbox" id="two-factor-toggle">
+                <label for="two-factor-toggle"></label>
+                <span class="toggle-label">Off</span>
+              </div>
+            </div>
+            
+            <div class="settings-card danger-zone">
+              <h4>Delete Account</h4>
+              <p>Permanently delete your account and all associated data.</p>
+              <button class="btn-danger" id="delete-account">Delete Account</button>
+            </div>
+          </div>
+          
+          <!-- Notifications Settings -->
+          <div class="settings-section" id="notifications-settings">
+            <h3>Notification Settings</h3>
+            <p class="settings-description">Control how and when you receive notifications</p>
+            
+            <div class="settings-card">
+              <h4>Email Notifications</h4>
+              
+              <div class="notification-option">
+                <div>
+                  <h5>Test Results</h5>
+                  <p>Get notified when your test results are ready</p>
+                </div>
+                <div class="toggle-switch">
+                  <input type="checkbox" id="email-results-toggle" checked>
+                  <label for="email-results-toggle"></label>
+                </div>
+              </div>
+              
+              <div class="notification-option">
+                <div>
+                  <h5>Reminders</h5>
+                  <p>Receive reminders for scheduled health checks</p>
+                </div>
+                <div class="toggle-switch">
+                  <input type="checkbox" id="email-reminders-toggle" checked>
+                  <label for="email-reminders-toggle"></label>
+                </div>
+              </div>
+              
+              <div class="notification-option">
+                <div>
+                  <h5>Health Tips</h5>
+                  <p>Weekly health tips and recommendations</p>
+                </div>
+                <div class="toggle-switch">
+                  <input type="checkbox" id="email-tips-toggle">
+                  <label for="email-tips-toggle"></label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="settings-card">
+              <h4>Push Notifications</h4>
+              
+              <div class="notification-option">
+                <div>
+                  <h5>Test Results</h5>
+                  <p>Get notified when your test results are ready</p>
+                </div>
+                <div class="toggle-switch">
+                  <input type="checkbox" id="push-results-toggle" checked>
+                  <label for="push-results-toggle"></label>
+                </div>
+              </div>
+              
+              <div class="notification-option">
+                <div>
+                  <h5>Reminders</h5>
+                  <p>Receive reminders for scheduled health checks</p>
+                </div>
+                <div class="toggle-switch">
+                  <input type="checkbox" id="push-reminders-toggle" checked>
+                  <label for="push-reminders-toggle"></label>
+                </div>
+              </div>
+              
+              <div class="notification-option">
+                <div>
+                  <h5>Health Tips</h5>
+                  <p>Weekly health tips and recommendations</p>
+                </div>
+                <div class="toggle-switch">
+                  <input type="checkbox" id="push-tips-toggle" checked>
+                  <label for="push-tips-toggle"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Privacy Settings -->
+          <div class="settings-section" id="privacy-settings">
+            <h3>Privacy Settings</h3>
+            <p class="settings-description">Control your data privacy and sharing preferences</p>
+            
+            <div class="settings-card">
+              <h4>Data Sharing</h4>
+              <p>Control how your health data is shared</p>
+              
+              <div class="notification-option">
+                <div>
+                  <h5>Share Anonymous Data for Research</h5>
+                  <p>Your data will be anonymized and used to improve health research</p>
+                </div>
+                <div class="toggle-switch">
+                  <input type="checkbox" id="share-research-toggle">
+                  <label for="share-research-toggle"></label>
+                </div>
+              </div>
+              
+              <div class="notification-option">
+                <div>
+                  <h5>Share Data with Healthcare Providers</h5>
+                  <p>Allow your healthcare providers to access your health data</p>
+                </div>
+                <div class="toggle-switch">
+                  <input type="checkbox" id="share-providers-toggle">
+                  <label for="share-providers-toggle"></label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="settings-card">
+              <h4>Privacy Policy</h4>
+              <p>Read our privacy policy to understand how we handle your data</p>
+              <button class="btn-secondary" id="view-privacy">View Privacy Policy</button>
+            </div>
+          </div>
+          
+          <!-- Data Management Settings -->
+          <div class="settings-section" id="data-settings">
+            <h3>Data Management</h3>
+            <p class="settings-description">Manage your health data and exports</p>
+            
+            <div class="settings-card">
+              <h4>Export Health Data</h4>
+              <p>Download your health data in various formats</p>
+              
+              <div class="export-options">
+                <button class="btn-secondary" id="export-json">
+                  <span>Export as JSON</span>
+                </button>
+                <button class="btn-secondary" id="export-csv">
+                  <span>Export as CSV</span>
+                </button>
+                <button class="btn-secondary" id="export-pdf">
+                  <span>Export as PDF</span>
+                </button>
+              </div>
+            </div>
+            
+            <div class="settings-card">
+              <h4>Data Storage</h4>
+              <p>You are currently using <strong>24 MB</strong> of your <strong>1 GB</strong> storage</p>
+              <div class="storage-bar">
+                <div class="storage-used" style="width: 2.4%"></div>
+              </div>
+            </div>
+            
+            <div class="settings-card danger-zone">
+              <h4>Delete Health Data</h4>
+              <p>Permanently delete all your health data. This action cannot be undone.</p>
+              <button class="btn-danger" id="delete-data">Delete All Health Data</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Notifications Panel (Hidden by default) -->
+  <div class="notifications-panel" id="notifications-panel">
+    <div class="notifications-header">
+      <h3>Notifications</h3>
+      <button id="notifications-close" class="btn-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20"><line x1="5" y1="5" x2="15" y2="15" stroke="#333" stroke-width="2"/><line x1="15" y1="5" x2="5" y2="15" stroke="#333" stroke-width="2"/></svg>
+      </button>
+    </div>
+    
+    <div class="notifications-list">
+      <div class="notification-item unread">
+        <div class="notification-icon">
+          <img src="assets/images/icons/reminder.svg" alt="Reminder">
+        </div>
+        <div class="notification-content">
+          <h4>Hearing Test Reminder</h4>
+          <p>Your scheduled hearing test is due in 2 days.</p>
+          <span class="notification-time">2 hours ago</span>
+        </div>
+      </div>
+      
+      <div class="notification-item unread">
+        <div class="notification-icon">
+          <img src="assets/images/icons/tip.svg" alt="Tip">
+        </div>
+        <div class="notification-content">
+          <h4>Health Tip</h4>
+          <p>Remember to take frequent breaks to reduce eye strain when using digital devices.</p>
+          <span class="notification-time">5 hours ago</span>
+        </div>
+      </div>
+      
+      <div class="notification-item">
+        <div class="notification-icon">
+          <img src="assets/images/icons/result.svg" alt="Result">
+        </div>
+        <div class="notification-content">
+          <h4>Test Results Available</h4>
+          <p>Your vision test results are now ready to view.</p>
+          <span class="notification-time">Yesterday</span>
+        </div>
+      </div>
+    </div>
+    
+    <button class="btn-text mark-all-read">Mark all as read</button>
+  </div>
+  
+  <!-- Modal Containers -->
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  <div class="modal-container" id="modal-container"></div>
+  
+  <!-- Settings Styles -->
+  <style>
+    .settings-tabs {
+      display: flex;
+      overflow-x: auto;
+      gap: 8px;
+      margin-bottom: 24px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .settings-tab {
+      padding: 10px 16px;
+      background: none;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+    
+    .settings-tab:hover {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+    
+    .settings-tab.active {
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+    }
+    
+    .settings-section {
+      display: none;
+    }
+    
+    .settings-section.active {
+      display: block;
+    }
+    
+    .settings-description {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+    
+    .settings-card {
+      background-color: white;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .settings-card h4 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 1.125rem;
+    }
+    
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    
+    .profile-avatar {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .avatar-upload-btn {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    
+    .profile-info h4 {
+      margin: 0 0 4px 0;
+      font-size: 1.25rem;
+    }
+    
+    .profile-info p {
+      color: var(--text-secondary);
+    }
+    
+    .settings-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    .input-with-unit {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .input-with-unit input {
+      flex: 1;
+    }
+    
+    .input-with-unit select {
+      width: 80px;
+    }
+    
+    .form-buttons {
+      display: flex;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    
+    .notification-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .notification-option:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    
+    .notification-option h5 {
+      margin: 0 0 4px 0;
+      font-size: 1rem;
+    }
+    
+    .notification-option p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 24px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-switch label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--text-light);
+      border-radius: 34px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .toggle-switch label:before {
+      content: "";
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+    
+    .toggle-switch input:checked + label {
+      background-color: var(--primary);
+    }
+    
+    .toggle-switch input:checked + label:before {
+      transform: translateX(26px);
+    }
+    
+    .toggle-label {
+      margin-left: 8px;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+    
+    .danger-zone {
+      border: 1px solid #fee2e2;
+      background-color: #fef2f2;
+    }
+    
+    .danger-zone h4 {
+      color: #b91c1c;
+    }
+    
+    .btn-danger {
+      background-color: #ef4444;
+      color: white;
+      padding: 10px 16px;
+      border-radius: var(--radius);
+      transition: var(--transition);
+    }
+    
+    .btn-danger:hover {
+      background-color: #b91c1c;
+    }
+    
+    .export-options {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .storage-bar {
+      height: 8px;
+      background-color: var(--bg-secondary);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 16px;
+    }
+    
+    .storage-used {
+      height: 100%;
+      background-color: var(--primary);
+      border-radius: 4px;
+    }
+    
+    @media (max-width: 768px) {
+      .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      
+      .form-buttons {
+        flex-direction: column;
+      }
+      
+      .export-options {
+        flex-direction: column;
+      }
+    }
+  </style>
+  
+  <!-- Load Application Scripts -->
+  <script src="js/app.js" type="module"></script>
+  <script src="js/dashboard.js" type="module"></script>
+  
+  <script>
+    // Initialize Settings page functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set up sidebar toggle for mobile
+      const sidebarOpen = document.getElementById('sidebar-open');
+      const sidebarClose = document.getElementById('sidebar-close');
+      const sidebar = document.querySelector('.sidebar');
+      
+      if (sidebarOpen) {
+        sidebarOpen.addEventListener('click', () => {
+          sidebar.classList.add('open');
+        });
+      }
+      
+      if (sidebarClose) {
+        sidebarClose.addEventListener('click', () => {
+          sidebar.classList.remove('open');
+        });
+      }
+      
+      // Set up notifications panel
+      const notificationsToggle = document.getElementById('notifications-toggle');
+      const notificationsPanel = document.getElementById('notifications-panel');
+      const notificationsClose = document.getElementById('notifications-close');
+      const modalBackdrop = document.getElementById('modal-backdrop');
+      
+      if (notificationsToggle) {
+        notificationsToggle.addEventListener('click', () => {
+          notificationsPanel.classList.toggle('open');
+          modalBackdrop.classList.toggle('open');
+        });
+      }
+      
+      if (notificationsClose) {
+        notificationsClose.addEventListener('click', () => {
+          notificationsPanel.classList.remove('open');
+          modalBackdrop.classList.remove('open');
+        });
+      }
+      
+      if (modalBackdrop) {
+        modalBackdrop.addEventListener('click', () => {
+          notificationsPanel.classList.remove('open');
+          modalBackdrop.classList.remove('open');
+        });
+      }
+      
+      // Settings-specific functionality
+      const settingsTabs = document.querySelectorAll('.settings-tab');
+      const settingsSections = document.querySelectorAll('.settings-section');
+      
+      // Tab switching
+      settingsTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const targetTab = tab.dataset.tab;
+          
+          // Update active tab
+          settingsTabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          
+          // Show corresponding section
+          settingsSections.forEach(section => {
+            section.classList.remove('active');
+          });
+          document.getElementById(`${targetTab}-settings`).classList.add('active');
+        });
+      });
+      
+      // Toggle switches update labels
+      document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+        toggle.addEventListener('change', (e) => {
+          const label = e.target.nextElementSibling.nextElementSibling;
+          if (label && label.classList.contains('toggle-label')) {
+            label.textContent = e.target.checked ? 'On' : 'Off';
+          }
+        });
+      });
+      
+      // Profile form submission
+      const profileForm = document.getElementById('profile-form');
+      if (profileForm) {
+        profileForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          
+          // In a real implementation, this would save the profile data to the database
+          alert('Your profile has been updated successfully!');
+        });
+      }
+      
+      // Danger buttons
+      const deleteAccount = document.getElementById('delete-account');
+      if (deleteAccount) {
+        deleteAccount.addEventListener('click', () => {
+          if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+            alert('In a real implementation, this would delete your account.');
+          }
+        });
+      }
+      
+      const deleteData = document.getElementById('delete-data');
+      if (deleteData) {
+        deleteData.addEventListener('click', () => {
+          if (confirm('Are you sure you want to delete all your health data? This action cannot be undone.')) {
+            alert('In a real implementation, this would delete all your health data.');
+          }
+        });
+      }
+      
+      // Export buttons
+      document.querySelectorAll('#export-json, #export-csv, #export-pdf').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const format = e.target.id.split('-')[1].toUpperCase();
+          alert(`In a real implementation, this would export your health data in ${format} format.`);
+        });
+      });
+      
+      // Load user data from Firebase in a real implementation
+      // For now, we'll just use placeholder data
+      function loadUserData() {
+        // This would fetch user data from Firebase
+        const userData = {
+          name: 'John Doe',
+          email: 'john.doe@example.com',
+          dob: '1990-01-01',
+          gender: 'male',
+          height: 180,
+          heightUnit: 'cm',
+          weight: 75,
+          weightUnit: 'kg',
+          conditions: ['asthma']
+        };
+        
+        // Update profile display
+        document.getElementById('profile-name').textContent = userData.name;
+        document.getElementById('profile-email').textContent = userData.email;
+        document.getElementById('user-name').textContent = userData.name;
+        document.getElementById('user-email').textContent = userData.email;
+        document.getElementById('current-email').textContent = userData.email;
+        
+        // Update form fields
+        document.getElementById('profile-display-name').value = userData.name;
+        document.getElementById('profile-dob').value = userData.dob;
+        document.querySelector(`input[name="gender"][value="${userData.gender}"]`).checked = true;
+        document.getElementById('profile-height').value = userData.height;
+        document.getElementById('height-unit').value = userData.heightUnit;
+        document.getElementById('profile-weight').value = userData.weight;
+        document.getElementById('weight-unit').value = userData.weightUnit;
+        
+        // Check conditions
+        userData.conditions.forEach(condition => {
+          const checkbox = document.querySelector(`input[name="conditions"][value="${condition}"]`);
+          if (checkbox) checkbox.checked = true;
+        });
+      }
+      
+      // Initialize by loading user data
+      loadUserData();
+    });
+  </script>
+</body>
+</html>

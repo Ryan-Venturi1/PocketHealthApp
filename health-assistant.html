@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PocketHealth | AI Assistant</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="mainstyle.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="app-body">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="app-logo">
+        <h1>PocketHealth</h1>
+      </div>
+      <button id="sidebar-close" class="sidebar-toggle">
+        <!-- X icon -->
+        <svg width="24" height="24" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18" stroke="#333" stroke-width="2"/><line x1="18" y1="6" x2="6" y2="18" stroke="#333" stroke-width="2"/></svg>
+      </button>
+    </div>
+    <div class="user-info">
+      <h3 id="user-name">User</h3>
+      <p id="user-email">user@email.com</p>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li>
+          <a href="dashboard.html">
+            <!-- Dashboard icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="11" width="7" height="10" fill="#2563EB"/><rect x="14" y="3" width="7" height="18" fill="#60A5FA"/></svg>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="health-tests.html">
+            <!-- Health Tests icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="#059669"/><rect x="9" y="9" width="6" height="6" rx="3" fill="#fff"/></svg>
+            <span>Health Tests</span>
+          </a>
+        </li>
+        <li class="active">
+          <a href="health-assistant.html">
+            <!-- AI Assistant icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#F59E42"/><ellipse cx="12" cy="15" rx="5" ry="2" fill="#fff"/></svg>
+            <span>AI Assistant</span>
+          </a>
+        </li>
+        <li>
+          <a href="history.html">
+            <!-- History icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FBBF24"/><path d="M12 7v5l4 2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+            <span>History</span>
+          </a>
+        </li>
+        <li>
+          <a href="settings.html">
+            <!-- Settings icon -->
+            <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#A78BFA"/><circle cx="12" cy="12" r="4" fill="#fff"/></svg>
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer">
+      <a id="btn-emergency" class="btn-emergency" href="https://www.911.gov" target="_blank" rel="noopener">
+        <!-- 911 icon -->
+        <svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="6" fill="#DC2626"/><text x="12" y="17" text-anchor="middle" font-size="10" fill="#fff" font-family="Arial">911</text></svg>
+        <span>Emergency</span>
+      </a>
+      <button id="btn-logout" class="btn-logout">
+        <!-- Logout icon -->
+        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M16 17l5-5-5-5" stroke="#333" stroke-width="2" fill="none"/><path d="M21 12H9" stroke="#333" stroke-width="2" fill="none"/><rect x="3" y="4" width="6" height="16" rx="2" fill="#A1A1AA"/></svg>
+        <span>Sign Out</span>
+      </button>
+    </div>
+  </aside>
+  
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="main-header">
+      <button id="sidebar-open" class="sidebar-toggle mobile-only">
+        <!-- Plus icon -->
+        <svg width="24" height="24" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19" stroke="#333" stroke-width="2"/><line x1="5" y1="12" x2="19" y2="12" stroke="#333" stroke-width="2"/></svg>
+      </button>
+      <div class="page-title">
+        <h2 id="current-page-title">AI Assistant</h2>
+      </div>
+      <div class="header-actions">
+        <button id="notifications-toggle" class="btn-icon">
+          <!-- Bell icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 22a2 2 0 002-2H10a2 2 0 002 2zm6-6V11a6 6 0 10-12 0v5l-2 2v1h16v-1l-2-2z" fill="#F59E42"/></svg>
+          <span class="notification-indicator"></span>
+        </button>
+        <div class="quick-actions">
+          <button id="quick-test" class="btn-secondary" data-nav="health-tests">
+            <span>Quick Test</span>
+          </button>
+        </div>
+      </div>
+    </header>
+    
+    <!-- AI Assistant Content -->
+    <div class="content-container">
+      <div class="assistant-page page-content active" id="assistant-page">
+        <div class="assistant-container">
+          <div class="chat-header">
+            <div class="assistant-avatar">
+              <img src="assets/images/assistant-avatar.svg" alt="Health Assistant">
+            </div>
+            <div class="assistant-info">
+              <h3>Health Assistant</h3>
+              <p>AI-powered health guidance</p>
+            </div>
+          </div>
+          
+          <div class="chat-messages" id="chat-messages">
+            <div class="message assistant">
+              <div class="message-content">
+                <p>Hello! I'm your health assistant. I can help answer health questions, guide you through assessments, or recommend tests based on your symptoms. How can I help you today?</p>
+              </div>
+              <span class="message-time">Now</span>
+            </div>
+          </div>
+          
+          <div class="suggestion-chips">
+            <button class="suggestion-chip">My back hurts</button>
+            <button class="suggestion-chip">I have a rash</button>
+            <button class="suggestion-chip">Eye strain</button>
+            <button class="suggestion-chip">Headache</button>
+          </div>
+          
+          <div class="chat-input">
+            <textarea id="user-message" placeholder="Type your health question or concern..."></textarea>
+            <div class="input-actions">
+              <button id="btn-attach" class="btn-icon">
+                <svg width="20" height="20" viewBox="0 0 20 20"><rect x="8" y="2" width="4" height="16" rx="2" fill="#A1A1AA"/></svg>
+              </button>
+              <button id="btn-send" class="btn-icon send-btn">
+                <svg width="20" height="20" viewBox="0 0 20 20"><polygon points="2,10 18,2 18,18" fill="#2563EB"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Notifications Panel (Hidden by default) -->
+  <div class="notifications-panel" id="notifications-panel">
+    <div class="notifications-header">
+      <h3>Notifications</h3>
+      <button id="notifications-close" class="btn-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20"><line x1="5" y1="5" x2="15" y2="15" stroke="#333" stroke-width="2"/><line x1="15" y1="5" x2="5" y2="15" stroke="#333" stroke-width="2"/></svg>
+      </button>
+    </div>
+    
+    <div class="notifications-list">
+      <div class="notification-item unread">
+        <div class="notification-icon">
+          <img src="assets/images/icons/reminder.svg" alt="Reminder">
+        </div>
+        <div class="notification-content">
+          <h4>Hearing Test Reminder</h4>
+          <p>Your scheduled hearing test is due in 2 days.</p>
+          <span class="notification-time">2 hours ago</span>
+        </div>
+      </div>
+      
+      <div class="notification-item unread">
+        <div class="notification-icon">
+          <img src="assets/images/icons/tip.svg" alt="Tip">
+        </div>
+        <div class="notification-content">
+          <h4>Health Tip</h4>
+          <p>Remember to take frequent breaks to reduce eye strain when using digital devices.</p>
+          <span class="notification-time">5 hours ago</span>
+        </div>
+      </div>
+      
+      <div class="notification-item">
+        <div class="notification-icon">
+          <img src="assets/images/icons/result.svg" alt="Result">
+        </div>
+        <div class="notification-content">
+          <h4>Test Results Available</h4>
+          <p>Your vision test results are now ready to view.</p>
+          <span class="notification-time">Yesterday</span>
+        </div>
+      </div>
+    </div>
+    
+    <button class="btn-text mark-all-read">Mark all as read</button>
+  </div>
+  
+  <!-- Modal Containers -->
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  <div class="modal-container" id="modal-container"></div>
+  
+  <!-- Load TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  
+  <!-- Load Application Scripts -->
+  <script src="js/app.js" type="module"></script>
+  <script src="js/dashboard.js" type="module"></script>
+  
+  <script>
+    // Initialize AI Assistant functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set up sidebar toggle for mobile
+      const sidebarOpen = document.getElementById('sidebar-open');
+      const sidebarClose = document.getElementById('sidebar-close');
+      const sidebar = document.querySelector('.sidebar');
+      
+      if (sidebarOpen) {
+        sidebarOpen.addEventListener('click', () => {
+          sidebar.classList.add('open');
+        });
+      }
+      
+      if (sidebarClose) {
+        sidebarClose.addEventListener('click', () => {
+          sidebar.classList.remove('open');
+        });
+      }
+      
+      // Set up notifications panel
+      const notificationsToggle = document.getElementById('notifications-toggle');
+      const notificationsPanel = document.getElementById('notifications-panel');
+      const notificationsClose = document.getElementById('notifications-close');
+      const modalBackdrop = document.getElementById('modal-backdrop');
+      
+      if (notificationsToggle) {
+        notificationsToggle.addEventListener('click', () => {
+          notificationsPanel.classList.toggle('open');
+          modalBackdrop.classList.toggle('open');
+        });
+      }
+      
+      if (notificationsClose) {
+        notificationsClose.addEventListener('click', () => {
+          notificationsPanel.classList.remove('open');
+          modalBackdrop.classList.remove('open');
+        });
+      }
+      
+      if (modalBackdrop) {
+        modalBackdrop.addEventListener('click', () => {
+          notificationsPanel.classList.remove('open');
+          modalBackdrop.classList.remove('open');
+        });
+      }
+      
+      // AI Assistant functionality
+      const userMessage = document.getElementById('user-message');
+      const sendButton = document.getElementById('btn-send');
+      const chatMessages = document.getElementById('chat-messages');
+      const suggestionChips = document.querySelectorAll('.suggestion-chip');
+      
+      // Function to add a user message to the chat
+      function addUserMessage(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message user';
+        messageDiv.innerHTML = `
+          <div class="message-content">
+            <p>${message}</p>
+          </div>
+          <span class="message-time">Just now</span>
+        `;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      
+      // Function to add an assistant message to the chat
+      function addAssistantMessage(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message assistant';
+        messageDiv.innerHTML = `
+          <div class="message-content">
+            <p>${message}</p>
+          </div>
+          <span class="message-time">Just now</span>
+        `;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      
+      // Function to handle sending a message
+      function sendMessage() {
+        const message = userMessage.value.trim();
+        if (message) {
+          addUserMessage(message);
+          userMessage.value = '';
+          
+          // In a real implementation, we would send this message to an AI service
+          // and get a response. For now, we'll simulate a response.
+          setTimeout(() => {
+            // Simulate AI thinking
+            addAssistantMessage("I'm thinking about how to respond to your query about '" + message + "'. In a full implementation, this would connect to a language model API to provide personalized health guidance.");
+          }, 1000);
+        }
+      }
+      
+      // Event listeners for sending messages
+      if (sendButton) {
+        sendButton.addEventListener('click', sendMessage);
+      }
+      
+      if (userMessage) {
+        userMessage.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+          }
+        });
+      }
+      
+      // Event listeners for suggestion chips
+      suggestionChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          const message = chip.textContent;
+          addUserMessage(message);
+          
+          // Simulate AI response
+          setTimeout(() => {
+            let response;
+            if (message.includes('back hurts')) {
+              response = "I'm sorry to hear about your back pain. This could be caused by various factors including poor posture, strain, or underlying conditions. Would you like me to recommend some tests or exercises that might help?";
+            } else if (message.includes('rash')) {
+              response = "Skin rashes can have many causes. It would be helpful to analyze it using our Skin Assessment tool. Would you like to try that test now?";
+            } else if (message.includes('eye strain')) {
+              response = "Eye strain is common with digital device usage. You might benefit from our Vision Test to assess your visual health. Would you like to learn about the 20-20-20 rule for reducing eye strain?";
+            } else if (message.includes('headache')) {
+              response = "Headaches can range from minor to serious. Could you describe the pain pattern and any other symptoms you're experiencing? This will help me provide better guidance.";
+            } else {
+              response = "I understand you're concerned about this health issue. To give you better advice, could you provide more details about your symptoms?";
+            }
+            addAssistantMessage(response);
+          }, 1000);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

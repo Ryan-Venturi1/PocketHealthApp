@@ -30,35 +30,35 @@
     <nav class="sidebar-nav">
       <ul>
         <li class="active">
-          <a href="#dashboard">
+          <a href="dashboard.html">
             <!-- Dashboard icon -->
             <svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="11" width="7" height="10" fill="#2563EB"/><rect x="14" y="3" width="7" height="18" fill="#60A5FA"/></svg>
             <span>Dashboard</span>
           </a>
         </li>
         <li>
-          <a href="#health-tests">
+          <a href="health-tests.html">
             <!-- Health Tests icon -->
             <svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="#059669"/><rect x="9" y="9" width="6" height="6" rx="3" fill="#fff"/></svg>
             <span>Health Tests</span>
           </a>
         </li>
         <li>
-          <a href="#health-assistant">
+          <a href="health-assistant.html">
             <!-- AI Assistant icon -->
             <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#F59E42"/><ellipse cx="12" cy="15" rx="5" ry="2" fill="#fff"/></svg>
             <span>AI Assistant</span>
           </a>
         </li>
         <li>
-          <a href="#history">
+          <a href="history.html">
             <!-- History icon -->
             <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FBBF24"/><path d="M12 7v5l4 2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
             <span>History</span>
           </a>
         </li>
         <li>
-          <a href="#settings">
+          <a href="settings.html">
             <!-- Settings icon -->
             <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#A78BFA"/><circle cx="12" cy="12" r="4" fill="#fff"/></svg>
             <span>Settings</span>
@@ -96,10 +96,10 @@
           <span class="notification-indicator"></span>
         </button>
         <div class="quick-actions">
-          <button id="quick-test" class="btn-secondary" data-nav="health-tests">
+          <button id="quick-test" class="btn-secondary" onclick="window.location.href='health-tests.html'">
             <span>Quick Test</span>
           </button>
-          <button id="talk-assistant" class="btn-primary" data-nav="assistant">
+          <button id="talk-assistant" class="btn-primary" onclick="window.location.href='health-assistant.html'">
             <span>Talk to Assistant</span>
           </button>
         </div>
@@ -165,42 +165,42 @@
           <section class="dashboard-card quick-actions-card">
             <h3>Quick Actions</h3>
             <div class="actions-grid">
-              <a href="#health-tests/skin" class="action-item">
+              <a href="health-tests.html" class="action-item" data-test="skin">
                 <div class="action-icon skin">
                   <!-- Skin SVG -->
                   <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="16" rx="8" ry="6" fill="#F59E42"/><ellipse cx="12" cy="10" rx="6" ry="4" fill="#FBBF24"/></svg>
                 </div>
                 <span>Skin Analysis</span>
               </a>
-              <a href="#health-tests/wound" class="action-item">
+              <a href="health-tests.html" class="action-item" data-test="wound">
                 <div class="action-icon wound">
                   <!-- Wound SVG -->
                   <svg width="24" height="24" viewBox="0 0 24 24"><rect x="8" y="11" width="8" height="2" rx="1" fill="#B91C1C"/><rect x="11" y="8" width="2" height="8" rx="1" fill="#B91C1C"/></svg>
                 </div>
                 <span>Wound Check</span>
               </a>
-              <a href="#health-tests/vision" class="action-item">
+              <a href="health-tests.html" class="action-item" data-test="vision">
                 <div class="action-icon vision-test">
                   <!-- Vision SVG -->
                   <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="6" fill="#2563EB"/><circle cx="12" cy="12" r="3" fill="#1E3A8A"/></svg>
                 </div>
                 <span>Vision Test</span>
               </a>
-              <a href="#health-tests/hearing" class="action-item">
+              <a href="health-tests.html" class="action-item" data-test="hearing">
                 <div class="action-icon hearing-test">
                   <!-- Hearing SVG -->
                   <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12c0 5 4 9 9 9s9-4 9-9c0-5-4-9-9-9zm0 16a7 7 0 110-14 7 7 0 010 14z" fill="#059669"/></svg>
                 </div>
                 <span>Hearing Test</span>
               </a>
-              <a href="#health-tests/vitals" class="action-item">
+              <a href="health-tests.html" class="action-item" data-test="vitals">
                 <div class="action-icon vitals">
                   <!-- Vitals SVG -->
                   <svg width="24" height="24" viewBox="0 0 24 24"><path d="M4 12h4l2 6 4-12 2 6h4" stroke="#B91C1C" stroke-width="2" fill="none"/></svg>
                 </div>
                 <span>Check Vitals</span>
               </a>
-              <a href="#health-tests/motion" class="action-item">
+              <a href="health-tests.html" class="action-item" data-test="motion">
                 <div class="action-icon motion">
                   <!-- Motion SVG -->
                   <svg width="24" height="24" viewBox="0 0 24 24"><rect x="8" y="4" width="8" height="16" rx="4" fill="#6366F1"/></svg>
@@ -248,7 +248,7 @@
                 </div>
               </div>
             </div>
-            <a href="#history" class="view-all">View all activity</a>
+            <a href="history.html" class="view-all">View all activity</a>
           </section>
           
           <!-- Upcoming Reminders -->
@@ -298,68 +298,6 @@
               <span>Add Reminder</span>
             </button>
           </section>
-        </div>
-      </div>
-      
-      <!-- Health Tests Page -->
-      <div class="health-tests-page page-content" id="health-tests-page"></div>
-      
-      <!-- AI Assistant Page -->
-      <div class="assistant-page page-content" id="assistant-page">
-        <div class="assistant-container">
-          <div class="chat-header">
-            <div class="assistant-avatar">
-              <img src="assets/images/assistant-avatar.svg" alt="Health Assistant">
-            </div>
-            <div class="assistant-info">
-              <h3>Health Assistant</h3>
-              <p>AI-powered health guidance</p>
-            </div>
-          </div>
-          
-          <div class="chat-messages" id="chat-messages">
-            <div class="message assistant">
-              <div class="message-content">
-                <p>Hello! I'm your health assistant. I can help answer health questions, guide you through assessments, or recommend tests based on your symptoms. How can I help you today?</p>
-              </div>
-              <span class="message-time">Now</span>
-            </div>
-          </div>
-          
-          <div class="suggestion-chips">
-            <button class="suggestion-chip">My back hurts</button>
-            <button class="suggestion-chip">I have a rash</button>
-            <button class="suggestion-chip">Eye strain</button>
-            <button class="suggestion-chip">Headache</button>
-          </div>
-          
-          <div class="chat-input">
-            <textarea id="user-message" placeholder="Type your health question or concern..."></textarea>
-            <div class="input-actions">
-              <button id="btn-attach" class="btn-icon">
-                <svg width="20" height="20" viewBox="0 0 20 20"><rect x="8" y="2" width="4" height="16" rx="2" fill="#A1A1AA"/></svg>
-              </button>
-              <button id="btn-send" class="btn-icon send-btn">
-                <svg width="20" height="20" viewBox="0 0 20 20"><polygon points="2,10 18,2 18,18" fill="#2563EB"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- History Page -->
-      <div class="history-page page-content" id="history-page">
-        <div class="history-container">
-          <h3>Test History</h3>
-          <div class="history-list"></div>
-        </div>
-      </div>
-      
-      <!-- Settings Page -->
-      <div class="settings-page page-content" id="settings-page">
-        <div class="settings-container">
-          <h3>Settings</h3>
-          <div class="settings-list"></div>
         </div>
       </div>
     </div>
@@ -422,5 +360,62 @@
   <!-- Load Application Scripts -->
   <script src="js/app.js" type="module"></script>
   <script src="js/dashboard.js" type="module"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set up sidebar toggle for mobile
+      const sidebarOpen = document.getElementById('sidebar-open');
+      const sidebarClose = document.getElementById('sidebar-close');
+      const sidebar = document.querySelector('.sidebar');
+      
+      if (sidebarOpen) {
+        sidebarOpen.addEventListener('click', () => {
+          sidebar.classList.add('open');
+        });
+      }
+      
+      if (sidebarClose) {
+        sidebarClose.addEventListener('click', () => {
+          sidebar.classList.remove('open');
+        });
+      }
+      
+      // Set up notifications panel
+      const notificationsToggle = document.getElementById('notifications-toggle');
+      const notificationsPanel = document.getElementById('notifications-panel');
+      const notificationsClose = document.getElementById('notifications-close');
+      const modalBackdrop = document.getElementById('modal-backdrop');
+      
+      if (notificationsToggle) {
+        notificationsToggle.addEventListener('click', () => {
+          notificationsPanel.classList.toggle('open');
+          modalBackdrop.classList.toggle('open');
+        });
+      }
+      
+      if (notificationsClose) {
+        notificationsClose.addEventListener('click', () => {
+          notificationsPanel.classList.remove('open');
+          modalBackdrop.classList.remove('open');
+        });
+      }
+      
+      if (modalBackdrop) {
+        modalBackdrop.addEventListener('click', () => {
+          notificationsPanel.classList.remove('open');
+          modalBackdrop.classList.remove('open');
+        });
+      }
+      
+      // Set up test selection on health tests icons
+      document.querySelectorAll('.action-item[data-test]').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const testType = e.currentTarget.getAttribute('data-test');
+          window.location.href = `health-tests.html?test=${testType}`;
+        });
+      });
+    });
+  </script>
 </body>
 </html>
