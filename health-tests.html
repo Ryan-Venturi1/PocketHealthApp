@@ -116,7 +116,7 @@
       <p class="subtitle">Select a test to begin your health assessment</p>
 
       <div class="tests-grid">
-        <!-- Skin Analysis Test -->
+        <!-- Skin Analysis -->
         <div class="test-card" data-test="skin">
           <div class="test-icon">
             <svg width="24" height="24" viewBox="0 0 24 24">
@@ -130,8 +130,8 @@
           </div>
           <button class="start-test-btn" onclick="startTest('skin')">Start Test</button>
         </div>
-
-        <!-- Wound Assessment Test -->
+      
+        <!-- Wound Assessment -->
         <div class="test-card" data-test="wound">
           <div class="test-icon">
             <svg width="24" height="24" viewBox="0 0 24 24">
@@ -145,7 +145,7 @@
           </div>
           <button class="start-test-btn" onclick="startTest('wound')">Start Test</button>
         </div>
-
+      
         <!-- Vision Test -->
         <div class="test-card" data-test="vision">
           <div class="test-icon">
@@ -160,7 +160,7 @@
           </div>
           <button class="start-test-btn" onclick="startTest('vision')">Start Test</button>
         </div>
-
+      
         <!-- Hearing Test -->
         <div class="test-card" data-test="hearing">
           <div class="test-icon">
@@ -174,8 +174,8 @@
           </div>
           <button class="start-test-btn" onclick="startTest('hearing')">Start Test</button>
         </div>
-
-        <!-- Vitals Test -->
+      
+        <!-- Vital Signs -->
         <div class="test-card" data-test="vitals">
           <div class="test-icon">
             <svg width="24" height="24" viewBox="0 0 24 24">
@@ -188,8 +188,8 @@
           </div>
           <button class="start-test-btn" onclick="startTest('vitals')">Start Test</button>
         </div>
-
-        <!-- Motion Test -->
+      
+        <!-- Range of Motion -->
         <div class="test-card" data-test="motion">
           <div class="test-icon">
             <svg width="24" height="24" viewBox="0 0 24 24">
@@ -202,8 +202,8 @@
           </div>
           <button class="start-test-btn" onclick="startTest('motion')">Start Test</button>
         </div>
-
-        <!-- Reaction Time Test -->
+      
+        <!-- Reaction Time -->
         <div class="test-card" data-test="reaction">
           <div class="test-icon">
             <svg width="24" height="24" viewBox="0 0 24 24">
@@ -216,8 +216,8 @@
           </div>
           <button class="start-test-btn" onclick="startTest('reaction')">Start Test</button>
         </div>
-
-        <!-- Tremor Analysis Test -->
+      
+        <!-- Tremor Analysis -->
         <div class="test-card" data-test="tremor">
           <div class="test-icon">
             <svg width="24" height="24" viewBox="0 0 24 24">
@@ -230,7 +230,7 @@
           </div>
           <button class="start-test-btn" onclick="startTest('tremor')">Start Test</button>
         </div>
-
+      
         <!-- Balance Test -->
         <div class="test-card" data-test="balance">
           <div class="test-icon">
@@ -244,6 +244,102 @@
             <p>Evaluate stability and coordination</p>
           </div>
           <button class="start-test-btn" onclick="startTest('balance')">Start Test</button>
+        </div>
+      
+        <!-- Posture Analysis -->
+        <div class="test-card" data-test="posture">
+          <div class="test-icon">
+            🧍
+          </div>
+          <div class="test-info">
+            <h3>Posture Analysis</h3>
+            <p>Detect slouching and alignment using your camera</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('posture')">Start Test</button>
+        </div>
+      
+        <!-- Gait Analysis -->
+        <div class="test-card" data-test="gait">
+          <div class="test-icon">
+            🚶
+          </div>
+          <div class="test-info">
+            <h3>Gait Analysis</h3>
+            <p>Analyze walking patterns for asymmetry or limping</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('gait')">Start Test</button>
+        </div>
+      
+        <!-- Pupil Response -->
+        <div class="test-card" data-test="pupilResponse">
+          <div class="test-icon">
+            👁️
+          </div>
+          <div class="test-info">
+            <h3>Pupil Response</h3>
+            <p>Measure pupil constriction and dilation</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('pupilResponse')">Start Test</button>
+        </div>
+      
+        <!-- Skin Hydration -->
+        <div class="test-card" data-test="skinHydration">
+          <div class="test-icon">
+            💧
+          </div>
+          <div class="test-info">
+            <h3>Skin Hydration</h3>
+            <p>Estimate hydration levels via skin reflectivity</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('skinHydration')">Start Test</button>
+        </div>
+      
+        <!-- Speech & Voice -->
+        <div class="test-card" data-test="speech">
+          <div class="test-icon">
+            🗣️
+          </div>
+          <div class="test-info">
+            <h3>Speech Analysis</h3>
+            <p>Analyze pitch and clarity of your voice</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('speech')">Start Test</button>
+        </div>
+      
+        <!-- Cognitive Function -->
+        <div class="test-card" data-test="cognitive">
+          <div class="test-icon">
+            🧠
+          </div>
+          <div class="test-info">
+            <h3>Cognitive Test</h3>
+            <p>Screen memory and attention with sequence tasks</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('cognitive')">Start Test</button>
+        </div>
+      
+        <!-- Respiratory Rate -->
+        <div class="test-card" data-test="respiratory">
+          <div class="test-icon">
+            🌬️
+          </div>
+          <div class="test-info">
+            <h3>Respiratory Rate</h3>
+            <p>Estimate breaths per minute from audio</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('respiratory')">Start Test</button>
+        </div>
+      
+        <!-- Finger Tapping -->
+        <div class="test-card" data-test="fingerTapping">
+          <div class="test-icon">
+            🤏
+          </div>
+          <div class="test-info">
+            <h3>Finger Tapping</h3>
+            <p>Measure fine motor speed by tapping</p>
+          </div>
+          <button class="start-test-btn" onclick="startTest('fingerTapping')">Start Test</button>
         </div>
       </div>
     </div>
