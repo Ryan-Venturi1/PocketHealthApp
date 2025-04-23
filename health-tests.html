@@ -112,36 +112,6 @@
       <p class="subtitle">Select a test to begin your health assessment</p>
 
       <div class="tests-grid">
-        <!-- Skin Analysis -->
-        <div class="test-card" data-test="skin">
-          <div class="test-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <ellipse cx="12" cy="16" rx="8" ry="6" fill="#F59E42"/>
-              <ellipse cx="12" cy="10" rx="6" ry="4" fill="#FBBF24"/>
-            </svg>
-          </div>
-          <div class="test-info">
-            <h3>Skin Analysis</h3>
-            <p>Analyze skin conditions, lesions, and rashes</p>
-          </div>
-          <button class="start-test-btn" onclick="startTest('skin')">Start Test</button>
-        </div>
-      
-        <!-- Wound Assessment -->
-        <div class="test-card" data-test="wound">
-          <div class="test-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <rect x="8" y="11" width="8" height="2" rx="1" fill="#B91C1C"/>
-              <rect x="11" y="8" width="2" height="8" rx="1" fill="#B91C1C"/>
-            </svg>
-          </div>
-          <div class="test-info">
-            <h3>Wound Assessment</h3>
-            <p>Check wounds for signs of infection or healing</p>
-          </div>
-          <button class="start-test-btn" onclick="startTest('wound')">Start Test</button>
-        </div>
-      
         <!-- Vision Test -->
         <div class="test-card" data-test="vision">
           <div class="test-icon">
@@ -152,7 +122,7 @@
           </div>
           <div class="test-info">
             <h3>Vision Test</h3>
-            <p>Basic vision screening tests and eye exams</p>
+            <p>Check your visual acuity and color vision</p>
           </div>
           <button class="start-test-btn" onclick="startTest('vision')">Start Test</button>
         </div>
@@ -185,63 +155,6 @@
           <button class="start-test-btn" onclick="startTest('vitals')">Start Test</button>
         </div>
       
-        <!-- Range of Motion -->
-        <div class="test-card" data-test="motion">
-          <div class="test-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <rect x="8" y="4" width="8" height="16" rx="4" fill="#6366F1"/>
-            </svg>
-          </div>
-          <div class="test-info">
-            <h3>Range of Motion</h3>
-            <p>Analyze joint flexibility and movement range</p>
-          </div>
-          <button class="start-test-btn" onclick="startTest('motion')">Start Test</button>
-        </div>
-      
-        <!-- Reaction Time -->
-        <div class="test-card" data-test="reaction">
-          <div class="test-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#F59E42" stroke-width="2" fill="none"/>
-            </svg>
-          </div>
-          <div class="test-info">
-            <h3>Reaction Time</h3>
-            <p>Measure reaction speed and accuracy</p>
-          </div>
-          <button class="start-test-btn" onclick="startTest('reaction')">Start Test</button>
-        </div>
-      
-        <!-- Tremor Analysis -->
-        <div class="test-card" data-test="tremor">
-          <div class="test-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <path d="M12 2v20M2 12h20" stroke="#6366F1" stroke-width="2" fill="none"/>
-            </svg>
-          </div>
-          <div class="test-info">
-            <h3>Tremor Analysis</h3>
-            <p>Assess tremor severity and patterns</p>
-          </div>
-          <button class="start-test-btn" onclick="startTest('tremor')">Start Test</button>
-        </div>
-      
-        <!-- Balance Test -->
-        <div class="test-card" data-test="balance">
-          <div class="test-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="10" fill="#059669"/>
-              <path d="M12 2v20M2 12h20" stroke="#fff" stroke-width="2" fill="none"/>
-            </svg>
-          </div>
-          <div class="test-info">
-            <h3>Balance Test</h3>
-            <p>Evaluate stability and coordination</p>
-          </div>
-          <button class="start-test-btn" onclick="startTest('balance')">Start Test</button>
-        </div>
-      
         <!-- Posture Analysis -->
         <div class="test-card" data-test="posture">
           <div class="test-icon">
@@ -253,18 +166,7 @@
           </div>
           <button class="start-test-btn" onclick="startTest('posture')">Start Test</button>
         </div>
-      
-        <!-- Gait Analysis -->
-        <div class="test-card" data-test="gait">
-          <div class="test-icon">
-            🚶
-          </div>
-          <div class="test-info">
-            <h3>Gait Analysis</h3>
-            <p>Analyze walking patterns for asymmetry or limping</p>
-          </div>
-          <button class="start-test-btn" onclick="startTest('gait')">Start Test</button>
-        </div>
+    
       
         <!-- Pupil Response -->
         <div class="test-card" data-test="pupilResponse">
@@ -615,38 +517,6 @@
       
       // Load test content based on type
       switch(testType) {
-        case 'skin':
-          testContent.innerHTML = `
-            <div class="test-instructions">
-              <p>Please position your camera to capture the affected skin area. Ensure good lighting and focus.</p>
-              <div class="camera-container">
-                <video id="skin-camera" autoplay playsinline></video>
-                <canvas id="skin-canvas" style="display: none;"></canvas>
-              </div>
-              <div class="button-container">
-                <button id="capture-skin" class="primary-button">Capture Image</button>
-                <button id="switch-camera" class="secondary-button">Switch Camera</button>
-              </div>
-              <button onclick="analyzeSkin()" class="analyze-button">Analyze</button>
-            </div>
-          `;
-          break;
-        case 'wound':
-          testContent.innerHTML = `
-            <div class="test-instructions">
-              <p>Please position your camera to capture the wound area. Ensure good lighting and focus.</p>
-              <div class="camera-container">
-                <video id="wound-camera" autoplay playsinline></video>
-                <canvas id="wound-canvas" style="display: none;"></canvas>
-              </div>
-              <div class="button-container">
-                <button id="capture-wound" class="primary-button">Capture Image</button>
-                <button id="switch-camera" class="secondary-button">Switch Camera</button>
-              </div>
-              <button onclick="analyzeWound()" class="analyze-button">Analyze</button>
-            </div>
-          `;
-          break;
         case 'vision':
           testContent.innerHTML = `
             <div class="test-instructions">

@@ -1,8 +1,6 @@
 // health-tests-controller.js - Main controller for all health tests
 
 // Import existing test modules
-import SkinAnalyzer from './modules/skin-analyzer.js';
-import WoundAnalyzer from './modules/wound-analyzer.js';
 import VisionTester from './modules/vision-tester.js';
 import HearingTester from './modules/hearing-tester.js';
 import VitalsMeasurer from './modules/vitals-measurer.js';
@@ -20,8 +18,6 @@ import FingerTappingTester from './modules/finger-tapping-tester.js';
 class HealthTestsController {
   constructor() {
     // Initialize test modules
-    this.skinAnalyzer         = new SkinAnalyzer();
-    this.woundAnalyzer        = new WoundAnalyzer();
     this.visionTester         = new VisionTester();
     this.hearingTester        = new HearingTester();
     this.vitalsMeasurer       = new VitalsMeasurer();
@@ -73,12 +69,6 @@ class HealthTestsController {
     testContent.innerHTML = '';
 
     switch(testType) {
-      case 'skin':
-        this.skinAnalyzer.initTest(testContent);
-        break;
-      case 'wound':
-        this.woundAnalyzer.initTest(testContent);
-        break;
       case 'vision':
         this.visionTester.initTest(testContent);
         break;
@@ -125,8 +115,6 @@ class HealthTestsController {
 
     // Clean up resources
     switch(this.activeTest) {
-      case 'skin':          this.skinAnalyzer.cleanup();          break;
-      case 'wound':         this.woundAnalyzer.cleanup();         break;
       case 'vision':        this.visionTester.cleanup();          break;
       case 'hearing':       this.hearingTester.cleanup();         break;
       case 'vitals':        this.vitalsMeasurer.cleanup();        break;

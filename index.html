@@ -12,6 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="js/dashboard-results.js" type="module"></script>
   <script src="js/history.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+  <script type="module" src="js/health-tests.js"></script>
   <style>
     /* Additional styles for new functionality */
     .no-data-message {
@@ -129,13 +131,6 @@
           </a>
         </li>
         <li>
-          <a href="health-tests.html">
-            <!-- Health Tests icon -->
-            <svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="#059669"/><rect x="9" y="9" width="6" height="6" rx="3" fill="#fff"/></svg>
-            <span>Health Tests</span>
-          </a>
-        </li>
-        <li>
           <a href="health-assistant.html">
             <!-- AI Assistant icon -->
             <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#F59E42"/><ellipse cx="12" cy="15" rx="5" ry="2" fill="#fff"/></svg>
@@ -220,20 +215,6 @@
           <section class="dashboard-card quick-actions-card">
             <h3>Quick Actions</h3>
             <div class="actions-grid">
-              <a href="health-tests.html?test=skin" class="action-item" data-test="skin">
-                <div class="action-icon skin">
-                  <!-- Skin SVG -->
-                  <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="16" rx="8" ry="6" fill="#F59E42"/><ellipse cx="12" cy="10" rx="6" ry="4" fill="#FBBF24"/></svg>
-                </div>
-                <span>Skin Analysis</span>
-              </a>
-              <a href="health-tests.html?test=wound" class="action-item" data-test="wound">
-                <div class="action-icon wound">
-                  <!-- Wound SVG -->
-                  <svg width="24" height="24" viewBox="0 0 24 24"><rect x="8" y="11" width="8" height="2" rx="1" fill="#B91C1C"/><rect x="11" y="8" width="2" height="8" rx="1" fill="#B91C1C"/></svg>
-                </div>
-                <span>Wound Check</span>
-              </a>
               <a href="health-tests.html?test=vision" class="action-item" data-test="vision">
                 <div class="action-icon vision-test">
                   <!-- Vision SVG -->
@@ -254,13 +235,6 @@
                   <svg width="24" height="24" viewBox="0 0 24 24"><path d="M4 12h4l2 6 4-12 2 6h4" stroke="#B91C1C" stroke-width="2" fill="none"/></svg>
                 </div>
                 <span>Check Vitals</span>
-              </a>
-              <a href="health-tests.html?test=motion" class="action-item" data-test="motion">
-                <div class="action-icon motion">
-                  <!-- Motion SVG -->
-                  <svg width="24" height="24" viewBox="0 0 24 24"><rect x="8" y="4" width="8" height="16" rx="4" fill="#6366F1"/></svg>
-                </div>
-                <span>Motion Test</span>
               </a>
             </div>
           </section>

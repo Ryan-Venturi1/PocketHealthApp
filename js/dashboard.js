@@ -822,14 +822,11 @@ function simulateTestResults(testType) {
       break;
     case 'hearing':
       resultHTML = generateHearingResultHTML();
-      activityDetail = 'Hearing test: Normal hearing range';
+      activityDetail = 'Hearing test: Normal hearing range detected';
       mockResults = {
-        result: 'Normal',
-        frequencies: 'All tested frequencies within normal range'
+        frequencyRange: '20Hz - 20kHz',
+        sensitivity: 'Normal'
       };
-      
-      // Also update health metric
-      app.userManager.updateHealthMetric('hearing', 'Normal');
       break;
     case 'vitals':
       resultHTML = generateVitalsResultHTML();
