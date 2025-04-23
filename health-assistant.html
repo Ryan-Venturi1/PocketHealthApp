@@ -10,36 +10,253 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script type="module" src="js/storage-manager.js"></script>
   <script type="module" src="js/health-assistant.js"></script>
-  <script type="module">
-    // Import WebLLM using the recommended ESM CDN URL from the docs
-    import * as webllm from "https://esm.run/@mlc-ai/web-llm";
+<!-- Replace the script import section in your HTML file with this: -->
+<script type="module">
+  // Import WebLLM using the recommended ESM CDN URL from the docs
+  import * as webllm from "https://esm.run/@mlc-ai/web-llm";
+
+  // Initialize WebLLM first, then initialize the Health Assistant
+  async function initializeWebLLM() {
+    // Check if WebGPU is supported
+    if (!navigator.gpu) {
+      const statusElement = document.getElementById("assistant-status");
+      if (statusElement) {
+        statusElement.textContent = "WebGPU not supported in your browser. Please use Chrome or Edge.";
+        statusElement.className = "status-error";
+      }
+      console.error("WebGPU is not supported in this browser");
+      return;
+    }
     
-    // Wait for the library to load
-    window.addEventListener('DOMContentLoaded', () => {
-      // Check if WebGPU is supported
-      if (!navigator.gpu) {
-        const statusElement = document.getElementById("assistant-status");
-        if (statusElement) {
-          statusElement.textContent = "WebGPU not supported in your browser. Please use Chrome or Edge.";
-          statusElement.className = "status-error";
-        }
-        console.error("WebGPU is not supported in this browser");
-        return;
+    console.log("WebLLM version:", webllm.version);
+    
+    // Set up the global mlc object with the engine and config
+    window.mlc = {
+      MLCEngine: webllm.MLCEngine,
+      appConfig: webllm.prebuiltAppConfig
+    };
+    
+    // Log available models for debugging
+    console.log("Available models:", window.mlc.appConfig.model_list.map(m => m.model_id).join(", "));
+    
+    // Now that WebLLM is initialized, we can initialize the Health Assistant
+    const healthAssistant = new HealthAssistant();
+    
+    // Store in window for debugging
+    window.healthAssistant = healthAssistant;
+    
+    // Initialize the assistant
+    await healthAssistant.initialize();
+    
+    // Set up event listeners
+    setupEventListeners(healthAssistant);
+  }
+
+  // Function to set up event listeners
+  function setupEventListeners(assistant) {
+    const chatMessages = document.getElementById('chat-messages');
+    const userMessageInput = document.getElementById('user-message');
+    const sendButton = document.getElementById('btn-send');
+    const modelSelect = document.getElementById('model-select');
+    const suggestionChips = document.querySelectorAll('.suggestion-chip');
+    
+    // Enable/disable send button based on input
+    userMessageInput.addEventListener('input', () => {
+      sendButton.disabled = userMessageInput.value.trim() === '';
+    });
+    
+    // Function to add user message to chat
+    function addUserMessage(message) {
+      const messageEl = document.createElement('div');
+      messageEl.className = 'message user';
+      
+      const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      messageEl.innerHTML = `
+        <div class="message-content">
+          <p>${message.replace(/\n/g, '<br>')}</p>
+        </div>
+        <span class="message-time">${timeString}</span>
+      `;
+      
+      chatMessages.appendChild(messageEl);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    // Function to add assistant message to chat
+    function addAssistantMessage(message, isDone = true) {
+      // Check if there's already a partial message from the assistant
+      let messageEl = chatMessages.querySelector('.message.assistant.typing');
+      
+      if (!messageEl) {
+        // Create a new message element
+        messageEl = document.createElement('div');
+        messageEl.className = 'message assistant typing';
+        
+        const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        messageEl.innerHTML = `
+          <div class="message-content">
+            <p></p>
+          </div>
+          <span class="message-time">${timeString}</span>
+        `;
+        
+        chatMessages.appendChild(messageEl);
       }
       
-      console.log("WebLLM version:", webllm.version);
+      // Add content to the message
+      const contentEl = messageEl.querySelector('p');
+      contentEl.innerHTML += message.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
       
-      // Use the prebuilt app config that comes with WebLLM
-      // This uses their default model registry
-      window.mlc = {
-        MLCEngine: webllm.MLCEngine,
-        appConfig: webllm.prebuiltAppConfig
-      };
+      // If this is the final message, remove the typing class
+      if (isDone) {
+        messageEl.classList.remove('typing');
+      }
       
-      // Log available models for debugging
-      console.log("Available models:", window.mlc.appConfig.model_list.map(m => m.model_id).join(", "));
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    // Function to handle sending a message
+    async function sendMessage() {
+      const message = userMessageInput.value.trim();
+      if (!message) return;
+      
+      // Add user message to UI
+      addUserMessage(message);
+      
+      // Clear input
+      userMessageInput.value = '';
+      sendButton.disabled = true;
+      
+      // Add typing indicator
+      const typingIndicator = document.createElement('div');
+      typingIndicator.className = 'message assistant typing';
+      typingIndicator.innerHTML = `
+        <div class="message-content">
+          <div class="typing-indicator">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      `;
+      chatMessages.appendChild(typingIndicator);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      
+      // Send message to the assistant
+      try {
+        await assistant.sendMessage(message, (response, isDone) => {
+          // Remove typing indicator if it exists
+          const indicator = chatMessages.querySelector('.typing-indicator');
+          if (indicator) {
+            indicator.parentElement.parentElement.remove();
+          }
+          
+          // Add the response
+          if (response) {
+            // Check if response contains HTML (for resources)
+            if (response.includes('<div class="resources-section">')) {
+              // Split the response into text and resources
+              const parts = response.split('<div class="resources-section">');
+              
+              // Add the text part
+              if (parts[0]) {
+                addAssistantMessage(parts[0], false);
+              }
+              
+              // Add the resources part with HTML
+              if (parts[1]) {
+                const resourcesEl = document.createElement('div');
+                resourcesEl.innerHTML = '<div class="resources-section">' + parts[1];
+                
+                // Get the last message element
+                const lastMessage = chatMessages.querySelector('.message.assistant.typing');
+                if (lastMessage) {
+                  lastMessage.querySelector('.message-content').appendChild(resourcesEl);
+                  if (isDone) {
+                    lastMessage.classList.remove('typing');
+                  }
+                }
+              }
+            } else {
+              // Just regular text
+              addAssistantMessage(response, isDone);
+            }
+          }
+        });
+      } catch (error) {
+        console.error('Error sending message:', error);
+        addAssistantMessage('Sorry, I encountered an error processing your request. Please try again.', true);
+      }
+    }
+    
+    // Send message on button click
+    sendButton.addEventListener('click', sendMessage);
+    
+    // Send message on Enter key (but allow Shift+Enter for new lines)
+    userMessageInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (!sendButton.disabled) {
+          sendMessage();
+        }
+      }
     });
-  </script>
+    
+    // Handle suggestion chips
+    suggestionChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        userMessageInput.value = chip.textContent;
+        sendMessage();
+      });
+    });
+    
+    // Handle model selection
+    modelSelect.addEventListener('change', async () => {
+      const newModel = modelSelect.value;
+      await assistant.changeModel(newModel);
+    });
+
+    // Populate model select dropdown with available models
+    if (modelSelect) {
+      // Clear existing options
+      modelSelect.innerHTML = '';
+      
+      // Get all available small models (under 7B parameters)
+      const smallModels = window.mlc.appConfig.model_list
+        .filter(model => 
+          model.model_id.includes('TinyLlama') || 
+          model.model_id.includes('Phi-2') || 
+          model.model_id.includes('gemma-2b') ||
+          model.model_id.includes('RedPajama') ||
+          model.model_id.includes('SmolLM'))
+        .slice(0, 5); // Limit to 5 options
+      
+      // Add options to select
+      smallModels.forEach(model => {
+        const option = document.createElement('option');
+        option.value = model.model_id;
+        option.textContent = model.model_id.split('-')[0] + ' - Lightweight model';
+        modelSelect.appendChild(option);
+      });
+      
+      // Select first option
+      if (smallModels.length > 0) {
+        modelSelect.value = smallModels[0].model_id;
+      }
+    }
+  }
+  
+  // Import the HealthAssistant and initialize WebLLM
+  import HealthAssistant from './js/health-assistant.js';
+  
+  // Wait for DOM to be ready, then initialize WebLLM
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeWebLLM);
+  } else {
+    // If DOMContentLoaded has already fired, run immediately
+    initializeWebLLM();
+  }
+</script>
 </head>
 <body class="app-body">
   <!-- Sidebar Navigation -->

@@ -2,9 +2,12 @@
 
 class HealthAssistant {
   constructor() {
-    this.engine = null;
+    this.engine = new window.mlc.MLCEngine({
+      initProgressCallback: this.initProgressCallback,
+      appConfig: window.mlc.appConfig
+    });
     this.isInitialized = false;
-    this.selectedModel = "TinyLlama-1.1B-Chat-v1.0"; // Start with a smaller model for faster loading
+    this.selectedModel = "SmolLM2-360M-Instruct-q4f16_1-MLC"; // Try the smallest model available
     this.messageHistory = [];
     this.initProgressCallback = this.updateProgressUI.bind(this);
     this.healthResourcesDB = this.initializeHealthResourcesDB();
@@ -14,21 +17,38 @@ class HealthAssistant {
     try {
       this.updateStatusUI("Loading WebLLM engine...", "loading");
       
-      // Check if WebLLM is available
+      // Verify WebLLM is available
       if (!window.mlc) {
         console.error("WebLLM not found: window.mlc is undefined");
-        throw new Error("WebLLM dependencies not loaded. Please check your internet connection.");
+        throw new Error("WebLLM dependencies not loaded. Please refresh the page and try again.");
       }
       
       if (!window.mlc.MLCEngine) {
         console.error("MLCEngine not found: window.mlc.MLCEngine is undefined");
-        throw new Error("WebLLM MLCEngine not loaded. Please check your browser compatibility.");
+        throw new Error("WebLLM MLCEngine not loaded. Please refresh the page and try again.");
       }
       
-      // Log available models in config
-      console.log("Initializing with model:", this.selectedModel);
-      if (window.mlc.appConfig && window.mlc.appConfig.model_list) {
-        console.log("Available models:", window.mlc.appConfig.model_list.map(m => m.model_id).join(", "));
+      // Choose a suitable small model
+      const smallModels = ['TinyLlama-1.1B-Chat-v1.0-q4f16_1-MLC', 'phi-2-q4f16_1-MLC', 'RedPajama-INCITE-Chat-3B-v1-q4f16_1-MLC', 'SmolLM2-1.7B-Instruct-q4f16_1-MLC'];
+      
+      // Find the first available small model
+      for (const modelId of smallModels) {
+        if (this.isModelAvailable(modelId)) {
+          this.selectedModel = modelId;
+          console.log(`Selected model: ${this.selectedModel}`);
+          break;
+        }
+      }
+      
+      if (!this.selectedModel) {
+        // If no small models found, use the first available model
+        const availableModels = window.mlc.appConfig.model_list;
+        if (availableModels.length > 0) {
+          this.selectedModel = availableModels[0].model_id;
+          console.log(`No small models found, using: ${this.selectedModel}`);
+        } else {
+          throw new Error("No models available. Please check your configuration.");
+        }
       }
       
       // Initialize the engine
@@ -37,22 +57,11 @@ class HealthAssistant {
         appConfig: window.mlc.appConfig
       });
       
-      // Try to load the selected model
-      try {
-        await this.engine.reload(this.selectedModel);
-      } catch (modelError) {
-        console.warn(`Failed to load ${this.selectedModel}, trying fallback model...`, modelError);
-        
-        // Find available fallback models
-        const availableModels = window.mlc.appConfig.model_list.map(m => m.model_id);
-        if (availableModels.length > 0 && availableModels[0] !== this.selectedModel) {
-          this.selectedModel = availableModels[0];
-          console.log(`Falling back to model: ${this.selectedModel}`);
-          await this.engine.reload(this.selectedModel);
-        } else {
-          throw new Error(`No fallback models available. Please check the model configuration.`);
-        }
-      }
+      // Load the selected model
+      console.log(`Loading model: ${this.selectedModel}`);
+      this.updateStatusUI(`Loading ${this.selectedModel}...`, "loading");
+      
+      await this.engine.reload(this.selectedModel);
       
       this.isInitialized = true;
       this.updateStatusUI("Assistant ready", "ready");
@@ -65,27 +74,30 @@ class HealthAssistant {
       
       if (error.message) {
         if (error.message.includes("ModelNotFoundError") || error.message.includes("No URL found for model ID")) {
-          errorMessage = "Model not found. Please check your model configuration.";
+          errorMessage = "Model not found. Please try a different model.";
         } else if (error.message.includes("401")) {
-          errorMessage = "Authentication error. Please check your access credentials.";
+          errorMessage = "Authentication error. Please check your connection.";
         } else if (error.message.includes("404")) {
-          errorMessage = "Model files not found. Check your internet connection or try a different model.";
+          errorMessage = "Model files not found. Please check your internet connection.";
         } else if (error.message.includes("WebGPU")) {
-          errorMessage = "Your browser doesn't support WebGPU. Please try Chrome or Edge.";
+          errorMessage = "Your browser doesn't support WebGPU. Please use Chrome or Edge.";
         } else {
           errorMessage = `Error: ${error.message}`;
         }
       }
       
       this.updateStatusUI(errorMessage, "error");
-      
-      // Add browser compatibility check
-      if (!navigator.gpu) {
-        this.updateStatusUI("WebGPU not supported in your browser. Please use Chrome or Edge.", "error");
-      }
-      
       return false;
     }
+  }
+  
+  // Check if a model is available in the config
+  isModelAvailable(modelId) {
+    if (!window.mlc || !window.mlc.appConfig || !window.mlc.appConfig.model_list) {
+      return false;
+    }
+    
+    return window.mlc.appConfig.model_list.some(model => model.model_id === modelId);
   }
 
   // Initialize health resources database
@@ -232,18 +244,59 @@ class HealthAssistant {
     
     return { isEmergency: false };
   }
-
+  async tryMultipleModels() {
+    // List of small models to try in order
+    const fallbackModels = [
+      "SmolLM2-360M-Instruct-q4f16_1-MLC",
+      "SmolLM2-135M-Instruct-q0f16-MLC",
+      "phi-2-q4f16_1-MLC",
+      "TinyLlama-1.1B-Chat-v0.4-q4f16_1-MLC",
+      "gemma-2b-it-q4f16_1-MLC",
+      "Qwen2.5-0.5B-Instruct-q4f16_1-MLC"
+    ];
+    
+    for (const modelId of fallbackModels) {
+      if (this.isModelAvailable(modelId)) {
+        try {
+          console.log(`Trying to load model: ${modelId}`);
+          this.updateStatusUI(`Loading ${modelId}...`, "loading");
+          
+          await this.engine.reload(modelId);
+          this.selectedModel = modelId;
+          console.log(`Successfully loaded: ${modelId}`);
+          this.updateStatusUI("Assistant ready", "ready");
+          return true;
+        } catch (error) {
+          console.warn(`Failed to load ${modelId}, trying next model...`, error);
+        }
+      }
+    }
+    
+    this.updateStatusUI("Failed to load any model. Please refresh and try again.", "error");
+    return false;
+  }
   // Send a message to the model and get a response
   async sendMessage(userMessage, responseCallback) {
     if (!this.isInitialized) {
-      const initialized = await this.initialize();
-      if (!initialized) {
+      try {
+        const initialized = await this.initialize();
+        if (!initialized) {
+          if (responseCallback && typeof responseCallback === "function") {
+            responseCallback("I'm having trouble initializing. Please try refreshing the page or selecting a different model.", true);
+          }
+          return {
+            error: true,
+            message: "Could not initialize the AI assistant. Please try again later or select a different model."
+          };
+        }
+      } catch (error) {
+        console.error("Error initializing WebLLM:", error);
         if (responseCallback && typeof responseCallback === "function") {
-          responseCallback("I'm having trouble initializing. Please try refreshing the page or selecting a different model.", true);
+          responseCallback("Error initializing the AI assistant. Please check if your browser supports WebGPU and try again.", true);
         }
         return {
           error: true,
-          message: "Could not initialize the AI assistant. Please try again later or select a different model."
+          message: "Error initializing the AI assistant."
         };
       }
     }
@@ -286,9 +339,8 @@ class HealthAssistant {
         stream: true // Enable streaming for better UX
       };
       
-      console.log("Sending message to model:", this.selectedModel);
-      
       // Get response stream
+      console.log(`Sending message to model: ${this.selectedModel}`);
       const stream = await this.engine.chat.completions.create(params);
       
       let fullResponse = "";
@@ -343,30 +395,14 @@ class HealthAssistant {
     } catch (error) {
       console.error("Error getting response from WebLLM:", error);
       
-      // If the error is related to model loading, try to reload
-      if (error.message && (error.message.includes("InvalidStateError") || error.message.includes("not initialized"))) {
-        this.isInitialized = false;
-        if (responseCallback && typeof responseCallback === "function") {
-          responseCallback("I encountered an issue with the AI model. Let me try to fix it...", false);
-          
-          try {
-            const initialized = await this.initialize();
-            if (initialized) {
-              responseCallback("I'm back online! Please ask your question again.", true);
-            } else {
-              responseCallback("I'm still having trouble. Please refresh the page or try again later.", true);
-            }
-          } catch (reinitError) {
-            responseCallback("Unable to recover. Please refresh the page or try again later.", true);
-          }
-        }
-      } else if (responseCallback && typeof responseCallback === "function") {
-        responseCallback("Sorry, I couldn't process your request. Please try again or select a different model.", true);
+      // Add error recovery
+      if (responseCallback && typeof responseCallback === "function") {
+        responseCallback("Sorry, I encountered an error processing your request. Please try again or select a different model.", true);
       }
       
       return {
         error: true,
-        message: "Sorry, I couldn't process your request. Please try again or select a different model."
+        message: "Sorry, I couldn't process your request."
       };
     }
   }
@@ -396,8 +432,6 @@ class HealthAssistant {
           errorMessage = "Authentication error. Please check access credentials.";
         } else if (error.message.includes("404")) {
           errorMessage = "Model files not found. Please check for updates.";
-        } else if (error.message.includes("WebGPU")) {
-          errorMessage = "WebGPU error. Your browser may not support this model.";
         } else {
           errorMessage = `Error: ${error.message}`;
         }
@@ -410,27 +444,23 @@ class HealthAssistant {
   
   // Get available models
   getAvailableModels() {
-    if (window.mlc && window.mlc.appConfig && window.mlc.appConfig.model_list) {
-      return window.mlc.appConfig.model_list.map(model => ({
+    if (!window.mlc || !window.mlc.appConfig || !window.mlc.appConfig.model_list) {
+      return [];
+    }
+    
+    // Filter for smaller models that are likely to work well
+    return window.mlc.appConfig.model_list
+      .filter(model => 
+        model.model_id.includes('TinyLlama') || 
+        model.model_id.includes('Phi-') || 
+        model.model_id.includes('gemma-2b') ||
+        model.model_id.includes('RedPajama') ||
+        model.model_id.includes('SmolLM'))
+      .map(model => ({
         id: model.model_id,
         name: model.model_id.split('-')[0],
         description: `${model.model_id.split('-')[0]} model`
       }));
-    }
-    
-    // Default models if config isn't available
-    return [
-      {
-        id: "TinyLlama-1.1B-Chat-v1.0",
-        name: "TinyLlama",
-        description: "Fast, lightweight responses"
-      },
-      {
-        id: "Phi-2",
-        name: "Phi-2",
-        description: "Lightweight & quick responses"
-      }
-    ];
   }
 }
 
